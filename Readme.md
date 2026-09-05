@@ -1,4 +1,4 @@
-# telegram-bot-proxy-module
+# tgbot-module-proxy
 
 Proxy Operations module for the Telegram bot platform: proxy inventory,
 auditing, health/lifecycle, pools, lease and verified export.
@@ -8,7 +8,7 @@ auditing, health/lifecycle, pools, lease and verified export.
 
 ## Menu integration
 
-Menu-hub surface per `telegram-bot-menu-module/docs/tasks/menu_integration.md` (M-6 slice 2):
+Menu-hub surface per `telegram-platform-menu/docs/tasks/menu_integration.md` (M-6 slice 2):
 `/proxy` command (private chats only, tenant = bot owner) and
 `ProxyInventoryHandler` (`GET inventory`, tenant = hub user). Masked counts only —
 hosts and credentials never cross the bridge. The ProxyUi Mini App chunk and the

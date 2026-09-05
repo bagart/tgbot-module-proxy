@@ -1,8 +1,8 @@
 # Proxy Operations — план платформы
 
-> Модуль `bagart/telegram-bot-proxy-module` (`BAGArt\ProxyOperations`) для Telegram bot platform.
-> Репозиторий: https://github.com/bagart/telegram-bot-proxy-module
-> Разработка ведётся внутри хост-платформы в `misc/BAGArt/telegram-bot-proxy-module`
+> Модуль `bagart/tgbot-module-proxy` (`BAGArt\ProxyOperations`) для Telegram bot platform.
+> Репозиторий: https://github.com/bagart/tgbot-module-proxy
+> Разработка ведётся внутри хост-платформы в `misc/BAGArt/tgbot-module-proxy`
 > (composer path-repo, dev mode); prod — версионируемый пакет через `composer.prod.json`.
 > Статус: план утверждён, реализация не начата. Дата: 2026-08-25.
 

@@ -48,7 +48,7 @@ database declared in the module `phpunit.xml.dist`.
   1. Add `BAGArt\ProxyOperations\ProxyOperationsServiceProvider::class` to
      `bootstrap/providers.php` (one line, same as other modules).
   2. Add PSR-4 mappings to host `composer.json` autoload:
-     `"BAGArt\\ProxyOperations\\Database\\Factories\\": "misc/BAGArt/telegram-bot-proxy-module/database/factories/"`,
+     `"BAGArt\\ProxyOperations\\Database\\Factories\\": "misc/BAGArt/tgbot-module-proxy/database/factories/"`,
      then `composer dump-autoload` (run from WSL shell).
 
 ## Conventions

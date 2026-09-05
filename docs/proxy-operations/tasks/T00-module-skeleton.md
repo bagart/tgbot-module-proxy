@@ -4,11 +4,11 @@ Plan ref: §7. Depends on: nothing. Blocks everything.
 
 ## Goal
 
-Minimal self-testable library package inside `misc/BAGArt/telegram-bot-proxy-module/`.
+Minimal self-testable library package inside `misc/BAGArt/tgbot-module-proxy/`.
 
 ## Create
 
-- `composer.json`: name `bagart/telegram-bot-proxy-module`, type `library`, license MIT,
+- `composer.json`: name `bagart/tgbot-module-proxy`, type `library`, license MIT,
   `require: { "php": "^8.5" }`, PSR-4 `BAGArt\\ProxyOperations\\` → `src/`,
   autoload-dev `BAGArt\\ProxyOperations\\Tests\\` → `tests/`,
   script `test`: `@php ../../../vendor/bin/pest`, `minimum-stability: dev`, `prefer-stable: true`.
