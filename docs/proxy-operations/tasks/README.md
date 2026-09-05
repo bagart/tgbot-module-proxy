@@ -21,7 +21,7 @@ Status tracking lives here; agents must update the Status table when done.
   install needed). DB-backed Feature tests rely on the host app being booted by
   `pestphp/pest-plugin-laravel` with `DB_CONNECTION=sqlite` / `DB_DATABASE=:memory:`
   from the module `phpunit.xml.dist` — same mechanism as
-  `telegram-bot-antispam-module` (see T01 for the exact harness setup).
+  `tgbot-module-antispam` (see T01 for the exact harness setup).
 - Every task adds/updates tests; a task is done only when `composer test` passes
   and new code is covered.
 

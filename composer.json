@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "bagart/telegram-bot-proxy-module",
+    "name": "bagart/tgbot-module-proxy",
     "description": "Proxy Operations module for the Telegram bot platform: proxy inventory, auditing, health/lifecycle, pools, lease and verified export",
     "type": "library",
     "license": "MIT",
@@ -25,10 +25,10 @@
         "laravel/framework": "^13.0",
         "bagart/telegram-bot-lib": "*",
         "bagart/ask-client": "*",
-        "bagart/telegram-bot-management": "*"
+        "bagart/telegram-platform-management": "*"
     },
     "suggest": {
-        "bagart/telegram-bot-menu-module": "Required for web API inventory handler",
+        "bagart/telegram-platform-menu": "Required for web API inventory handler",
         "bagart/ask-client-redis": "Required for Redis audit delivery queue"
     },
     "autoload": {

@@ -6,7 +6,7 @@ Depends on: Stage 0 done (T00–T94). All of T02–T08 depend on this file.
 ## Goal
 
 Give the package its Laravel-facing half, following sibling-module layout
-(`telegram-bot-management`, `telegram-bot-antispam-module`): models in
+(`telegram-platform-management`, `tgbot-module-antispam`): models in
 `src/Models/`, migrations in `database/migrations/` at module root, factories in
 `database/factories/`, provider at `src/ProxyOperationsServiceProvider.php`,
 config in `config/`. There is no `src/Laravel/` convention among siblings —
@@ -34,7 +34,7 @@ database declared in the module `phpunit.xml.dist`.
 - `database/migrations/` + `database/factories/` directories created (empty is fine;
   later tasks fill them). Add `.gitignore`-free placeholder via first real migration.
 - `phpunit.xml.dist` — extend current Unit/Arch file with a Feature suite and the
-  env block copied from `telegram-bot-antispam-module/phpunit.xml.dist`
+  env block copied from `tgbot-module-antispam/phpunit.xml.dist`
   (`DB_CONNECTION=sqlite`, `DB_DATABASE=:memory:`, `CACHE_STORE=array`,
   `QUEUE_CONNECTION=sync`, `SESSION_DRIVER=array`, `APP_ENV=testing`, ...).
 - `tests/Pest.php` — add `pest()->extend(Tests\TestCase::class)->use(RefreshDatabase::class)->in('Feature')`-style
