@@ -12,6 +12,7 @@ use BAGArt\ProxyOperations\Audit\AuditEventRecorder;
 use BAGArt\ProxyOperations\Audit\AuditTaskFactory;
 use BAGArt\ProxyOperations\Audit\CacheJobPlacementDedup;
 use BAGArt\ProxyOperations\Audit\CachePolicy;
+use BAGArt\ProxyOperations\Audit\Consumers\AuditCompletedProjectionConsumer;
 use BAGArt\ProxyOperations\Audit\CredentialSealer;
 use BAGArt\ProxyOperations\Audit\DbAuditEventRecorder;
 use BAGArt\ProxyOperations\Audit\DeliveryDispatcher;
@@ -158,9 +159,10 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
 
         $this->app->singleton(AuditEventRecorder::class, DbAuditEventRecorder::class);
 
-        // Consumers register by tagging. None exist yet in src — projections
-        // and notifications are added when their tasks land.
-        $this->app->tag([], 'proxy-operations.audit-event-consumers');
+        // Consumers register by tagging. Add new consumers here as they land.
+        $this->app->tag([
+            AuditCompletedProjectionConsumer::class,
+        ], 'proxy-operations.audit-event-consumers');
 
         $this->app->singleton(EventOutboxDispatcher::class, static function ($app) {
             return new EventOutboxDispatcher(
