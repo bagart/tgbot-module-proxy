@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace BAGArt\ProxyOperations\Transport;
 
-use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Console\Command;
 
 /**
  * CLI command to run capability probes for all (or specified) proxy
@@ -16,9 +12,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Usage: proxy:probe-capabilities [--endpoint-id=123] [--protocol=socks5]
  */
-#[AsCommand(name: 'proxy:probe-capabilities', description: 'Run capability probes for proxy endpoints.')]
 final class RunCapabilityProbesCommand extends Command
 {
+    protected $signature = 'proxy:probe-capabilities
+        {--endpoint-id= : Probe a specific endpoint ID.}
+        {--protocol= : Filter by protocol (e.g. socks5, http).}';
+
+    protected $description = 'Run capability probes for proxy endpoints.';
+
     public function __construct(
         private readonly CapabilityProbeRunner $probeRunner,
         private readonly ResourceGovernor $governor,
@@ -26,31 +27,24 @@ final class RunCapabilityProbesCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
+    public function handle(): int
     {
-        $this
-            ->addOption('endpoint-id', null, InputOption::VALUE_REQUIRED, 'Probe a specific endpoint ID.')
-            ->addOption('protocol', null, InputOption::VALUE_REQUIRED, 'Filter by protocol (e.g. socks5, http).');
-    }
+        $this->line('Running capability probes...');
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $output->writeln('Running capability probes...');
-
-        $endpointId = $input->getOption('endpoint-id');
-        $protocol = $input->getOption('protocol');
+        $endpointId = $this->option('endpoint-id');
+        $protocol = $this->option('protocol');
 
         if ($endpointId !== null) {
-            $output->writeln("  Probing endpoint ID: {$endpointId}");
+            $this->line("  Probing endpoint ID: {$endpointId}");
         }
 
         if ($protocol !== null) {
-            $output->writeln("  Filtering by protocol: {$protocol}");
+            $this->line("  Filtering by protocol: {$protocol}");
         }
 
-        $output->writeln('  Capability probe runner ready.');
-        $output->writeln('Done.');
+        $this->line('  Capability probe runner ready.');
+        $this->line('Done.');
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }
