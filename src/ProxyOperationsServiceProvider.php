@@ -63,6 +63,9 @@ use BAGArt\ProxyOperations\Encryption\KekProvider;
 use BAGArt\ProxyOperations\Parser\ImportProxiesService;
 use BAGArt\ProxyOperations\Tenancy\TenantContext;
 use BAGArt\ProxyOperations\Tool\ResourceGovernorSpec;
+use BAGArt\ProxyOperations\Tool\HttpProbeTool;
+use BAGArt\ProxyOperations\Tool\MtprotoProbeTool;
+use BAGArt\ProxyOperations\Tool\TelegramDcProbeTool;
 use BAGArt\ProxyOperations\Tool\ToolRegistry;
 use BAGArt\ProxyOperations\Transport\Adapters\DirectAdapter;
 use BAGArt\ProxyOperations\Transport\Adapters\HttpConnectAdapter;
@@ -395,12 +398,20 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
             );
         });
 
-        // No concrete ProbeTool implementations exist yet (Stage 5); the
-        // executor is wired with an empty tool map so the full pipeline stays
-        // resolvable. Tools are added to this map when they land.
+        // ProbeTool implementations wired into the executor. Each tool
+        // declares its supported probe types via ToolCapabilities; the
+        // executor resolves the correct tool per probe at dispatch time.
+        $this->app->singleton(HttpProbeTool::class);
+        $this->app->singleton(TelegramDcProbeTool::class);
+        $this->app->singleton(MtprotoProbeTool::class);
+
         $this->app->singleton(ProbeExecutor::class, static function ($app) {
             return new ProbeExecutor(
-                tools: [],
+                tools: [
+                    'http-probe-tool' => $app->make(HttpProbeTool::class),
+                    'telegram-dc-probe-tool' => $app->make(TelegramDcProbeTool::class),
+                    'mtproto-probe-tool' => $app->make(MtprotoProbeTool::class),
+                ],
                 judgeProvider: $app->make(JudgeProvider::class),
                 toolRegistry: $app->make(ToolRegistry::class),
                 governor: $app->make(ResourceGovernor::class),

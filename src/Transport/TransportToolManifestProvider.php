@@ -29,6 +29,9 @@ final readonly class TransportToolManifestProvider
             $this->socks5Manifest(),
             $this->dnsResolverManifest(),
             $this->udpAssociateManifest(),
+            $this->httpProbeManifest(),
+            $this->telegramDcProbeManifest(),
+            $this->mtprotoProbeManifest(),
         ];
     }
 
@@ -113,6 +116,62 @@ final readonly class TransportToolManifestProvider
                 outputSchemaVersion: 1,
             ),
             limits: new ToolLimits(maxExecutionTimeSeconds: 15, maxOutputBytes: 1024 * 1024),
+            security: new ToolSecurity(network: 'outbound-only', filesystem: 'readonly', privileges: 'none'),
+        );
+    }
+
+    private function httpProbeManifest(): ToolManifest
+    {
+        return new ToolManifest(
+            name: new ToolId('http-probe-tool'),
+            version: '1.0.0',
+            apiVersion: 1,
+            capabilities: new ToolCapabilities(
+                probeTypes: [
+                    ProbeType::HttpLiveness,
+                    ProbeType::LatencySeries,
+                    ProbeType::HeaderMarker,
+                    ProbeType::AnonymityHeaders,
+                ],
+                protocols: ['http', 'https', 'socks5', 'socks5h'],
+                inputSchemaVersion: 1,
+                outputSchemaVersion: 1,
+            ),
+            limits: new ToolLimits(maxExecutionTimeSeconds: 30, maxOutputBytes: 1024 * 1024),
+            security: new ToolSecurity(network: 'outbound-only', filesystem: 'readonly', privileges: 'none'),
+        );
+    }
+
+    private function telegramDcProbeManifest(): ToolManifest
+    {
+        return new ToolManifest(
+            name: new ToolId('telegram-dc-probe-tool'),
+            version: '1.0.0',
+            apiVersion: 1,
+            capabilities: new ToolCapabilities(
+                probeTypes: [ProbeType::TelegramDcConnectivity],
+                protocols: ['socks5', 'socks5h', 'http', 'https'],
+                inputSchemaVersion: 1,
+                outputSchemaVersion: 1,
+            ),
+            limits: new ToolLimits(maxExecutionTimeSeconds: 15, maxOutputBytes: 64 * 1024),
+            security: new ToolSecurity(network: 'outbound-only', filesystem: 'readonly', privileges: 'none'),
+        );
+    }
+
+    private function mtprotoProbeManifest(): ToolManifest
+    {
+        return new ToolManifest(
+            name: new ToolId('mtproto-probe-tool'),
+            version: '1.0.0',
+            apiVersion: 1,
+            capabilities: new ToolCapabilities(
+                probeTypes: [ProbeType::MtprotoHandshake],
+                protocols: ['mtproto'],
+                inputSchemaVersion: 1,
+                outputSchemaVersion: 1,
+            ),
+            limits: new ToolLimits(maxExecutionTimeSeconds: 10, maxOutputBytes: 64 * 1024),
             security: new ToolSecurity(network: 'outbound-only', filesystem: 'readonly', privileges: 'none'),
         );
     }
