@@ -9,6 +9,7 @@ use BAGArt\ProxyOperations\Domain\Lease\LeaseState;
 use BAGArt\ProxyOperations\Domain\Lease\ProxyLeaseDto;
 use BAGArt\ProxyOperations\Models\ProxyAccess;
 use BAGArt\ProxyOperations\Models\ProxyLease;
+use BAGArt\ProxyOperations\Domain\Lease\LeaseRenewerContract;
 use Illuminate\Support\Carbon;
 use RuntimeException;
 use Throwable;
@@ -19,7 +20,7 @@ use Throwable;
  * Renew is the holder heartbeat; the reaper core is reclaimExpired().
  * Events are recorded strictly after commit (§11.9/§11.35 п.18).
  */
-final class LeaseService
+final class LeaseService implements LeaseRenewerContract
 {
     private const string EVENT_ACQUIRED = 'lease.acquired';
     private const string EVENT_RELEASED = 'lease.released';
@@ -151,6 +152,28 @@ final class LeaseService
                 'purpose' => $row->purpose,
             ],
         ));
+    }
+
+    /**
+     * Renew a lease by access ID — used by the worker daemon during long-running
+     * probes to prevent lease expiry while probes are in flight (plan §11.24).
+     * Looks up the active lease for the given access and extends it.
+     */
+    public function renewByAccessId(string $accessId): bool
+    {
+        $row = ProxyLease::query()
+            ->where('access_id', $accessId)
+            ->where('state', LeaseState::Active->value)
+            ->where('expires_at', '>', Carbon::now())
+            ->first();
+
+        if ($row === null) {
+            return false;
+        }
+
+        $dto = self::toDto($row);
+
+        return $this->renew($dto) !== null;
     }
 
     /**

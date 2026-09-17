@@ -34,7 +34,8 @@
     "autoload": {
         "psr-4": {
             "BAGArt\\ProxyOperations\\": "src/",
-            "BAGArt\\ProxyOperations\\Database\\Factories\\": "database/factories/"
+            "BAGArt\\ProxyOperations\\Database\\Factories\\": "database/factories/",
+            "BAGArt\\ProxyOperations\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {

@@ -6,13 +6,29 @@ namespace BAGArt\ProxyOperations;
 
 use BAGArt\ASKClientRedis\Redis\ASKRedisClientFactory;
 use BAGArt\ASKClientRedis\Redis\RedisDsn;
+use BAGArt\ProxyOperations\Application\ApplicationServiceBus;
+use BAGArt\ProxyOperations\Application\AuditStatusHandler;
+use BAGArt\ProxyOperations\Application\AuditStatusQuery;
+use BAGArt\ProxyOperations\Application\CancelAuditCommand;
+use BAGArt\ProxyOperations\Application\CancelAuditHandler;
+use BAGArt\ProxyOperations\Application\ExportInventoryCommand;
+use BAGArt\ProxyOperations\Application\ExportInventoryHandler;
+use BAGArt\ProxyOperations\Application\ImportProxiesCommand;
+use BAGArt\ProxyOperations\Application\ImportProxiesHandler;
+use BAGArt\ProxyOperations\Application\QuotaEnforcer;
+use BAGArt\ProxyOperations\Application\StartAuditCommand;
+use BAGArt\ProxyOperations\Application\StartAuditHandler;
+use BAGArt\ProxyOperations\Application\UpdateSettingsCommand;
+use BAGArt\ProxyOperations\Application\UpdateSettingsHandler;
+use BAGArt\ProxyOperations\Application\WorkspaceSettingsHandler;
+use BAGArt\ProxyOperations\Application\WorkspaceSettingsQuery;
 use BAGArt\ProxyOperations\Audit\AuditDeliveryQueue;
-use BAGArt\ProxyOperations\Audit\AuditEventConsumer;
 use BAGArt\ProxyOperations\Audit\AuditEventRecorder;
 use BAGArt\ProxyOperations\Audit\AuditTaskFactory;
 use BAGArt\ProxyOperations\Audit\CacheJobPlacementDedup;
 use BAGArt\ProxyOperations\Audit\CachePolicy;
 use BAGArt\ProxyOperations\Audit\Consumers\AuditCompletedProjectionConsumer;
+use BAGArt\ProxyOperations\Audit\Consumers\VerifiedProxyProjector;
 use BAGArt\ProxyOperations\Audit\CredentialSealer;
 use BAGArt\ProxyOperations\Audit\DbAuditEventRecorder;
 use BAGArt\ProxyOperations\Audit\DeliveryDispatcher;
@@ -28,22 +44,28 @@ use BAGArt\ProxyOperations\Audit\LaravelCacheProbeCache;
 use BAGArt\ProxyOperations\Audit\LaravelCacheProbeCacheMetrics;
 use BAGArt\ProxyOperations\Audit\LaravelLeaseLockStore;
 use BAGArt\ProxyOperations\Audit\LeaseLockStore;
-use BAGArt\ProxyOperations\Audit\LeaseReaperCommand;
 use BAGArt\ProxyOperations\Audit\LeaseService;
-use BAGArt\ProxyOperations\Audit\PoolRepository;
-use BAGArt\ProxyOperations\Audit\ProxySelector;
 use BAGArt\ProxyOperations\Audit\PolicySnapshotBuilder;
+use BAGArt\ProxyOperations\Audit\PoolRepository;
 use BAGArt\ProxyOperations\Audit\ProbeCache;
 use BAGArt\ProxyOperations\Audit\ProbeCacheKeyFactory;
 use BAGArt\ProxyOperations\Audit\ProbeCacheMetrics;
+use BAGArt\ProxyOperations\Audit\ProxySelector;
 use BAGArt\ProxyOperations\Audit\RedisStreamsAuditDeliveryQueue;
+use BAGArt\ProxyOperations\Bot\BotCommandRouter;
+use BAGArt\ProxyOperations\Bot\Wizard\RedisWizardSessionStore;
+use BAGArt\ProxyOperations\Bot\Wizard\WizardRouter;
+use BAGArt\ProxyOperations\Bot\Wizard\WizardSessionStore;
+use BAGArt\ProxyOperations\Bot\CheckCommandHandler;
+use BAGArt\ProxyOperations\Bot\ExportCommandHandler;
+use BAGArt\ProxyOperations\Bot\GetCommandHandler;
+use BAGArt\ProxyOperations\Bot\HelpCommandHandler;
+use BAGArt\ProxyOperations\Bot\ImportCommandHandler;
+use BAGArt\ProxyOperations\Bot\ListCommandHandler;
+use BAGArt\ProxyOperations\Bot\SettingsCommandHandler;
+use BAGArt\ProxyOperations\Bot\StartCommandHandler;
+use BAGArt\ProxyOperations\Bot\StatsCommandHandler;
 use BAGArt\ProxyOperations\Checker\CacheAwareProbePlanner;
-use BAGArt\ProxyOperations\Domain\Evidence\FreshnessAwareEligibilityPolicy;
-use BAGArt\ProxyOperations\Domain\Evidence\VerifiedEligibilityPolicy;
-use BAGArt\ProxyOperations\Domain\Lease\LeastUsedSelectionStrategy;
-use BAGArt\ProxyOperations\Domain\Lease\RandomSelectionStrategy;
-use BAGArt\ProxyOperations\Domain\Lease\RoundRobinSelectionStrategy;
-use BAGArt\ProxyOperations\Domain\Lease\WeightedSelectionStrategy;
 use BAGArt\ProxyOperations\Checker\ExecutionResultNormalizer;
 use BAGArt\ProxyOperations\Checker\JudgeBudgetConfig;
 use BAGArt\ProxyOperations\Checker\JudgeBudgetTracker;
@@ -53,18 +75,43 @@ use BAGArt\ProxyOperations\Checker\JudgeSetProvider;
 use BAGArt\ProxyOperations\Checker\ProbeExecutor;
 use BAGArt\ProxyOperations\Checker\ProbeOutcomeClassifier;
 use BAGArt\ProxyOperations\Checker\ToolTimeoutFactory;
+use BAGArt\ProxyOperations\Console\ProxyBackupCommand;
+use BAGArt\ProxyOperations\Console\ProxyBenchmarkCommand;
+use BAGArt\ProxyOperations\Console\ProxyCheckCommand;
+use BAGArt\ProxyOperations\Console\ProxyFeedSyncCommand;
+use BAGArt\ProxyOperations\Console\ProxyWalArchiveCommand;
+use BAGArt\ProxyOperations\Console\ProxyWorkerCommand;
+use BAGArt\ProxyOperations\Console\ProxyExportCommand;
+use BAGArt\ProxyOperations\Console\ProxyImportCommand;
+use BAGArt\ProxyOperations\Console\ProxyListCommand;
+use BAGArt\ProxyOperations\Console\ProxyPoolCreateCommand;
+use BAGArt\ProxyOperations\Console\ProxyPoolListCommand;
+use BAGArt\ProxyOperations\Console\ProxySettingsCommand;
+use BAGArt\ProxyOperations\Console\ProxyStatusCommand;
+use BAGArt\ProxyOperations\Domain\Evidence\FreshnessAwareEligibilityPolicy;
+use BAGArt\ProxyOperations\Domain\Evidence\VerifiedEligibilityPolicy;
 use BAGArt\ProxyOperations\Domain\Failure\FailureTaxonomy;
 use BAGArt\ProxyOperations\Domain\Identity\ProxyProtocol;
+use BAGArt\ProxyOperations\Domain\Lease\LeastUsedSelectionStrategy;
+use BAGArt\ProxyOperations\Domain\Lease\RandomSelectionStrategy;
+use BAGArt\ProxyOperations\Domain\Lease\RoundRobinSelectionStrategy;
+use BAGArt\ProxyOperations\Domain\Lease\WeightedSelectionStrategy;
 use BAGArt\ProxyOperations\Domain\Lifecycle\HysteresisPolicy;
 use BAGArt\ProxyOperations\Domain\Parsing\ProxyListParser;
 use BAGArt\ProxyOperations\Encryption\ConfigKekProvider;
 use BAGArt\ProxyOperations\Encryption\CredentialEncryptor;
 use BAGArt\ProxyOperations\Encryption\KekProvider;
+use BAGArt\ProxyOperations\Export\ExportAuditLogger;
+use BAGArt\ProxyOperations\Export\ExportService;
+use BAGArt\ProxyOperations\Export\ExportViewRepository;
+use BAGArt\ProxyOperations\Export\FormatterRegistry;
 use BAGArt\ProxyOperations\Parser\ImportProxiesService;
+use BAGArt\ProxyOperations\Support\HealthChecker;
+use BAGArt\ProxyOperations\Support\HealthCheckerContract;
 use BAGArt\ProxyOperations\Tenancy\TenantContext;
-use BAGArt\ProxyOperations\Tool\ResourceGovernorSpec;
 use BAGArt\ProxyOperations\Tool\HttpProbeTool;
 use BAGArt\ProxyOperations\Tool\MtprotoProbeTool;
+use BAGArt\ProxyOperations\Tool\ResourceGovernorSpec;
 use BAGArt\ProxyOperations\Tool\TelegramDcProbeTool;
 use BAGArt\ProxyOperations\Tool\ToolRegistry;
 use BAGArt\ProxyOperations\Transport\Adapters\DirectAdapter;
@@ -76,7 +123,6 @@ use BAGArt\ProxyOperations\Transport\Adapters\UdpAssociateProbeContract;
 use BAGArt\ProxyOperations\Transport\CapabilityProbeRunner;
 use BAGArt\ProxyOperations\Transport\DnsResolverFactory;
 use BAGArt\ProxyOperations\Transport\ResourceGovernor;
-use BAGArt\ProxyOperations\Transport\RunCapabilityProbesCommand;
 use BAGArt\ProxyOperations\Transport\TransportAdapterResolver;
 use BAGArt\ProxyOperations\Transport\TransportToolManifestProvider;
 use BAGArt\ProxyOperations\Transport\WorkerControlPlaneHandler;
@@ -94,6 +140,7 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
         $this->app->singleton(CredentialEncryptor::class);
         $this->app->singleton(ProxyListParser::class);
         $this->app->singleton(ImportProxiesService::class);
+        $this->app->singleton(HealthCheckerContract::class, HealthChecker::class);
 
         $this->registerTransport();
 
@@ -106,12 +153,38 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
         $this->registerAuditDelivery();
 
         $this->registerLeases();
+
+        $this->registerApplicationLayer();
+
+        $this->registerExport();
     }
 
     public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+        $this->loadJsonTranslationsFrom(__DIR__.'/../lang');
+        $this->registerConsoleCommands();
+    }
+
+    private function registerConsoleCommands(): void
+    {
+        $this->commands([
+            ProxyImportCommand::class,
+            ProxyListCommand::class,
+            ProxyCheckCommand::class,
+            ProxyExportCommand::class,
+            ProxyPoolListCommand::class,
+            ProxyPoolCreateCommand::class,
+            ProxySettingsCommand::class,
+            ProxyStatusCommand::class,
+            ProxyWorkerCommand::class,
+            ProxyFeedSyncCommand::class,
+            ProxyBackupCommand::class,
+            ProxyWalArchiveCommand::class,
+            ProxyBenchmarkCommand::class,
+        ]);
     }
 
     /**
@@ -287,7 +360,14 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
 
         $this->app->singleton(WorkerControlPlaneHandler::class);
 
-        $this->app->singleton(WorkerExecutionPlaneHandler::class);
+        $this->app->singleton(WorkerExecutionPlaneHandler::class, static function ($app) {
+            return new WorkerExecutionPlaneHandler(
+                governor: $app->make(ResourceGovernor::class),
+                executor: $app->make(ProbeExecutor::class),
+                normalizer: $app->make(ExecutionResultNormalizer::class),
+                checkerNodeId: (string) config('proxy-operations.audit.cache.checker_node_id', 'node-1'),
+            );
+        });
     }
 
     /**
@@ -433,6 +513,100 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
                 keyFactory: $app->make(ProbeCacheKeyFactory::class),
                 metrics: $app->make(ProbeCacheMetrics::class),
                 semanticsBase: (string) config('proxy-operations.audit.cache.probe_semantics_version', 'v1'),
+            );
+        });
+    }
+
+    /**
+     * Stage 10 application layer bindings (T46–T50; plan §§11.10, 11.29).
+     */
+    private function registerApplicationLayer(): void
+    {
+        $this->app->singleton(QuotaEnforcer::class);
+
+        $this->app->singleton(ImportProxiesHandler::class, static function ($app) {
+            return new ImportProxiesHandler(
+                importService: $app->make(ImportProxiesService::class),
+                quotaEnforcer: $app->make(QuotaEnforcer::class),
+            );
+        });
+
+        $this->app->singleton(ExportInventoryHandler::class);
+
+        $this->app->singleton(StartAuditHandler::class, static function ($app) {
+            return new StartAuditHandler(
+                jobStarter: $app->make(JobStarter::class),
+                quotaEnforcer: $app->make(QuotaEnforcer::class),
+            );
+        });
+
+        $this->app->singleton(AuditStatusHandler::class);
+        $this->app->singleton(CancelAuditHandler::class);
+        $this->app->singleton(WorkspaceSettingsHandler::class);
+        $this->app->singleton(UpdateSettingsHandler::class);
+
+        $this->app->singleton(\BAGArt\ProxyOperations\Feed\FeedSyncContract::class, static function ($app) {
+            return new \BAGArt\ProxyOperations\Feed\FeedSyncService(
+                parser: $app->make(\BAGArt\ProxyOperations\Domain\Parsing\ProxyListParser::class),
+                tenant: $app->make(\BAGArt\ProxyOperations\Tenancy\TenantContext::class),
+            );
+        });
+
+        $this->app->singleton(WizardSessionStore::class, RedisWizardSessionStore::class);
+        $this->app->singleton(WizardRouter::class, static function ($app) {
+            return new WizardRouter(
+                sessions: $app->make(WizardSessionStore::class),
+            );
+        });
+
+        $this->app->singleton(ApplicationServiceBus::class, static function ($app) {
+            $bus = new ApplicationServiceBus;
+
+            $bus->register(ImportProxiesCommand::class, $app->make(ImportProxiesHandler::class));
+            $bus->register(ExportInventoryCommand::class, $app->make(ExportInventoryHandler::class));
+            $bus->register(StartAuditCommand::class, $app->make(StartAuditHandler::class));
+            $bus->register(AuditStatusQuery::class, $app->make(AuditStatusHandler::class));
+            $bus->register(CancelAuditCommand::class, $app->make(CancelAuditHandler::class));
+            $bus->register(WorkspaceSettingsQuery::class, $app->make(WorkspaceSettingsHandler::class));
+            $bus->register(UpdateSettingsCommand::class, $app->make(UpdateSettingsHandler::class));
+
+            return $bus;
+        });
+
+        $this->app->singleton(BotCommandRouter::class, static function ($app) {
+            return new BotCommandRouter([
+                $app->make(StartCommandHandler::class),
+                $app->make(HelpCommandHandler::class),
+                new ImportCommandHandler($app->make(ImportProxiesHandler::class)),
+                new ListCommandHandler,
+                new CheckCommandHandler($app->make(StartAuditHandler::class)),
+                new StatsCommandHandler,
+                new GetCommandHandler($app->make(TenantContext::class)),
+                new ExportCommandHandler($app->make(ExportInventoryHandler::class)),
+                new SettingsCommandHandler($app->make(WorkspaceSettingsHandler::class)),
+            ]);
+        });
+
+        $this->app->singleton(VerifiedProxyProjector::class, static function ($app) {
+            return new VerifiedProxyProjector(
+                eligibilityPolicy: $app->make(VerifiedEligibilityPolicy::class),
+            );
+        });
+    }
+
+    /**
+     * Stage 9 export bindings (T42–T44; plan §§11.10, 11.28).
+     */
+    private function registerExport(): void
+    {
+        $this->app->singleton(FormatterRegistry::class);
+        $this->app->singleton(ExportViewRepository::class);
+        $this->app->singleton(ExportAuditLogger::class);
+
+        $this->app->singleton(ExportService::class, static function ($app) {
+            return new ExportService(
+                repository: $app->make(ExportViewRepository::class),
+                registry: $app->make(FormatterRegistry::class),
             );
         });
     }

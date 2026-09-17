@@ -6,11 +6,11 @@ use BAGArt\ProxyOperations\Domain\Probe\ProbeType;
 use BAGArt\ProxyOperations\Tool\ToolManifest;
 use BAGArt\ProxyOperations\Transport\TransportToolManifestProvider;
 
-it('returns five manifests', function (): void {
+it('returns eight manifests', function (): void {
     $provider = new TransportToolManifestProvider;
     $manifests = $provider->manifests();
 
-    expect($manifests)->toHaveCount(5);
+    expect($manifests)->toHaveCount(8);
 });
 
 it('all manifests have non-empty name, version, and capabilities', function (): void {
@@ -41,11 +41,12 @@ it('SOCKS5 manifest supports UdpAssociate and DnsResolution probe types', functi
         ->and($socks5Manifest->capabilities->probeTypes)->toContain(ProbeType::DnsResolution);
 });
 
-it('does not include MTProto in transport manifests', function (): void {
+it('includes MTProto in transport manifests', function (): void {
     $manifests = (new TransportToolManifestProvider)->manifests();
     $mtproto = collect($manifests)->first(fn ($m) => str_contains($m->name->value, 'mtproto'));
 
-    expect($mtproto)->toBeNull();
+    expect($mtproto)->not->toBeNull()
+        ->and($mtproto->capabilities->probeTypes)->toContain(ProbeType::MtprotoHandshake);
 });
 
 it('manifests are JsonSerializable and round-trip through fromJson', function (): void {

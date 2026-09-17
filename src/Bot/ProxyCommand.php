@@ -21,7 +21,7 @@ use Throwable;
 /**
  * /proxy — tenant-scoped inventory card (menu_integration.md M-6 slice 2).
  * Private chats only: the workspace maps to the bot owner (1 user = 1
- * workspace, plan.md «Model»), so a group surface could leak a tenant.
+ * workspace, sdd.md §14), so a group surface could leak a tenant.
  * The card carries counts only — no hosts, no credentials.
  */
 #[TgCommandAttribute(name: 'proxy')]
@@ -32,8 +32,7 @@ final readonly class ProxyCommand implements TgModuleProcessorContract
     public function __construct(
         private readonly TgSenderContract $sender,
         private readonly TenantContext $tenantContext,
-    ) {
-    }
+    ) {}
 
     public static function moduleId(): string
     {

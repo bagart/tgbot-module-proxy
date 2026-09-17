@@ -20,7 +20,7 @@ final class ChunkAsset
         $raw = file_get_contents(dirname(__DIR__, 2).'/resources/chunk/build-manifest.json');
 
         if ($raw === false) {
-            throw new \RuntimeException('proxy chunk build manifest missing -- run `npm run build` in the proxy module');
+            throw new \RuntimeException('proxy chunk build manifest missing -- run "npm run build" in the proxy module');
         }
 
         /** @var mixed $decoded */

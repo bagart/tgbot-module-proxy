@@ -31,7 +31,10 @@ function createCommand(): RunCapabilityProbesCommand
         maxFileDescriptors: 64,
     ));
 
-    return new RunCapabilityProbesCommand($probeRunner, $governor);
+    $command = new RunCapabilityProbesCommand($probeRunner, $governor);
+    $command->setLaravel(app());
+
+    return $command;
 }
 
 it('command has correct name', function (): void {

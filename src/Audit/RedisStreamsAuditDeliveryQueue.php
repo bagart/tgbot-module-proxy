@@ -25,6 +25,8 @@ final class RedisStreamsAuditDeliveryQueue implements AuditDeliveryQueue
 {
     private const string FIELD_PAYLOAD = 'payload';
 
+    private string $tasksCursor = '0';
+
     private string $resultsCursor = '0';
 
     public function __construct(
@@ -36,6 +38,28 @@ final class RedisStreamsAuditDeliveryQueue implements AuditDeliveryQueue
     public function enqueue(AuditTaskV1 $task): void
     {
         $this->push($this->tasksStream, $task);
+    }
+
+    public function consumeTasks(int $max): array
+    {
+        if ($max < 1) {
+            return [];
+        }
+
+        $raw = $this->redis->xRead([$this->tasksStream => $this->tasksCursor], $max, -1);
+
+        if ($raw === false || $raw === null) {
+            return [];
+        }
+
+        $tasks = [];
+
+        foreach ($raw[$this->tasksStream] ?? [] as $entryId => $fields) {
+            $tasks[] = AuditTaskV1::fromJson($this->payload((array) $fields));
+            $this->tasksCursor = (string) $entryId;
+        }
+
+        return $tasks;
     }
 
     public function consumeResults(int $max): array
@@ -65,6 +89,17 @@ final class RedisStreamsAuditDeliveryQueue implements AuditDeliveryQueue
     public function enqueueResult(AuditResultV1 $result): void
     {
         $this->push($this->resultsStream, $result);
+    }
+
+    public function pendingCount(): int
+    {
+        try {
+            $len = $this->redis->xLen($this->tasksStream);
+
+            return is_int($len) ? $len : 0;
+        } catch (\Throwable) {
+            return 0;
+        }
     }
 
     private function push(string $stream, AuditTaskV1|AuditResultV1 $message): void

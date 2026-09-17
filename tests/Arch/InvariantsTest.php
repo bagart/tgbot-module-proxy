@@ -377,7 +377,7 @@ it('includes toolSemanticsVersion in the cache key identity (INV-017)', function
         ->not->toBe(invCacheKey('curl-8.9-proto2')->toHash());
 });
 
-it('exposes ProbeTool only as an unimplemented contract consumed through the registry allowlist (INV-018)', function (): void {
+it('ProbeTool implementations are registered through the ToolRegistry allowlist (INV-018)', function (): void {
     expect(interface_exists(ProbeTool::class))->toBeTrue();
 
     $implementations = [];
@@ -388,15 +388,29 @@ it('exposes ProbeTool only as an unimplemented contract consumed through the reg
         }
     }
 
-    expect($implementations)->toBe([]);
+    $manifestClasses = [
+        'BAGArt\ProxyOperations\Tool\HttpProbeToolManifestProvider',
+        'BAGArt\ProxyOperations\Tool\MtprotoProbeToolManifestProvider',
+        'BAGArt\ProxyOperations\Tool\TelegramDcProbeToolManifestProvider',
+    ];
+
+    foreach ($implementations as $impl) {
+        $basename = class_basename($impl);
+        $found = false;
+        foreach ($manifestClasses as $mc) {
+            if (str_contains($mc, $basename)) {
+                $found = true;
+                break;
+            }
+        }
+        expect($found)->toBeTrue("ProbeTool implementation {$impl} must have a ManifestProvider");
+    }
 
     $execute = new ReflectionMethod(ProbeTool::class, 'execute');
 
     expect($execute->getParameters()[0]->getType()->getName())->toBe(ProbeExecutionContext::class)
         ->and($execute->getReturnType()?->getName())->toBe(ProbeToolResult::class);
 
-    // No concrete binary/CLI leaks into the contract surface: callers reach
-    // tools only via toolId → manifest resolution (plan §11.39 пп.8,10).
     $capabilities = new ReflectionMethod(ProbeTool::class, 'capabilities');
     $resolve = new ReflectionMethod(ToolRegistry::class, 'resolve');
 

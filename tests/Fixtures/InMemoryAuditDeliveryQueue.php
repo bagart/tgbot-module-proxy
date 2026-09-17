@@ -23,7 +23,9 @@ final class InMemoryAuditDeliveryQueue implements AuditDeliveryQueue
 
     public bool $throwOnEnqueue = false;
 
-    private int $cursor = 0;
+    private int $taskCursor = 0;
+
+    private int $resultCursor = 0;
 
     public function enqueue(AuditTaskV1 $task): void
     {
@@ -34,14 +36,26 @@ final class InMemoryAuditDeliveryQueue implements AuditDeliveryQueue
         $this->tasks[] = $task;
     }
 
+    public function consumeTasks(int $max): array
+    {
+        if ($max < 1) {
+            return [];
+        }
+
+        $slice = array_slice($this->tasks, $this->taskCursor, $max);
+        $this->taskCursor += count($slice);
+
+        return $slice;
+    }
+
     public function consumeResults(int $max): array
     {
         if ($max < 1) {
             return [];
         }
 
-        $slice = array_slice($this->results, $this->cursor, $max);
-        $this->cursor += count($slice);
+        $slice = array_slice($this->results, $this->resultCursor, $max);
+        $this->resultCursor += count($slice);
 
         return $slice;
     }
@@ -49,5 +63,10 @@ final class InMemoryAuditDeliveryQueue implements AuditDeliveryQueue
     public function enqueueResult(AuditResultV1 $result): void
     {
         $this->results[] = $result;
+    }
+
+    public function pendingCount(): int
+    {
+        return count($this->tasks) - $this->taskCursor;
     }
 }

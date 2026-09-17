@@ -17,8 +17,17 @@ interface AuditDeliveryQueue
 {
     public function enqueue(AuditTaskV1 $task): void;
 
+    /** @return list<AuditTaskV1> */
+    public function consumeTasks(int $max): array;
+
     /** @return list<AuditResultV1> */
     public function consumeResults(int $max): array;
 
     public function enqueueResult(AuditResultV1 $result): void; // worker-side push, test/dlq use
+
+    /**
+     * Number of tasks pending in the queue (not yet consumed).
+     * Used for pressure metrics — (inflight + pending) / capacity.
+     */
+    public function pendingCount(): int;
 }
