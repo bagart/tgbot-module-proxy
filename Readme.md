@@ -5,7 +5,7 @@ auditing, health/lifecycle, pools, lease and verified export.
 
 ## Documentation
 
-- **SDD**: `docs/sdd.md` (Software Design Document — full architecture)
+- **SDD**: `docs/sdd/README.md` (Software Design Document — full architecture)
 - **ADR**: `docs/adr/ADR-001-stage0-contracts.md` (Stage 0 contract decisions)
 - **Tasks**: `docs/tasks/` (active plans, ephemeral)
 

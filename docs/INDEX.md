@@ -4,7 +4,7 @@
 
 | Need | File |
 |---|---|
-| Full design (20 sections) | `sdd.md` (large — read by section) |
+| Full design (20 sections) | `sdd/README.md` (large — read by section) |
 | Stage-0 contract decisions | `adr/ADR-001-stage0-contracts.md` |
 
 ## Source map: `Domain/` (identity, lifecycle, failure, evidence, parsing, pool, lease, cache, policy, probe), `Application/` (service bus, commands/queries), `Parser/`, `Checker/`, `Audit/`, `Export/`, `Encryption/` (KEK→DEK envelope), `Bot/`, `Http/` (REST + gateway), `Feed/`, `Incident/`, `Decision/`, `Benchmark/`, `I18n/` (5 languages), `Console/`.
