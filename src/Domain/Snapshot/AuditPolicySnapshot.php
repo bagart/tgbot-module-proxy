@@ -38,7 +38,8 @@ final readonly class AuditPolicySnapshot implements JsonSerializable
         public readonly array $probeProfileMapping,
         public readonly array $healthThresholds,
         public readonly array $quarantineRules,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

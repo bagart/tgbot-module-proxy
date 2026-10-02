@@ -19,5 +19,6 @@ final readonly class SelectionDecision
         public readonly SelectionReasonCode $reasonCode,
         public readonly ?float $score,
         public readonly int $policyVersion,
-    ) {}
+    ) {
+    }
 }

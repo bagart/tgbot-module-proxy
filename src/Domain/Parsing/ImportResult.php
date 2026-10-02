@@ -25,7 +25,8 @@ final readonly class ImportResult implements JsonSerializable
         public readonly int $staged,
         public readonly array $errors,
         public readonly string $importBatchId,
-    ) {}
+    ) {
+    }
 
     public function jsonSerialize(): array
     {

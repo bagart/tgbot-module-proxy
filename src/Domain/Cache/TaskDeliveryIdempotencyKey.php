@@ -19,7 +19,8 @@ final readonly class TaskDeliveryIdempotencyKey
 
     private function __construct(
         public readonly string $value,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws RuntimeException If the JobRef carries empty ids.

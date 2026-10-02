@@ -16,7 +16,8 @@ final readonly class HttpConnectOptions extends TransportOptions implements Json
 
     public function __construct(
         public readonly bool $tunnel = true,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

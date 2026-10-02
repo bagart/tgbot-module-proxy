@@ -17,13 +17,13 @@ use BAGArt\ProxyOperations\Transport\SocksOptions;
 use BAGArt\ProxyOperations\Transport\TlsOptions;
 
 it('creates ProxyDnsResolver for SocksOptions with ProxyDns mode', function (): void {
-    $factory = new DnsResolverFactory;
+    $factory = new DnsResolverFactory();
     $config = new ProxyConfig(
         scheme: ProxyProtocol::Socks5,
         host: '127.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
+        tls: new TlsOptions(),
         transportOptions: new SocksOptions(dnsMode: SocksDnsMode::ProxyDns),
     );
 
@@ -34,13 +34,13 @@ it('creates ProxyDnsResolver for SocksOptions with ProxyDns mode', function (): 
 });
 
 it('creates RemoteDnsResolver for SocksOptions with Remote mode', function (): void {
-    $factory = new DnsResolverFactory;
+    $factory = new DnsResolverFactory();
     $config = new ProxyConfig(
         scheme: ProxyProtocol::Socks5,
         host: '127.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
+        tls: new TlsOptions(),
         transportOptions: new SocksOptions(dnsMode: SocksDnsMode::Remote),
     );
 
@@ -51,13 +51,13 @@ it('creates RemoteDnsResolver for SocksOptions with Remote mode', function (): v
 });
 
 it('creates LocalDnsResolver for SocksOptions with Local mode', function (): void {
-    $factory = new DnsResolverFactory;
+    $factory = new DnsResolverFactory();
     $config = new ProxyConfig(
         scheme: ProxyProtocol::Socks5,
         host: '127.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
+        tls: new TlsOptions(),
         transportOptions: new SocksOptions(dnsMode: SocksDnsMode::Local),
     );
 
@@ -68,14 +68,14 @@ it('creates LocalDnsResolver for SocksOptions with Local mode', function (): voi
 });
 
 it('creates LocalDnsResolver for HttpConnectOptions (default)', function (): void {
-    $factory = new DnsResolverFactory;
+    $factory = new DnsResolverFactory();
     $config = new ProxyConfig(
         scheme: ProxyProtocol::Http,
         host: '127.0.0.1',
         port: 80,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $resolver = $factory->create($config);
@@ -85,20 +85,20 @@ it('creates LocalDnsResolver for HttpConnectOptions (default)', function (): voi
 });
 
 it('LocalDnsResolver resolves localhost to 127.0.0.1', function (): void {
-    $resolver = new LocalDnsResolver;
+    $resolver = new LocalDnsResolver();
     $ips = $resolver->resolve('localhost');
 
     expect($ips)->toContain('127.0.0.1');
 });
 
 it('LocalDnsResolver mode returns Local', function (): void {
-    $resolver = new LocalDnsResolver;
+    $resolver = new LocalDnsResolver();
 
     expect($resolver->mode())->toBe(SocksDnsMode::Local);
 });
 
 it('DnsResolverContract is implemented by all resolvers', function (): void {
-    expect(new LocalDnsResolver)->toBeInstanceOf(DnsResolverContract::class);
+    expect(new LocalDnsResolver())->toBeInstanceOf(DnsResolverContract::class);
 });
 
 it('DnsLeakResult serializes to JSON correctly', function (): void {
@@ -120,8 +120,7 @@ it('DnsLeakResult serializes to JSON correctly', function (): void {
 });
 
 it('DnsLeakProbe detects leaked DNS via loopback IP in proxied mode', function (): void {
-    $mockResolver = new class implements DnsResolverContract
-    {
+    $mockResolver = new class () implements DnsResolverContract {
         public function resolve(string $hostname): array
         {
             return ['127.0.0.1'];
@@ -143,8 +142,7 @@ it('DnsLeakProbe detects leaked DNS via loopback IP in proxied mode', function (
 });
 
 it('DnsLeakProbe reports no leak for valid public IPs in proxied mode', function (): void {
-    $mockResolver = new class implements DnsResolverContract
-    {
+    $mockResolver = new class () implements DnsResolverContract {
         public function resolve(string $hostname): array
         {
             return ['93.184.216.34'];
@@ -164,8 +162,7 @@ it('DnsLeakProbe reports no leak for valid public IPs in proxied mode', function
 });
 
 it('DnsLeakProbe detects leaked DNS via private IP in local mode', function (): void {
-    $mockResolver = new class implements DnsResolverContract
-    {
+    $mockResolver = new class () implements DnsResolverContract {
         public function resolve(string $hostname): array
         {
             return ['192.168.1.1'];
@@ -184,8 +181,7 @@ it('DnsLeakProbe detects leaked DNS via private IP in local mode', function (): 
 });
 
 it('DnsLeakProbe reports no leak for public IPs in local mode', function (): void {
-    $mockResolver = new class implements DnsResolverContract
-    {
+    $mockResolver = new class () implements DnsResolverContract {
         public function resolve(string $hostname): array
         {
             return ['8.8.8.8'];

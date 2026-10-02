@@ -8,4 +8,6 @@ namespace BAGArt\ProxyOperations\Transport;
  * Abstract base for protocol-specific transport options.
  * Concrete subclasses carry the configuration each protocol family needs.
  */
-abstract readonly class TransportOptions {}
+abstract readonly class TransportOptions
+{
+}

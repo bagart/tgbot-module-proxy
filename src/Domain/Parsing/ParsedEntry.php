@@ -27,7 +27,8 @@ final readonly class ParsedEntry implements JsonSerializable
         public readonly CredentialKind $credentialKind,
         public readonly int $sourceLine,
         public readonly ?string $originalHost,
-    ) {}
+    ) {
+    }
 
     public function jsonSerialize(): array
     {

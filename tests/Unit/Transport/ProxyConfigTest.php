@@ -21,10 +21,10 @@ function makeSocks5Config(): ProxyConfig
         port: 1080,
         credential: new ProxyCredentialRef(
             username: 'user1',
-            channel: new StdinChannel,
+            channel: new StdinChannel(),
         ),
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 }
 
@@ -39,7 +39,7 @@ function makeHttpConfig(): ProxyConfig
             channel: new FileDescriptorChannel(fileDescriptor: 3),
         ),
         tls: new TlsOptions(verifyPeer: false, allowSelfSigned: true),
-        transportOptions: new HttpConnectOptions,
+        transportOptions: new HttpConnectOptions(),
     );
 }
 
@@ -50,8 +50,8 @@ function makeMtprotoConfig(): ProxyConfig
         host: 'mtproto.example.com',
         port: 443,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new MtprotoOptions,
+        tls: new TlsOptions(),
+        transportOptions: new MtprotoOptions(),
     );
 }
 
@@ -61,8 +61,8 @@ it('rejects empty host', function (): void {
         host: '',
         port: 80,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 })->throws(InvalidArgumentException::class, 'host must not be empty');
 
@@ -72,8 +72,8 @@ it('rejects port out of range (low)', function (): void {
         host: 'example.com',
         port: 0,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 })->throws(InvalidArgumentException::class, 'port must be within 1..65535');
 
@@ -83,8 +83,8 @@ it('rejects port out of range (high)', function (): void {
         host: 'example.com',
         port: 70000,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 })->throws(InvalidArgumentException::class, 'port must be within 1..65535');
 
@@ -160,7 +160,7 @@ it('round-trips HttpConnectOptions through JSON', function (): void {
 });
 
 it('round-trips MtprotoOptions through JSON', function (): void {
-    $options = new MtprotoOptions;
+    $options = new MtprotoOptions();
     $json = $options->jsonSerialize();
     $restored = MtprotoOptions::fromJson($json);
 
@@ -178,7 +178,7 @@ it('round-trips TlsOptions through JSON', function (): void {
 });
 
 it('round-trips TlsOptions defaults through JSON', function (): void {
-    $options = new TlsOptions;
+    $options = new TlsOptions();
     $json = $options->jsonSerialize();
     $restored = TlsOptions::fromJson($json);
 
@@ -188,7 +188,7 @@ it('round-trips TlsOptions defaults through JSON', function (): void {
 });
 
 it('round-trips ProxyCredentialRef through JSON (StdinChannel)', function (): void {
-    $ref = new ProxyCredentialRef(username: 'admin', channel: new StdinChannel);
+    $ref = new ProxyCredentialRef(username: 'admin', channel: new StdinChannel());
     $json = $ref->jsonSerialize();
     $restored = ProxyCredentialRef::fromJson($json);
 
@@ -206,7 +206,7 @@ it('round-trips ProxyCredentialRef through JSON (FileDescriptorChannel)', functi
 });
 
 it('round-trips SocksOptions defaults through JSON', function (): void {
-    $options = new SocksOptions;
+    $options = new SocksOptions();
     $json = $options->jsonSerialize();
     $restored = SocksOptions::fromJson($json);
 
@@ -215,28 +215,28 @@ it('round-trips SocksOptions defaults through JSON', function (): void {
 });
 
 it('SocksOptions rejects unknown schemaVersion', function (): void {
-    $json = (new SocksOptions)->jsonSerialize();
+    $json = (new SocksOptions())->jsonSerialize();
     $json['schemaVersion'] = 99;
 
     SocksOptions::fromJson($json);
 })->throws(RuntimeException::class, 'Unsupported SocksOptions schemaVersion');
 
 it('HttpConnectOptions rejects unknown schemaVersion', function (): void {
-    $json = (new HttpConnectOptions)->jsonSerialize();
+    $json = (new HttpConnectOptions())->jsonSerialize();
     $json['schemaVersion'] = 99;
 
     HttpConnectOptions::fromJson($json);
 })->throws(RuntimeException::class, 'Unsupported HttpConnectOptions schemaVersion');
 
 it('TlsOptions rejects unknown schemaVersion', function (): void {
-    $json = (new TlsOptions)->jsonSerialize();
+    $json = (new TlsOptions())->jsonSerialize();
     $json['schemaVersion'] = 99;
 
     TlsOptions::fromJson($json);
 })->throws(RuntimeException::class, 'Unsupported TlsOptions schemaVersion');
 
 it('ProxyCredentialRef rejects unknown schemaVersion', function (): void {
-    $json = (new ProxyCredentialRef(username: null, channel: new StdinChannel))->jsonSerialize();
+    $json = (new ProxyCredentialRef(username: null, channel: new StdinChannel()))->jsonSerialize();
     $json['schemaVersion'] = 99;
 
     ProxyCredentialRef::fromJson($json);

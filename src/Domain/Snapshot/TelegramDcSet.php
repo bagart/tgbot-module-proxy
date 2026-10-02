@@ -24,7 +24,8 @@ final readonly class TelegramDcSet implements JsonSerializable
         public readonly int $version,
         public readonly array $dcs,
         public readonly string $frozenAt,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

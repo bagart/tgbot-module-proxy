@@ -14,5 +14,6 @@ final readonly class ImportProxiesCommand implements ApplicationCommand
         public ImportSource $source,
         public string $payload,
         public ?string $sourceLabel = null,
-    ) {}
+    ) {
+    }
 }

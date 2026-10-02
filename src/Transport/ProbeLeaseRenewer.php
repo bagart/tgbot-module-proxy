@@ -25,7 +25,8 @@ final class ProbeLeaseRenewer implements ASKTickableContract
     public function __construct(
         private readonly LeaseRenewerContract $leases,
         private readonly int $renewIntervalSec = 60,
-    ) {}
+    ) {
+    }
 
     /**
      * Track an access ID whose lease should be renewed while probing.

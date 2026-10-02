@@ -7,7 +7,7 @@ use BAGArt\ProxyOperations\Domain\Identity\ProtocolCapabilityMatrix;
 use BAGArt\ProxyOperations\Domain\Identity\ProxyProtocol;
 use BAGArt\ProxyOperations\Domain\Identity\TransportKind;
 
-beforeEach(fn (): object => $this->matrix = new ProtocolCapabilityMatrix);
+beforeEach(fn (): object => $this->matrix = new ProtocolCapabilityMatrix());
 
 it('matches plan §11.4 transport rows', function (ProxyProtocol $protocol, array $transports): void {
     expect($this->matrix->transportsFor($protocol))->toEqual($transports);

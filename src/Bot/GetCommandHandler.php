@@ -16,7 +16,8 @@ final class GetCommandHandler implements BotCommandHandler
 {
     public function __construct(
         private TenantContext $tenantContext,
-    ) {}
+    ) {
+    }
 
     public function handles(): string
     {

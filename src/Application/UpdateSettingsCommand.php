@@ -14,5 +14,6 @@ final readonly class UpdateSettingsCommand implements ApplicationCommand
         public string $field,
         public mixed $value,
         public ?string $updatedBy = null,
-    ) {}
+    ) {
+    }
 }

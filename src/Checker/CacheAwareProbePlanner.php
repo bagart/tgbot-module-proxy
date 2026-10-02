@@ -79,7 +79,7 @@ final class CacheAwareProbePlanner
         private readonly ProbeCacheMetrics $metrics,
         private readonly string $semanticsBase = 'v1',
     ) {
-        $this->taxonomy = new FailureTaxonomy;
+        $this->taxonomy = new FailureTaxonomy();
     }
 
     /**

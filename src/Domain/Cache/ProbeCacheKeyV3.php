@@ -35,7 +35,8 @@ final readonly class ProbeCacheKeyV3 implements JsonSerializable
         public readonly int $probeProfileVersion,
         public readonly string $probeSemanticsVersion,
         public readonly string $toolSemanticsVersion,
-    ) {}
+    ) {
+    }
 
     /**
      * Stable canonical string: fields are always emitted in constructor order

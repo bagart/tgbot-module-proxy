@@ -15,7 +15,8 @@ final readonly class DenylistResolvedTargetChecker implements ResolvedTargetChec
 {
     public function __construct(
         public readonly IpDenylist $denylist,
-    ) {}
+    ) {
+    }
 
     public function isConnectionAllowed(string $host, array $resolvedIps): bool
     {

@@ -18,7 +18,8 @@ final readonly class UdpDatagramResult implements JsonSerializable
         public readonly ?string $response,
         public readonly ?string $error,
         public readonly float $latencyMs,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

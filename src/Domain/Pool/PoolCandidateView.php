@@ -22,7 +22,8 @@ final readonly class PoolCandidateView
         public readonly ProxyProtocol $protocol,
         public readonly ?int $healthScore,
         public readonly ?bool $telegramUsableNow,
-    ) {}
+    ) {
+    }
 
     public static function fromModels(ProxyAccess $access, ?ProxyHealth $health): self
     {

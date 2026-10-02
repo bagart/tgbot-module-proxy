@@ -73,7 +73,8 @@ final class ImportCommandHandler implements BotCommandHandler
 {
     public function __construct(
         private ImportProxiesHandler $handler,
-    ) {}
+    ) {
+    }
 
     public function handles(): string
     {
@@ -143,7 +144,8 @@ final class CheckCommandHandler implements BotCommandHandler
 {
     public function __construct(
         private StartAuditHandler $handler,
-    ) {}
+    ) {
+    }
 
     public function handles(): string
     {
@@ -211,7 +213,8 @@ final class ExportCommandHandler implements BotCommandHandler
 {
     public function __construct(
         private ExportInventoryHandler $handler,
-    ) {}
+    ) {
+    }
 
     public function handles(): string
     {
@@ -249,7 +252,8 @@ final class SettingsCommandHandler implements BotCommandHandler
 {
     public function __construct(
         private WorkspaceSettingsHandler $handler,
-    ) {}
+    ) {
+    }
 
     public function handles(): string
     {

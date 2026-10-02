@@ -6,7 +6,7 @@ use BAGArt\ProxyOperations\Tenancy\TenantContext;
 use BAGArt\ProxyOperations\Tenancy\TenantNotResolvedException;
 
 it('returns the set tenant id', function (): void {
-    $context = new TenantContext;
+    $context = new TenantContext();
 
     $context->set(42);
 
@@ -15,14 +15,14 @@ it('returns the set tenant id', function (): void {
 });
 
 it('fails loudly when read before any tenant is set (fail closed)', function (): void {
-    $context = new TenantContext;
+    $context = new TenantContext();
 
     expect($context->tryId())->toBeNull()
         ->and(fn (): int => $context->id())->toThrow(TenantNotResolvedException::class);
 });
 
 it('forgets the tenant and refuses further access in the same scope', function (): void {
-    $context = new TenantContext;
+    $context = new TenantContext();
 
     $context->set(7);
     $context->forget();
@@ -32,7 +32,7 @@ it('forgets the tenant and refuses further access in the same scope', function (
 });
 
 it('replaces a previously set tenant within one scope', function (): void {
-    $context = new TenantContext;
+    $context = new TenantContext();
 
     $context->set(1);
     $context->set(2);
@@ -41,7 +41,7 @@ it('replaces a previously set tenant within one scope', function (): void {
 });
 
 it('accepts zero as an explicit tenant id without treating it as unset', function (): void {
-    $context = new TenantContext;
+    $context = new TenantContext();
 
     $context->set(0);
 

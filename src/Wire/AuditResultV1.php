@@ -261,7 +261,7 @@ final readonly class AuditResultV1 implements JsonSerializable
 
     private static function descriptor(FailureCode $code): FailureDescriptor
     {
-        return (new FailureTaxonomy)->descriptor($code);
+        return (new FailureTaxonomy())->descriptor($code);
     }
 
     /**

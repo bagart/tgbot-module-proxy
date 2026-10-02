@@ -9,7 +9,7 @@ use BAGArt\ProxyOperations\Domain\Failure\FailureDescriptor;
 use BAGArt\ProxyOperations\Domain\Failure\FailureTaxonomy;
 use BAGArt\ProxyOperations\Domain\Failure\ProxyFailure;
 
-beforeEach(fn (): object => $this->taxonomy = new FailureTaxonomy);
+beforeEach(fn (): object => $this->taxonomy = new FailureTaxonomy());
 
 it('has a descriptor with all attributes for every failure code', function (): void {
     foreach (FailureCode::cases() as $code) {

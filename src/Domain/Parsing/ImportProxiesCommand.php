@@ -25,7 +25,8 @@ final readonly class ImportProxiesCommand implements JsonSerializable
         public readonly ?string $sourceLabel,
         public readonly int $tenantId,
         public readonly ?string $idempotencyKey,
-    ) {}
+    ) {
+    }
 
     public function jsonSerialize(): array
     {

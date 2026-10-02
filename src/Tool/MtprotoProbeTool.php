@@ -24,7 +24,7 @@ final class MtprotoProbeTool implements ProbeTool
 
     public function __construct()
     {
-        $this->taxonomy = new FailureTaxonomy;
+        $this->taxonomy = new FailureTaxonomy();
     }
 
     public function capabilities(): ToolCapabilities

@@ -26,7 +26,8 @@ final readonly class JudgeSetSnapshot implements JsonSerializable
         public readonly int $version,
         public readonly array $judges,
         public readonly string $frozenAt,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

@@ -34,14 +34,14 @@ it('TXT scheme_user_pass variant', function (): void {
 });
 
 it('CSV has headers and rows', function (): void {
-    $f = new CsvExportFormatter;
+    $f = new CsvExportFormatter();
     $out = $f->format(views());
     $lines = array_filter(explode("\n", trim($out)));
     expect($lines)->toHaveCount(3); // header + 2 rows
 });
 
 it('JSON is valid and contains all fields', function (): void {
-    $f = new JsonExportFormatter;
+    $f = new JsonExportFormatter();
     $out = $f->format(views());
     $data = json_decode($out, true);
     expect($data)->toHaveCount(2)
@@ -50,7 +50,7 @@ it('JSON is valid and contains all fields', function (): void {
 });
 
 it('Proxychains generates valid conf', function (): void {
-    $f = new ProxychainsFormatter;
+    $f = new ProxychainsFormatter();
     $out = $f->format(views());
     expect($out)->toContain('[ProxyList]')
         ->and($out)->toContain('socks5 1.2.3.4 1080')
@@ -58,14 +58,14 @@ it('Proxychains generates valid conf', function (): void {
 });
 
 it('Curl generates curl commands', function (): void {
-    $f = new CurlFormatter;
+    $f = new CurlFormatter();
     $out = $f->format(views());
     expect($out)->toContain("curl -x 'socks5h://user%3Apass@1.2.3.4:1080'")
         ->and($out)->toContain("curl -x 'http://5.6.7.8:8080'");
 });
 
 it('Clash generates valid YAML structure', function (): void {
-    $f = new ClashFormatter;
+    $f = new ClashFormatter();
     $out = $f->format(views());
     expect($out)->toContain('proxies:')
         ->and($out)->toContain('type: "socks5"')

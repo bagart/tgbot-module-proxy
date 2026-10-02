@@ -27,7 +27,8 @@ final readonly class CachePolicy
         public readonly int $negativeTtlSeconds,
         public readonly array $ttlByKind,
         public readonly int $defaultTtlSeconds,
-    ) {}
+    ) {
+    }
 
     /**
      * TTL for one value kind; falls back to the default TTL for kinds that

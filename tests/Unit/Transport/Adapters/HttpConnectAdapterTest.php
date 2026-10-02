@@ -14,14 +14,14 @@ use BAGArt\ProxyOperations\Transport\SocksOptions;
 use BAGArt\ProxyOperations\Transport\TlsOptions;
 
 it('rejects non-Http scheme', function (): void {
-    $adapter = new HttpConnectAdapter;
+    $adapter = new HttpConnectAdapter();
     $config = new ProxyConfig(
         scheme: ProxyProtocol::Socks5,
         host: '127.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $adapter->connect($config, 'example.com', 443);
@@ -37,8 +37,8 @@ it('connects through mock HTTP proxy returning 200', function (): void {
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $pid = pcntl_fork();
@@ -61,7 +61,7 @@ it('connects through mock HTTP proxy returning 200', function (): void {
         exit(0);
     }
 
-    $adapter = new HttpConnectAdapter;
+    $adapter = new HttpConnectAdapter();
     $stream = $adapter->connect($config, 'target.example.com', 443);
 
     expect($stream)->not->toBeFalse();
@@ -81,9 +81,9 @@ it('sends Proxy-Authorization header when credentials provided', function (): vo
         scheme: ProxyProtocol::Http,
         host: '127.0.0.1',
         port: $port,
-        credential: new ProxyCredentialRef(username: 'admin:secret', channel: new StdinChannel),
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        credential: new ProxyCredentialRef(username: 'admin:secret', channel: new StdinChannel()),
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $pid = pcntl_fork();
@@ -108,7 +108,7 @@ it('sends Proxy-Authorization header when credentials provided', function (): vo
         exit(0);
     }
 
-    $adapter = new HttpConnectAdapter;
+    $adapter = new HttpConnectAdapter();
     $stream = $adapter->connect($config, 'target.example.com', 443);
 
     expect($stream)->not->toBeFalse();
@@ -134,9 +134,9 @@ it('throws TransportAuthException on 407 response', function (): void {
         scheme: ProxyProtocol::Http,
         host: '127.0.0.1',
         port: $port,
-        credential: new ProxyCredentialRef(username: 'baduser', channel: new StdinChannel),
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        credential: new ProxyCredentialRef(username: 'baduser', channel: new StdinChannel()),
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $pid = pcntl_fork();
@@ -159,7 +159,7 @@ it('throws TransportAuthException on 407 response', function (): void {
         exit(0);
     }
 
-    $adapter = new HttpConnectAdapter;
+    $adapter = new HttpConnectAdapter();
     $adapter->connect($config, 'target.example.com', 443);
 })->throws(TransportAuthException::class, 'Proxy authentication failed');
 
@@ -173,8 +173,8 @@ it('throws TransportConnectionException on non-200 response', function (): void 
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $pid = pcntl_fork();
@@ -197,7 +197,7 @@ it('throws TransportConnectionException on non-200 response', function (): void 
         exit(0);
     }
 
-    $adapter = new HttpConnectAdapter;
+    $adapter = new HttpConnectAdapter();
     $adapter->connect($config, 'target.example.com', 443);
 })->throws(TransportConnectionException::class, 'HTTP CONNECT tunnel failed with status 503');
 
@@ -207,16 +207,16 @@ it('throws TransportConnectionException when proxy is unreachable', function ():
         host: '127.0.0.1',
         port: 19999,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
-    $adapter = new HttpConnectAdapter;
+    $adapter = new HttpConnectAdapter();
     $adapter->connect($config, 'target.example.com', 443);
 })->throws(TransportConnectionException::class, 'Cannot connect to HTTP proxy');
 
 it('close is idempotent', function (): void {
-    $adapter = new HttpConnectAdapter;
+    $adapter = new HttpConnectAdapter();
 
     $adapter->close();
     $adapter->close();

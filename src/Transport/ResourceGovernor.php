@@ -22,7 +22,8 @@ final class ResourceGovernor
 
     public function __construct(
         private readonly ResourceGovernorSpec $spec,
-    ) {}
+    ) {
+    }
 
     /**
      * Check if a new connection is allowed under current resource pressure.

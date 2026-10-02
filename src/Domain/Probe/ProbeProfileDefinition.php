@@ -23,7 +23,8 @@ final readonly class ProbeProfileDefinition
         public TimeoutTier $timeout,
         public float $relativeCost,
         public ?int $bandwidthCapBytes = null,
-    ) {}
+    ) {
+    }
 
     public static function forProfile(ProbeProfile $profile): self
     {

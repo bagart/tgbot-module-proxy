@@ -6,4 +6,6 @@ namespace BAGArt\ProxyOperations\Transport\Adapters;
 
 use RuntimeException;
 
-final class TransportConnectionException extends RuntimeException {}
+final class TransportConnectionException extends RuntimeException
+{
+}

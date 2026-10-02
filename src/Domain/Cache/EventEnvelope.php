@@ -38,7 +38,8 @@ final readonly class EventEnvelope implements JsonSerializable
         public readonly string $tenantId,
         public readonly string $aggregateRef,
         public readonly array $payload,
-    ) {}
+    ) {
+    }
 
     /**
      * Random v4-format event id for outbox inserts; no external uuid

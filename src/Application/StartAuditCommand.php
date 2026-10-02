@@ -14,5 +14,6 @@ final readonly class StartAuditCommand implements ApplicationCommand
         public string $trigger = 'manual',
         public array $targetAccessIds = [],
         public ?string $requestedBy = null,
-    ) {}
+    ) {
+    }
 }

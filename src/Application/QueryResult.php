@@ -17,7 +17,8 @@ final readonly class QueryResult
         public ?array $data = null,
         public int $totalCount = 0,
         public ?string $errorKey = null,
-    ) {}
+    ) {
+    }
 
     public static function found(array $data, int $totalCount = 1): self
     {

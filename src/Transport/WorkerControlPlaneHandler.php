@@ -18,7 +18,8 @@ final class WorkerControlPlaneHandler
         private readonly ToolRegistry $toolRegistry,
         private readonly ResourceGovernor $governor,
         private readonly TransportToolManifestProvider $manifestProvider,
-    ) {}
+    ) {
+    }
 
     public function handle(ControlPlaneRoute $route): array
     {

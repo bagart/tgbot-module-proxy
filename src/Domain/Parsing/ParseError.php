@@ -20,7 +20,8 @@ final readonly class ParseError implements JsonSerializable
         public readonly string $rawLine,
         public readonly ParseErrorCode $code,
         public readonly ?string $detail,
-    ) {}
+    ) {
+    }
 
     public function jsonSerialize(): array
     {

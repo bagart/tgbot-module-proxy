@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace BAGArt\ProxyOperations\Checker;
 
 use BAGArt\ProxyOperations\Domain\Failure\FailureTaxonomy;
-use BAGArt\ProxyOperations\Domain\Failure\ProxyFailure;
 use BAGArt\ProxyOperations\Wire\AuditResultStatus;
 use BAGArt\ProxyOperations\Wire\AuditResultV1;
 
@@ -30,7 +29,8 @@ final readonly class ExecutionResultNormalizer
     public function __construct(
         private readonly FailureTaxonomy $taxonomy,
         private readonly ProbeOutcomeClassifier $classifier,
-    ) {}
+    ) {
+    }
 
     public function normalize(
         ProbeExecutionOutcome $outcome,

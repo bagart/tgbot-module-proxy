@@ -16,7 +16,8 @@ final readonly class JudgeConnectPolicy
      */
     public function __construct(
         public readonly array $judgeUrls,
-    ) {}
+    ) {
+    }
 
     /**
      * Fail-closed verdict: the candidate URL must exactly match an allowlisted

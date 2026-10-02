@@ -21,7 +21,8 @@ final readonly class DnsLeakResult implements JsonSerializable
         public readonly bool $leaked,
         public readonly SocksDnsMode $mode,
         public readonly float $latencyMs,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

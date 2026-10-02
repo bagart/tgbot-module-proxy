@@ -25,7 +25,8 @@ final class CapabilityProbeRunner
         private readonly TransportAdapterResolver $adapterResolver,
         private readonly DnsResolverFactory $dnsResolverFactory,
         private readonly UdpAssociateProbeContract $udpAdapter,
-    ) {}
+    ) {
+    }
 
     /**
      * Probe all capabilities for a given proxy config.

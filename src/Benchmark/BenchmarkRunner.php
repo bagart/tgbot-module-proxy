@@ -7,7 +7,6 @@ namespace BAGArt\ProxyOperations\Benchmark;
 use BAGArt\ProxyOperations\Audit\LeaseService;
 use BAGArt\ProxyOperations\Models\ProxyEndpoint;
 use BAGArt\ProxyOperations\Tenancy\TenantContext;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Throwable;
 
@@ -23,7 +22,8 @@ final class BenchmarkRunner
     public function __construct(
         private readonly LeaseService $leases,
         private readonly TenantContext $tenant,
-    ) {}
+    ) {
+    }
 
     /**
      * Run SLO benchmark against a matrix of proxy formats and concurrency levels.

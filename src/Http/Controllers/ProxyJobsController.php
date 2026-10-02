@@ -17,7 +17,8 @@ final class ProxyJobsController
 {
     public function __construct(
         private readonly TenantContext $tenant,
-    ) {}
+    ) {
+    }
 
     public function index(): Response
     {

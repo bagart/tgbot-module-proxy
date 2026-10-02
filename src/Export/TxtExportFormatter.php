@@ -11,7 +11,8 @@ final class TxtExportFormatter implements ExportFormatter
 {
     public function __construct(
         private string $variant = 'host_port',
-    ) {}
+    ) {
+    }
 
     /**
      * @param  list<ExportView>  $views

@@ -18,7 +18,8 @@ class HealthController extends Controller
     public function __construct(
         private readonly ResourceGovernor $governor,
         private readonly HealthCheckerContract $healthChecker,
-    ) {}
+    ) {
+    }
 
     /**
      * Liveness probe — returns 200 if the process is alive.

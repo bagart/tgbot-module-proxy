@@ -12,14 +12,15 @@ final class ExportService
     public function __construct(
         private ExportViewRepository $repository,
         private FormatterRegistry $registry,
-    ) {}
+    ) {
+    }
 
     public function export(ExportQuery $query): ExportResult
     {
         $views = $this->repository->load($query);
 
         if ($query->tgReadyOnly) {
-            $views = (new TelegramReadyFilter)->filter($views);
+            $views = (new TelegramReadyFilter())->filter($views);
         }
 
         $formatter = $this->registry->get($query->format, $query->txtVariant);

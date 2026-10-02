@@ -30,7 +30,8 @@ final readonly class PoolPredicate implements JsonSerializable
         public readonly ?array $protocols = null,
         public readonly ?float $minHealthScore = null,
         public readonly ?bool $telegramUsableOnly = null,
-    ) {}
+    ) {
+    }
 
     public function matches(PoolCandidateView $candidate): bool
     {

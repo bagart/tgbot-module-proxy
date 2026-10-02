@@ -15,5 +15,6 @@ final readonly class ScoredCandidate
         public readonly string $accessId,
         public readonly ?float $score,
         public readonly int $activeLeases, // least-used signal (historical count)
-    ) {}
+    ) {
+    }
 }

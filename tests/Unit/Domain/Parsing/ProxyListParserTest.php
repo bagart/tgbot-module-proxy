@@ -10,7 +10,7 @@ use BAGArt\ProxyOperations\Domain\Parsing\ParseResult;
 use BAGArt\ProxyOperations\Domain\Parsing\ProxyListParser;
 
 it('parses socks5 with user:pass', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5://user:pass@1.2.3.4:1080');
 
     expect($result->entries)->toHaveCount(1)
@@ -30,7 +30,7 @@ it('parses socks5 with user:pass', function (): void {
 });
 
 it('parses http without credentials', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('http://proxy.example.com:8080');
 
     expect($result->entries)->toHaveCount(1);
@@ -45,7 +45,7 @@ it('parses http without credentials', function (): void {
 });
 
 it('parses bare host:port as socks5', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('1.2.3.4:1080');
 
     expect($result->entries)->toHaveCount(1);
@@ -58,7 +58,7 @@ it('parses bare host:port as socks5', function (): void {
 });
 
 it('parses user:pass@host:port without scheme', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('user:pass@1.2.3.4:1080');
 
     expect($result->entries)->toHaveCount(1);
@@ -73,7 +73,7 @@ it('parses user:pass@host:port without scheme', function (): void {
 });
 
 it('parses host:port:user:pass format', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('1.2.3.4:1080:user:pass');
 
     expect($result->entries)->toHaveCount(1);
@@ -88,7 +88,7 @@ it('parses host:port:user:pass format', function (): void {
 });
 
 it('parses space-separated host port', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('1.2.3.4 1080');
 
     expect($result->entries)->toHaveCount(1);
@@ -100,7 +100,7 @@ it('parses space-separated host port', function (): void {
 });
 
 it('parses mtproto scheme format', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('mtproto://aabbccdd11223344aabbccdd11223344@1.2.3.4:443');
 
     expect($result->entries)->toHaveCount(1);
@@ -115,7 +115,7 @@ it('parses mtproto scheme format', function (): void {
 });
 
 it('parses tg://proxy? query format', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('tg://proxy?server=1.2.3.4&port=443&secret=aabbccdd11223344aabbccdd11223344');
 
     expect($result->entries)->toHaveCount(1);
@@ -129,7 +129,7 @@ it('parses tg://proxy? query format', function (): void {
 });
 
 it('parses https://t.me/proxy? query format', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('https://t.me/proxy?server=1.2.3.4&port=443&secret=aabbccdd11223344aabbccdd11223344');
 
     expect($result->entries)->toHaveCount(1);
@@ -143,7 +143,7 @@ it('parses https://t.me/proxy? query format', function (): void {
 });
 
 it('expands CIDR /30 into 4 entries', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('10.0.0.0/30');
 
     expect($result->entries)->toHaveCount(4)
@@ -160,7 +160,7 @@ it('expands CIDR /30 into 4 entries', function (): void {
 });
 
 it('parses IPv6 host in brackets', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('[::1]:8080');
 
     expect($result->entries)->toHaveCount(1);
@@ -171,7 +171,7 @@ it('parses IPv6 host in brackets', function (): void {
 });
 
 it('parses IPv6 with scheme', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5://[2001:db8::1]:1080');
 
     expect($result->entries)->toHaveCount(1);
@@ -183,7 +183,7 @@ it('parses IPv6 with scheme', function (): void {
 });
 
 it('skips comment lines', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse("# this is a comment\n// another comment\n1.2.3.4:1080");
 
     expect($result->entries)->toHaveCount(1)
@@ -197,7 +197,7 @@ it('skips comment lines', function (): void {
 });
 
 it('skips empty lines', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse("\n\n1.2.3.4:1080\n\n");
 
     expect($result->entries)->toHaveCount(1)
@@ -209,7 +209,7 @@ it('skips empty lines', function (): void {
 });
 
 it('rejects vless with NonVpnRejected error', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('vless://user:pass@host:port');
 
     expect($result->entries)->toHaveCount(0)
@@ -220,7 +220,7 @@ it('rejects vless with NonVpnRejected error', function (): void {
 });
 
 it('rejects vmess with NonVpnRejected error', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('vmess://some-data');
 
     expect($result->entries)->toHaveCount(0)
@@ -228,7 +228,7 @@ it('rejects vmess with NonVpnRejected error', function (): void {
 });
 
 it('rejects trojan with NonVpnRejected error', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('trojan://user:pass@host:443');
 
     expect($result->entries)->toHaveCount(0)
@@ -236,7 +236,7 @@ it('rejects trojan with NonVpnRejected error', function (): void {
 });
 
 it('rejects ss with NonVpnRejected error', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('ss://some-data');
 
     expect($result->entries)->toHaveCount(0)
@@ -244,7 +244,7 @@ it('rejects ss with NonVpnRejected error', function (): void {
 });
 
 it('rejects wireguard with NonVpnRejected error', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('wireguard://config-data');
 
     expect($result->entries)->toHaveCount(0)
@@ -252,7 +252,7 @@ it('rejects wireguard with NonVpnRejected error', function (): void {
 });
 
 it('rejects openvpn with NonVpnRejected error', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('openvpn://config-data');
 
     expect($result->entries)->toHaveCount(0)
@@ -260,7 +260,7 @@ it('rejects openvpn with NonVpnRejected error', function (): void {
 });
 
 it('rejects VPN schemes case-insensitively', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse("VLESS://data\nTrojan://data\nSS://data");
 
     expect($result->entries)->toHaveCount(0)
@@ -272,7 +272,7 @@ it('rejects VPN schemes case-insensitively', function (): void {
 });
 
 it('rejects out-of-range port', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5://host:99999');
 
     expect($result->entries)->toHaveCount(0)
@@ -281,7 +281,7 @@ it('rejects out-of-range port', function (): void {
 });
 
 it('rejects port zero', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5://host:0');
 
     expect($result->entries)->toHaveCount(0)
@@ -289,7 +289,7 @@ it('rejects port zero', function (): void {
 });
 
 it('rejects empty host with scheme', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5://:1080');
 
     expect($result->entries)->toHaveCount(0)
@@ -297,7 +297,7 @@ it('rejects empty host with scheme', function (): void {
 });
 
 it('rejects malformed scheme URL', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('://host:1080');
 
     expect($result->entries)->toHaveCount(0)
@@ -316,7 +316,7 @@ it('rejects CIDR exceeding max expansion', function (): void {
 });
 
 it('rejects non-hex MTProto secret', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('mtproto://xyz@host:443');
 
     expect($result->entries)->toHaveCount(0)
@@ -325,7 +325,7 @@ it('rejects non-hex MTProto secret', function (): void {
 });
 
 it('rejects MTProto secret too short', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('mtproto://abc@host:443');
 
     expect($result->entries)->toHaveCount(0)
@@ -334,7 +334,7 @@ it('rejects MTProto secret too short', function (): void {
 });
 
 it('rejects bare IPv6 without brackets', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('::1:8080');
 
     expect($result->entries)->toHaveCount(0)
@@ -348,7 +348,7 @@ it('rejects bare IPv6 without brackets', function (): void {
 });
 
 it('rejects unsupported scheme', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('ftp://host:21');
 
     expect($result->entries)->toHaveCount(0)
@@ -357,7 +357,7 @@ it('rejects unsupported scheme', function (): void {
 });
 
 it('validates ParseResult counters are consistent', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse("socks5://u:p@1.2.3.4:1080\n# comment\nvless://data\n\nhttp://h:80");
 
     expect($result->totalLines)->toBe(5)
@@ -426,7 +426,7 @@ it('serializes ParseError correctly', function (): void {
 });
 
 it('parses MTProto with +r restricted prefix', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('mtproto://+raabbccdd11223344aabbccdd11223344@1.2.3.4:443');
 
     expect($result->entries)->toHaveCount(1)
@@ -436,7 +436,7 @@ it('parses MTProto with +r restricted prefix', function (): void {
 
 it('parses MTProto with FakeTLS (ee prefix, 34+ hex)', function (): void {
     $secret = 'ee'.str_repeat('ab', 17);
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse("mtproto://{$secret}@1.2.3.4:443");
 
     expect($result->entries)->toHaveCount(1)
@@ -444,7 +444,7 @@ it('parses MTProto with FakeTLS (ee prefix, 34+ hex)', function (): void {
 });
 
 it('uses default port for scheme when missing', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
 
     $result = $parser->parse('http://proxy.example.com');
     expect($result->errors)->not->toBeEmpty();
@@ -456,7 +456,7 @@ it('uses default port for scheme when missing', function (): void {
 
 it('parses multiple entries from multiline input', function (): void {
     $input = "# Proxy list\nsocks5://u:p@1.2.3.4:1080\nhttp://proxy.example.com:8080\n\n10.0.0.0/30\n";
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse($input);
 
     expect($result->entries)->toHaveCount(6)
@@ -467,7 +467,7 @@ it('parses multiple entries from multiline input', function (): void {
 });
 
 it('rejects host:port:user:pass with non-numeric port', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('abc:notaport:user:pass');
 
     expect($result->entries)->toHaveCount(0);
@@ -475,7 +475,7 @@ it('rejects host:port:user:pass with non-numeric port', function (): void {
 });
 
 it('http with user:pass uses BasicAuth credential kind', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('http://user:pass@proxy.example.com:8080');
 
     expect($result->entries)->toHaveCount(1)
@@ -484,7 +484,7 @@ it('http with user:pass uses BasicAuth credential kind', function (): void {
 });
 
 it('parses socks4a scheme', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks4a://1.2.3.4:1080');
 
     expect($result->entries)->toHaveCount(1)
@@ -492,7 +492,7 @@ it('parses socks4a scheme', function (): void {
 });
 
 it('parses socks5h scheme', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5h://1.2.3.4:1080');
 
     expect($result->entries)->toHaveCount(1)
@@ -500,7 +500,7 @@ it('parses socks5h scheme', function (): void {
 });
 
 it('parses CIDR with scheme and port', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5://10.0.0.0/30:9090');
 
     expect($result->entries)->toHaveCount(4)
@@ -513,7 +513,7 @@ it('parses CIDR with scheme and port', function (): void {
 });
 
 it('CIDR /31 produces 2 entries', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('192.168.1.0/31');
 
     expect($result->entries)->toHaveCount(2);
@@ -522,7 +522,7 @@ it('CIDR /31 produces 2 entries', function (): void {
 });
 
 it('CIDR /32 produces 1 entry', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('192.168.1.5/32');
 
     expect($result->entries)->toHaveCount(1)
@@ -539,7 +539,7 @@ it('CIDR /0 produces error when exceeding limit', function (): void {
 });
 
 it('rejects CIDR with invalid prefix', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('10.0.0.0/33');
 
     expect($result->entries)->toHaveCount(0);
@@ -547,7 +547,7 @@ it('rejects CIDR with invalid prefix', function (): void {
 });
 
 it('rejects CIDR with invalid base IP', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('not-an-ip/24');
 
     expect($result->entries)->toHaveCount(0);
@@ -555,7 +555,7 @@ it('rejects CIDR with invalid base IP', function (): void {
 });
 
 it('mtproto tg://proxy with IPv6 server', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('tg://proxy?server=2001:db8::1&port=443&secret=aabbccdd11223344aabbccdd11223344');
 
     expect($result->entries)->toHaveCount(1)
@@ -563,7 +563,7 @@ it('mtproto tg://proxy with IPv6 server', function (): void {
 });
 
 it('mtproto tg://proxy missing params returns error', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('tg://proxy?server=1.2.3.4');
 
     expect($result->entries)->toHaveCount(0)
@@ -571,7 +571,7 @@ it('mtproto tg://proxy missing params returns error', function (): void {
 });
 
 it('mtproto https://t.me/proxy? with missing secret', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('https://t.me/proxy?server=1.2.3.4&port=443');
 
     expect($result->entries)->toHaveCount(0)
@@ -579,7 +579,7 @@ it('mtproto https://t.me/proxy? with missing secret', function (): void {
 });
 
 it('non-recognized scheme returns UnsupportedScheme', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('telnet://host:23');
 
     expect($result->entries)->toHaveCount(0)
@@ -588,7 +588,7 @@ it('non-recognized scheme returns UnsupportedScheme', function (): void {
 
 it('rawLine in ParseError is truncated to 200 chars', function (): void {
     $longLine = str_repeat('x', 300);
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse($longLine);
 
     expect($result->errors)->not->toBeEmpty()
@@ -635,7 +635,7 @@ it('fromJson roundtrip for ParsedEntry omits secret', function (): void {
 });
 
 it('fromJson roundtrip for ParseResult', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse("socks5://u:p@1.2.3.4:1080\n# comment\n");
 
     $json = $result->jsonSerialize();
@@ -649,7 +649,7 @@ it('fromJson roundtrip for ParseResult', function (): void {
 });
 
 it('empty input produces empty result', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('');
 
     expect($result->entries)->toHaveCount(0)
@@ -660,7 +660,7 @@ it('empty input produces empty result', function (): void {
 });
 
 it('all-comment input produces errors only', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse("# comment 1\n# comment 2");
 
     expect($result->entries)->toHaveCount(0)
@@ -670,7 +670,7 @@ it('all-comment input produces errors only', function (): void {
 });
 
 it('rejects scheme with empty host:port', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5://');
 
     expect($result->entries)->toHaveCount(0);
@@ -678,7 +678,7 @@ it('rejects scheme with empty host:port', function (): void {
 });
 
 it('accepts https scheme with user:pass', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('https://admin:secret@secure.proxy.com:443');
 
     expect($result->entries)->toHaveCount(1)
@@ -688,7 +688,7 @@ it('accepts https scheme with user:pass', function (): void {
 });
 
 it('non-VPN guard triggers before scheme detection', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('vless://user:pass@1.2.3.4:443');
 
     expect($result->errors[0]->code)->toBe(ParseErrorCode::NonVpnRejected)
@@ -713,7 +713,7 @@ it('password in jsonSerialize is excluded', function (): void {
 });
 
 it('socks4 scheme is accepted', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks4://1.2.3.4:1080');
 
     expect($result->entries)->toHaveCount(1)
@@ -722,7 +722,7 @@ it('socks4 scheme is accepted', function (): void {
 });
 
 it('IPv6 host with scheme and credentials', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5://user:pass@[::1]:1080');
 
     expect($result->entries)->toHaveCount(1)
@@ -732,7 +732,7 @@ it('IPv6 host with scheme and credentials', function (): void {
 });
 
 it('trims trailing whitespace from lines', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse("1.2.3.4:1080   \n");
 
     expect($result->entries)->toHaveCount(1)
@@ -741,7 +741,7 @@ it('trims trailing whitespace from lines', function (): void {
 });
 
 it('rejects CIDR with prefix 33', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('10.0.0.0/33');
 
     expect($result->entries)->toHaveCount(0);
@@ -749,7 +749,7 @@ it('rejects CIDR with prefix 33', function (): void {
 });
 
 it('rejects negative port', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5://host:-1');
 
     expect($result->entries)->toHaveCount(0)
@@ -758,7 +758,7 @@ it('rejects negative port', function (): void {
 
 it('mtproto with dd-padded secret (34 hex chars)', function (): void {
     $secret = 'dd'.str_repeat('ab', 16);
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse("mtproto://{$secret}@1.2.3.4:443");
 
     expect($result->entries)->toHaveCount(1)

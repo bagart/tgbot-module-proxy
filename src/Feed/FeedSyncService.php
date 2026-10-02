@@ -32,7 +32,8 @@ final class FeedSyncService implements FeedSyncContract
     public function __construct(
         private readonly ProxyListParser $parser,
         private readonly TenantContext $tenant,
-    ) {}
+    ) {
+    }
 
     public function syncFeed(ProxyFeedSource $feed): array
     {

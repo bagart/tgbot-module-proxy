@@ -25,7 +25,8 @@ final readonly class ProxyLeaseDto implements JsonSerializable
         public readonly string $purpose,
         public readonly int $acquiredAtMs,
         public readonly int $expiresAtMs,
-    ) {}
+    ) {
+    }
 
     /**
      * Milliseconds of lease life remaining (negative = expired).

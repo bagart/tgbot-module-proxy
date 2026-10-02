@@ -17,7 +17,7 @@ use InvalidArgumentException;
 final readonly class FreshnessAwareEligibilityPolicy implements VerifiedEligibilityPolicy
 {
     public function __construct(
-        private EvidenceApplicability $applicability = new EvidenceApplicability,
+        private EvidenceApplicability $applicability = new EvidenceApplicability(),
         public int $telegramFreshnessSeconds = 21600,
     ) {
         if ($this->telegramFreshnessSeconds < 1) {

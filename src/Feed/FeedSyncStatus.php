@@ -16,7 +16,8 @@ final readonly class FeedSyncStatus
         public readonly int $skipped,
         public readonly int $errors,
         public readonly ?string $lastError = null,
-    ) {}
+    ) {
+    }
 
     public static function success(int $feedId, string $url, int $imported, int $skipped): self
     {

@@ -20,7 +20,9 @@ use InvalidArgumentException;
  */
 final class PoolRepository
 {
-    public function __construct(private readonly TenantContext $tenant) {}
+    public function __construct(private readonly TenantContext $tenant)
+    {
+    }
 
     /**
      * @param  array<string, mixed>  $attributes  Pool columns except tenant_id.

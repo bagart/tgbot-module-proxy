@@ -9,7 +9,6 @@ use BAGArt\ProxyOperations\Models\AuditAttemptStatus;
 use BAGArt\ProxyOperations\Models\AuditJobStatus;
 use BAGArt\ProxyOperations\Models\ProxyAccess;
 use BAGArt\ProxyOperations\Models\ProxyAuditAttempt;
-use BAGArt\ProxyOperations\Models\ProxyAuditJob;
 use BAGArt\ProxyOperations\Wire\AuditResultStatus;
 use BAGArt\ProxyOperations\Wire\AuditResultV1;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +33,8 @@ final class ResultIngestionService
         private readonly HealthEvaluator $healthEvaluator,
         private readonly AuditEventRecorder $eventRecorder,
         private readonly ObservationWriter $observationWriter,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws ForeignAccessIdException When attempt/access do not resolve

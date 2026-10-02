@@ -7,7 +7,7 @@ use BAGArt\ProxyOperations\Domain\Parsing\ParseErrorCode;
 use BAGArt\ProxyOperations\Domain\Parsing\ProxyListParser;
 
 it('parses socks5 with user:pass credentials', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5://admin:secret@1.2.3.4:1080');
 
     expect($result->parsedCount)->toBe(1)
@@ -23,7 +23,7 @@ it('parses socks5 with user:pass credentials', function (): void {
 });
 
 it('parses socks4 bare host:port', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks4://1.2.3.4:1080');
 
     expect($result->parsedCount)->toBe(1);
@@ -35,7 +35,7 @@ it('parses socks4 bare host:port', function (): void {
 });
 
 it('parses http with basic auth', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('http://user:pass@1.2.3.4:8080');
 
     expect($result->parsedCount)->toBe(1);
@@ -45,7 +45,7 @@ it('parses http with basic auth', function (): void {
 });
 
 it('parses https with basic auth', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('https://user:pass@1.2.3.4:8443');
 
     expect($result->parsedCount)->toBe(1);
@@ -55,7 +55,7 @@ it('parses https with basic auth', function (): void {
 });
 
 it('parses bare host:port as socks5', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('1.2.3.4:1080');
 
     expect($result->parsedCount)->toBe(1);
@@ -66,7 +66,7 @@ it('parses bare host:port as socks5', function (): void {
 });
 
 it('parses user:pass@host:port without scheme as socks5', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('admin:secret@1.2.3.4:1080');
 
     expect($result->parsedCount)->toBe(1);
@@ -77,7 +77,7 @@ it('parses user:pass@host:port without scheme as socks5', function (): void {
 });
 
 it('assigns default port per scheme', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
 
     $socks = $parser->parse('1.2.3.4:1080');
     expect($socks->entries[0]->port)->toBe(1080);
@@ -90,7 +90,7 @@ it('assigns default port per scheme', function (): void {
 });
 
 it('parses IPv6 with brackets in bare format', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('[::1]:1080');
 
     expect($result->parsedCount)->toBe(1);
@@ -100,7 +100,7 @@ it('parses IPv6 with brackets in bare format', function (): void {
 });
 
 it('parses IPv6 with brackets in scheme format', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5://[::1]:1080');
 
     expect($result->parsedCount)->toBe(1);
@@ -110,7 +110,7 @@ it('parses IPv6 with brackets in scheme format', function (): void {
 });
 
 it('expands CIDR within limit', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('10.0.0.0/30');
 
     expect($result->parsedCount)->toBe(4)
@@ -121,7 +121,7 @@ it('expands CIDR within limit', function (): void {
 });
 
 it('tracks line numbers correctly in errors', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $text = "1.2.3.4:1080\nvless://bad@host:443\n1.2.3.5:1080";
     $result = $parser->parse($text);
 
@@ -134,7 +134,7 @@ it('tracks line numbers correctly in errors', function (): void {
 });
 
 it('parses socks5h protocol', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks5h://1.2.3.4:1080');
 
     expect($result->parsedCount)->toBe(1);
@@ -142,7 +142,7 @@ it('parses socks5h protocol', function (): void {
 });
 
 it('parses socks4a protocol', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $result = $parser->parse('socks4a://1.2.3.4:1080');
 
     expect($result->parsedCount)->toBe(1);
@@ -150,7 +150,7 @@ it('parses socks4a protocol', function (): void {
 });
 
 it('parses mtproto with valid hex secret', function (): void {
-    $parser = new ProxyListParser;
+    $parser = new ProxyListParser();
     $secret = bin2hex(random_bytes(16));
     $result = $parser->parse("mtproto://{$secret}@1.2.3.4:443");
 

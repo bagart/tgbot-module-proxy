@@ -46,7 +46,9 @@ final readonly class ProbeCacheKeyFactory
      *                                              passes them in because the worker keeps no
      *                                              snapshot store of its own.
      */
-    public function __construct(private readonly array $nodeIdentity) {}
+    public function __construct(private readonly array $nodeIdentity)
+    {
+    }
 
     /**
      * @param  string  $semanticsBase  Probe-semantics version of the planner build (bumped when

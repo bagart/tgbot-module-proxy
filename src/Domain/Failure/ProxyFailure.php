@@ -16,7 +16,8 @@ final readonly class ProxyFailure implements Failure
     public function __construct(
         public FailureDescriptor $descriptor,
         public array $context = [],
-    ) {}
+    ) {
+    }
 
     public function descriptor(): FailureDescriptor
     {

@@ -19,7 +19,8 @@ final readonly class CredentialFingerprint implements JsonSerializable
 
     public function __construct(
         public readonly string $value,
-    ) {}
+    ) {
+    }
 
     /**
      * Username is normalized (trimmed, lowercased); the password participates

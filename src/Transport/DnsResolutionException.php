@@ -9,4 +9,6 @@ use RuntimeException;
 /**
  * Thrown when DNS resolution fails through any resolver mode.
  */
-final class DnsResolutionException extends RuntimeException {}
+final class DnsResolutionException extends RuntimeException
+{
+}

@@ -16,7 +16,8 @@ final class ProxyInventoryController
 {
     public function __construct(
         private readonly TenantContext $tenant,
-    ) {}
+    ) {
+    }
 
     public function index(): Response
     {

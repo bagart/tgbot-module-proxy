@@ -22,5 +22,6 @@ final readonly class ExportView
         public string $accessState,
         public ?bool $telegramUsable,
         public ?string $country,
-    ) {}
+    ) {
+    }
 }

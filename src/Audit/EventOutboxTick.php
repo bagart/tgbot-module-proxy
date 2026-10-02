@@ -23,7 +23,8 @@ final class EventOutboxTick implements ASKTickableContract
         private readonly EventOutboxDispatcher $dispatcher,
         private readonly int $batchSize = 100,
         private readonly string $name = 'EventOutboxTick',
-    ) {}
+    ) {
+    }
 
     public function tick(int $systemPressure): void
     {

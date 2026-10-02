@@ -47,8 +47,9 @@ use InvalidArgumentException;
 final class ProbeDataEvidenceExtractor
 {
     public function __construct(
-        private readonly EvidenceApplicability $applicability = new EvidenceApplicability,
-    ) {}
+        private readonly EvidenceApplicability $applicability = new EvidenceApplicability(),
+    ) {
+    }
 
     /**
      * @param  array<string, list<array<string,mixed>>>  $probeData

@@ -11,5 +11,6 @@ final readonly class WorkspaceSettingsQuery implements ApplicationQuery
 {
     public function __construct(
         public string $tenantId,
-    ) {}
+    ) {
+    }
 }

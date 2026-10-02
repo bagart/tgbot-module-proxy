@@ -8,7 +8,6 @@ use BAGArt\AsyncKernel\ASKShutdownContext;
 use BAGArt\AsyncKernel\Contracts\ASKSchedulerContract;
 use BAGArt\AsyncKernel\Contracts\Daemons\ASKDaemonContract;
 use BAGArt\AsyncKernel\Contracts\Daemons\ASKShutdownAware;
-use BAGArt\AsyncKernel\Contracts\Daemons\ASKTickableContract;
 use BAGArt\AsyncKernel\Contracts\Daemons\ASKWarmableContract;
 use BAGArt\AsyncKernel\Contracts\Daemons\WithASKTickableContract;
 use BAGArt\AsyncKernel\Wrappers\ASKLogWrapper;
@@ -52,7 +51,8 @@ final class TransportCapabilityDaemon implements ASKDaemonContract, ASKWarmableC
         private readonly ?ASKLogWrapper $logger = null,
         private readonly int $taskBatchSize = 1,
         private readonly int $pressureQueueCapacity = 256,
-    ) {}
+    ) {
+    }
 
     public function warm(): void
     {

@@ -46,7 +46,7 @@ final class DimensionalHealthEvaluator implements HealthEvaluator
 {
     public function __construct(
         private readonly HysteresisPolicy $hysteresis,
-        private readonly EvidenceApplicability $applicability = new EvidenceApplicability,
+        private readonly EvidenceApplicability $applicability = new EvidenceApplicability(),
         private readonly int $telegramFreshnessSeconds = 21600,
         private readonly string $healthFormulaVersion = 'dimensional-v1',
     ) {
@@ -298,7 +298,7 @@ final class DimensionalHealthEvaluator implements HealthEvaluator
             return true;
         }
 
-        return $this->hysteresis->allowsFlip($access->state_changed_at, new DateTimeImmutable);
+        return $this->hysteresis->allowsFlip($access->state_changed_at, new DateTimeImmutable());
     }
 
     /**

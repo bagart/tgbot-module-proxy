@@ -280,7 +280,7 @@ it('rejects checker-class failure codes as proxy observations (INV-014)', functi
         status: AuditResultStatus::Failed,
         observations: [
             new ProxyFailure(
-                (new FailureTaxonomy)->descriptor(FailureCode::ToolTimeout),
+                (new FailureTaxonomy())->descriptor(FailureCode::ToolTimeout),
                 ['tool' => 'socks-checker'],
             ),
         ],
@@ -298,7 +298,7 @@ it('accepts TOOL_TIMEOUT as an execution failure instead (INV-014)', function ()
         observations: [],
         executionFailures: [
             new ExecutionFailure(
-                (new FailureTaxonomy)->descriptor(FailureCode::ToolTimeout),
+                (new FailureTaxonomy())->descriptor(FailureCode::ToolTimeout),
                 ['tool' => 'socks-checker'],
             ),
         ],
@@ -312,7 +312,7 @@ it('accepts TOOL_TIMEOUT as an execution failure instead (INV-014)', function ()
 });
 
 it('gives checker-infrastructure faults zero health influence (INV-015)', function (): void {
-    $taxonomy = new FailureTaxonomy;
+    $taxonomy = new FailureTaxonomy();
 
     foreach (FailureCode::cases() as $code) {
         if ($code->class()->isExecutionFailure()) {

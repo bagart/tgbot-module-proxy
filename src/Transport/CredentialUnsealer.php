@@ -18,7 +18,8 @@ final readonly class CredentialUnsealer
 {
     public function __construct(
         private readonly CredentialDecryptor $decryptor,
-    ) {}
+    ) {
+    }
 
     public function unseal(SealedCredentialPayload $sealed): CredentialPayload
     {

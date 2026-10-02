@@ -16,7 +16,7 @@ use BAGArt\ProxyOperations\Tool\ProbeToolResult;
 use BAGArt\ProxyOperations\Wire\AuditResultStatus;
 
 beforeEach(function (): void {
-    $this->taxonomy = new FailureTaxonomy;
+    $this->taxonomy = new FailureTaxonomy();
     $this->classifier = new ProbeOutcomeClassifier($this->taxonomy);
     $this->normalizer = new ExecutionResultNormalizer($this->taxonomy, $this->classifier);
 });

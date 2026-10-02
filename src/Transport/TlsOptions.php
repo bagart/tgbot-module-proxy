@@ -18,7 +18,8 @@ final readonly class TlsOptions implements JsonSerializable
         public readonly bool $verifyPeer = true,
         public readonly bool $allowSelfSigned = false,
         public readonly ?string $caBundlePath = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

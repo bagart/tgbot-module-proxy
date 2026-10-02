@@ -12,5 +12,6 @@ final readonly class JudgeBudgetConfig
     public function __construct(
         public int $rateLimitPerMinute,
         public int $windowSeconds,
-    ) {}
+    ) {
+    }
 }

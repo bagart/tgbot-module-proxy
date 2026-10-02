@@ -20,7 +20,8 @@ final readonly class UdpEvidence implements DimensionEvidence
         public ?float $roundTripMs,
         public ?FailureCode $failureCode,
         public DateTimeImmutable $measuredAt,
-    ) {}
+    ) {
+    }
 
     public function type(): EvidenceType
     {

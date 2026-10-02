@@ -14,14 +14,14 @@ use BAGArt\ProxyOperations\Transport\SocksOptions;
 use BAGArt\ProxyOperations\Transport\TlsOptions;
 
 it('rejects non-Socks5 scheme', function (): void {
-    $adapter = new Socks5Adapter;
+    $adapter = new Socks5Adapter();
     $config = new ProxyConfig(
         scheme: ProxyProtocol::Http,
         host: '127.0.0.1',
         port: 80,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $adapter->connect($config, 'example.com', 80);
@@ -37,8 +37,8 @@ it('connects through mock SOCKS5 proxy with no-auth method', function (): void {
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $pid = pcntl_fork();
@@ -64,7 +64,7 @@ it('connects through mock SOCKS5 proxy with no-auth method', function (): void {
         exit(0);
     }
 
-    $adapter = new Socks5Adapter;
+    $adapter = new Socks5Adapter();
     $stream = $adapter->connect($config, '10.0.0.1', 80);
 
     expect($stream)->not->toBeFalse();
@@ -85,8 +85,8 @@ it('sends correct SOCKS5 greeting with no-auth and user/pass methods', function 
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $pid = pcntl_fork();
@@ -114,7 +114,7 @@ it('sends correct SOCKS5 greeting with no-auth and user/pass methods', function 
         exit(0);
     }
 
-    $adapter = new Socks5Adapter;
+    $adapter = new Socks5Adapter();
     $adapter->connect($config, '10.0.0.1', 80);
     $adapter->close();
     pcntl_waitpid($pid, $status);
@@ -141,10 +141,10 @@ it('performs user/pass sub-negotiation when proxy selects method 0x02', function
         port: $port,
         credential: new ProxyCredentialRef(
             username: 'admin',
-            channel: new StdinChannel,
+            channel: new StdinChannel(),
         ),
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $pid = pcntl_fork();
@@ -176,7 +176,7 @@ it('performs user/pass sub-negotiation when proxy selects method 0x02', function
         exit(0);
     }
 
-    $adapter = new Socks5Adapter;
+    $adapter = new Socks5Adapter();
     $adapter->connect($config, '10.0.0.1', 80);
     $adapter->close();
     pcntl_waitpid($pid, $status);
@@ -203,8 +203,8 @@ it('sends domain atyp=0x03 for SOCKS5h', function (): void {
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $pid = pcntl_fork();
@@ -232,7 +232,7 @@ it('sends domain atyp=0x03 for SOCKS5h', function (): void {
         exit(0);
     }
 
-    $adapter = new Socks5Adapter;
+    $adapter = new Socks5Adapter();
     $adapter->connect($config, 'example.com', 443);
     $adapter->close();
     pcntl_waitpid($pid, $status);
@@ -260,8 +260,8 @@ it('throws TransportAuthException on SOCKS5 auth failure (0xFF method)', functio
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $pid = pcntl_fork();
@@ -283,7 +283,7 @@ it('throws TransportAuthException on SOCKS5 auth failure (0xFF method)', functio
         exit(0);
     }
 
-    $adapter = new Socks5Adapter;
+    $adapter = new Socks5Adapter();
     $adapter->connect($config, '10.0.0.1', 80);
 })->throws(TransportAuthException::class, 'rejected all authentication methods');
 
@@ -297,8 +297,8 @@ it('throws TransportConnectionException on SOCKS5 CONNECT failure', function ():
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $pid = pcntl_fork();
@@ -324,7 +324,7 @@ it('throws TransportConnectionException on SOCKS5 CONNECT failure', function ():
         exit(0);
     }
 
-    $adapter = new Socks5Adapter;
+    $adapter = new Socks5Adapter();
     $adapter->connect($config, '10.0.0.1', 80);
 })->throws(TransportConnectionException::class, 'SOCKS5 connection refused');
 
@@ -334,16 +334,16 @@ it('throws TransportConnectionException when proxy is unreachable', function ():
         host: '127.0.0.1',
         port: 19999,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
-    $adapter = new Socks5Adapter;
+    $adapter = new Socks5Adapter();
     $adapter->connect($config, '10.0.0.1', 80);
 })->throws(TransportConnectionException::class, 'Cannot connect to SOCKS5 proxy');
 
 it('close is idempotent', function (): void {
-    $adapter = new Socks5Adapter;
+    $adapter = new Socks5Adapter();
 
     $adapter->close();
     $adapter->close();

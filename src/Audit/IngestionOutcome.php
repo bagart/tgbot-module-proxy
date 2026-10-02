@@ -18,7 +18,8 @@ final readonly class IngestionOutcome
         public readonly bool $duplicate,
         public readonly ?string $observationId,
         public readonly ?AccessState $stateTransition,
-    ) {}
+    ) {
+    }
 
     public static function duplicate(): self
     {

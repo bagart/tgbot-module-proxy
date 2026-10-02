@@ -15,7 +15,9 @@ final readonly class MtprotoOptions extends TransportOptions implements JsonSeri
 {
     public const int SCHEMA_VERSION = 1;
 
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     /**
      * @return array<string,mixed>
@@ -45,6 +47,6 @@ final readonly class MtprotoOptions extends TransportOptions implements JsonSeri
      */
     private static function fromJsonV1(array $data): self
     {
-        return new self;
+        return new self();
     }
 }

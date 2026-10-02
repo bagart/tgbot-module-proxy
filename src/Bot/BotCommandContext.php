@@ -16,5 +16,6 @@ final readonly class BotCommandContext
         public string $command,
         public string $arguments,
         public string $locale = 'en',
-    ) {}
+    ) {
+    }
 }

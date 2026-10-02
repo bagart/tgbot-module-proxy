@@ -20,7 +20,8 @@ final readonly class AccessIdentity implements JsonSerializable
     public function __construct(
         public readonly EndpointIdentity $endpoint,
         public readonly CredentialFingerprint $credential,
-    ) {}
+    ) {
+    }
 
     /**
      * Derived stable key: sha256 over the canonical endpoint URI and the

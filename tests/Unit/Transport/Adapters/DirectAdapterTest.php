@@ -20,7 +20,7 @@ it('connects directly to a TCP server without proxy', function (): void {
         port: $port,
         credential: null,
         tls: new TlsOptions(verifyPeer: false),
-        transportOptions: new HttpConnectOptions,
+        transportOptions: new HttpConnectOptions(),
     );
 
     $pid = pcntl_fork();
@@ -39,7 +39,7 @@ it('connects directly to a TCP server without proxy', function (): void {
         exit(0);
     }
 
-    $adapter = new DirectAdapter;
+    $adapter = new DirectAdapter();
     $stream = $adapter->connect($config, '127.0.0.1', $port);
 
     expect($stream)->not->toBeFalse();
@@ -60,15 +60,15 @@ it('throws TransportConnectionException when target is unreachable', function ()
         port: 19999,
         credential: null,
         tls: new TlsOptions(verifyPeer: false),
-        transportOptions: new HttpConnectOptions,
+        transportOptions: new HttpConnectOptions(),
     );
 
-    $adapter = new DirectAdapter;
+    $adapter = new DirectAdapter();
     $adapter->connect($config, '127.0.0.1', 19999);
 })->throws(TransportConnectionException::class, 'Direct connection');
 
 it('close is idempotent', function (): void {
-    $adapter = new DirectAdapter;
+    $adapter = new DirectAdapter();
 
     $adapter->close();
     $adapter->close();
@@ -89,7 +89,7 @@ it('closes previous stream on reconnect', function (): void {
         port: $port1,
         credential: null,
         tls: new TlsOptions(verifyPeer: false),
-        transportOptions: new HttpConnectOptions,
+        transportOptions: new HttpConnectOptions(),
     );
 
     $config2 = new ProxyConfig(
@@ -98,7 +98,7 @@ it('closes previous stream on reconnect', function (): void {
         port: $port2,
         credential: null,
         tls: new TlsOptions(verifyPeer: false),
-        transportOptions: new HttpConnectOptions,
+        transportOptions: new HttpConnectOptions(),
     );
 
     $pid = pcntl_fork();
@@ -121,7 +121,7 @@ it('closes previous stream on reconnect', function (): void {
         exit(0);
     }
 
-    $adapter = new DirectAdapter;
+    $adapter = new DirectAdapter();
 
     $stream1 = $adapter->connect($config1, '127.0.0.1', $port1);
     expect($stream1)->not->toBeFalse();

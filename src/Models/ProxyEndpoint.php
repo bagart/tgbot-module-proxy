@@ -47,7 +47,7 @@ final class ProxyEndpoint extends Model
     protected static function booted(): void
     {
         self::creating(function (self $endpoint): void {
-            $identity = (new EndpointCanonicalizer)->canonicalize(
+            $identity = (new EndpointCanonicalizer())->canonicalize(
                 host: $endpoint->host,
                 port: $endpoint->port,
                 protocol: $endpoint->protocol,
@@ -76,7 +76,7 @@ final class ProxyEndpoint extends Model
      */
     public static function fromIdentity(EndpointIdentity $identity, ?string $originalHost = null, ?string $comment = null): self
     {
-        return (new self)->fill([
+        return (new self())->fill([
             'protocol' => $identity->protocol,
             'host' => $originalHost ?? $identity->host,
             'port' => $identity->port,

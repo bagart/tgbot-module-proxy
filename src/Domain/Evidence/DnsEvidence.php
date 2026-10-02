@@ -21,7 +21,8 @@ final readonly class DnsEvidence implements DimensionEvidence
         public ?float $resolutionDurationMs,
         public ?FailureCode $failureCode,
         public DateTimeImmutable $measuredAt,
-    ) {}
+    ) {
+    }
 
     public function type(): EvidenceType
     {

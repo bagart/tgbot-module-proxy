@@ -19,7 +19,8 @@ final readonly class JobIdempotencyKey
 
     private function __construct(
         public readonly string $value,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws RuntimeException If the client key is empty.

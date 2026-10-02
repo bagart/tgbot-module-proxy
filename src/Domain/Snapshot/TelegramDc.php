@@ -23,7 +23,8 @@ final readonly class TelegramDc implements JsonSerializable
         public readonly array $addresses,
         public readonly array $ports,
         public readonly bool $enabled,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

@@ -6,7 +6,6 @@ namespace BAGArt\ProxyOperations\Audit;
 
 use BAGArt\ProxyOperations\Domain\Identity\AccessIdentity;
 use BAGArt\ProxyOperations\Domain\Identity\CredentialFingerprint;
-use BAGArt\ProxyOperations\Domain\Probe\ProbeProfile;
 use BAGArt\ProxyOperations\Domain\Probe\ProbeProfileDefinition;
 use BAGArt\ProxyOperations\Encryption\EncryptedField;
 use BAGArt\ProxyOperations\Models\ProxyAccess;

@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace BAGArt\ProxyOperations\Incident;
 
 use BAGArt\ProxyOperations\Models\Incident;
-use BAGArt\ProxyOperations\Models\IncidentAction;
 use BAGArt\ProxyOperations\Models\IncidentSeverity;
 use BAGArt\ProxyOperations\Models\IncidentStatus;
-use BAGArt\ProxyOperations\Models\ProxyEndpoint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 

@@ -23,7 +23,8 @@ final readonly class ProbeToolResult
         public readonly array $observations,
         public readonly array $timingsMs,
         public readonly ?ExecutionFailure $failure,
-    ) {}
+    ) {
+    }
 
     /**
      * @param  array<string, mixed>  $observations

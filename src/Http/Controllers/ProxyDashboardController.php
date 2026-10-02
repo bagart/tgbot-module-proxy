@@ -7,7 +7,6 @@ namespace BAGArt\ProxyOperations\Http\Controllers;
 use BAGArt\ProxyOperations\Models\ProxyAccess;
 use BAGArt\ProxyOperations\Models\ProxyEndpoint;
 use BAGArt\ProxyOperations\Tenancy\TenantContext;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,7 +15,8 @@ final class ProxyDashboardController
 {
     public function __construct(
         private readonly TenantContext $tenant,
-    ) {}
+    ) {
+    }
 
     public function index(): Response
     {

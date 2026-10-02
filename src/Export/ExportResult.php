@@ -17,7 +17,8 @@ final readonly class ExportResult
         public string $filename,
         public string $exportId,
         public int $recordCount,
-    ) {}
+    ) {
+    }
 
     public static function make(string $content, string $mimeType, string $extension, int $recordCount): self
     {

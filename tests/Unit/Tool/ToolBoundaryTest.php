@@ -20,7 +20,7 @@ function probeExecutionContext(): ProbeExecutionContext
     return new ProbeExecutionContext(
         host: '192.0.2.10',
         port: 1080,
-        credentials: new StdinChannel,
+        credentials: new StdinChannel(),
         spec: new ProbeSpec(ProbeType::DnsResolution, 'https://judge.example/check'),
         timeoutMs: 5000,
         maxOutputBytes: 65536,
@@ -47,7 +47,7 @@ it('rejects an empty endpoint host', function (): void {
     new ProbeExecutionContext(
         host: '',
         port: 1080,
-        credentials: new StdinChannel,
+        credentials: new StdinChannel(),
         spec: new ProbeSpec(ProbeType::HttpLiveness, 'target'),
         timeoutMs: 1000,
         maxOutputBytes: 1024,
@@ -58,7 +58,7 @@ it('rejects an out-of-range endpoint port', function (int $port): void {
     new ProbeExecutionContext(
         host: 'proxy.example',
         port: $port,
-        credentials: new StdinChannel,
+        credentials: new StdinChannel(),
         spec: new ProbeSpec(ProbeType::HttpLiveness, 'target'),
         timeoutMs: 1000,
         maxOutputBytes: 1024,
@@ -96,7 +96,7 @@ it('returns observations and timings on success', function (): void {
 });
 
 it('returns only an execution failure on tool-level faults', function (): void {
-    $failure = (new FailureTaxonomy)->failure(FailureCode::ToolTimeout, ['tool' => 'socks-checker']);
+    $failure = (new FailureTaxonomy())->failure(FailureCode::ToolTimeout, ['tool' => 'socks-checker']);
 
     $result = ProbeToolResult::failed($failure, ['elapsed_ms' => 30000.0]);
 

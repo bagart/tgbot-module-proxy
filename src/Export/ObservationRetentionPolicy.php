@@ -14,5 +14,6 @@ final readonly class ObservationRetentionPolicy
         public bool $enabled = false,
         public int $retentionDays = 365,
         public bool $partitioning = true,
-    ) {}
+    ) {
+    }
 }

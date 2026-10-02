@@ -35,7 +35,8 @@ final class JobStarter
         private readonly JobPlacementDedup $placement,
         private readonly TenantContext $tenant,
         private readonly int $placementTtlSeconds, // from config
-    ) {}
+    ) {
+    }
 
     /**
      * @return ProxyAuditJob Newly created, or the existing job in the TTL window.
@@ -69,7 +70,7 @@ final class JobStarter
 
         // forceFill: the dedup key was claimed for this exact id, so the row
         // id must match what the placement store remembers.
-        $job = new ProxyAuditJob;
+        $job = new ProxyAuditJob();
         $job->forceFill([
             'id' => $jobId,
             'trigger' => $request->trigger,

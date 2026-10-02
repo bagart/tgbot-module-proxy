@@ -16,7 +16,8 @@ final class StartAuditHandler
     public function __construct(
         private JobStarter $jobStarter,
         private QuotaEnforcer $quotaEnforcer,
-    ) {}
+    ) {
+    }
 
     public function handle(StartAuditCommand $command): CommandResult
     {

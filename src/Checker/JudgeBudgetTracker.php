@@ -15,7 +15,8 @@ final class JudgeBudgetTracker
 
     public function __construct(
         private readonly JudgeBudgetConfig $config,
-    ) {}
+    ) {
+    }
 
     public function allow(string $judgeId): bool
     {

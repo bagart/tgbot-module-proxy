@@ -19,5 +19,6 @@ final readonly class UdpRelayHandle
         public readonly mixed $controlSocket,
         /** @var resource */
         public readonly mixed $udpSocket,
-    ) {}
+    ) {
+    }
 }

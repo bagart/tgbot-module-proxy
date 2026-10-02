@@ -6,7 +6,6 @@ namespace BAGArt\ProxyOperations\Http\Laravel\Controllers;
 
 use BAGArt\ProxyOperations\Application\ImportProxiesCommand;
 use BAGArt\ProxyOperations\Application\ImportProxiesHandler;
-use BAGArt\ProxyOperations\Application\ExportInventoryCommand;
 use BAGArt\ProxyOperations\Application\ExportInventoryHandler;
 use BAGArt\ProxyOperations\Audit\LeaseService;
 use BAGArt\ProxyOperations\Audit\ResultIngestionService;
@@ -27,7 +26,8 @@ class GatewayController extends Controller
         private readonly ExportInventoryHandler $exportHandler,
         private readonly LeaseService $leases,
         private readonly ResultIngestionService $ingestion,
-    ) {}
+    ) {
+    }
 
     /**
      * GET /api/v1/proxies — list proxies

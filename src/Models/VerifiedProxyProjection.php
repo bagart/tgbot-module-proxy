@@ -29,7 +29,8 @@ use Illuminate\Support\Carbon;
  */
 class VerifiedProxyProjection extends Model
 {
-    use BelongsToTenant, HasUuids;
+    use BelongsToTenant;
+    use HasUuids;
 
     protected $table = 'verified_proxies';
 

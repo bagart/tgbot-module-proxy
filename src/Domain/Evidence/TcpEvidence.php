@@ -17,7 +17,8 @@ final readonly class TcpEvidence implements DimensionEvidence
         public ?int $latencyMs,
         public ?FailureCode $failureCode,
         public DateTimeImmutable $measuredAt,
-    ) {}
+    ) {
+    }
 
     public function type(): EvidenceType
     {

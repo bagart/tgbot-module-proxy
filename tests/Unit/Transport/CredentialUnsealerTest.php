@@ -15,11 +15,11 @@ it('unseals a sealed envelope into CredentialPayload', function (): void {
         nonce: base64_encode(random_bytes(12)),
     );
 
-    $decryptor = new class($secret) implements CredentialDecryptor
-    {
+    $decryptor = new class ($secret) implements CredentialDecryptor {
         public function __construct(
             private readonly string $expectedSecret,
-        ) {}
+        ) {
+        }
 
         public function decrypt(SealedCredentialPayload $sealed): string
         {
@@ -43,11 +43,11 @@ it('CredentialPayload.secret matches the original value', function (): void {
         nonce: base64_encode(random_bytes(12)),
     );
 
-    $decryptor = new class($originalSecret) implements CredentialDecryptor
-    {
+    $decryptor = new class ($originalSecret) implements CredentialDecryptor {
         public function __construct(
             private readonly string $secret,
-        ) {}
+        ) {
+        }
 
         public function decrypt(SealedCredentialPayload $sealed): string
         {

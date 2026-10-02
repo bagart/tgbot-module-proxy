@@ -14,14 +14,14 @@ use BAGArt\ProxyOperations\Transport\SocksOptions;
 use BAGArt\ProxyOperations\Transport\TlsOptions;
 
 it('rejects non-Socks4 scheme', function (): void {
-    $adapter = new Socks4Adapter;
+    $adapter = new Socks4Adapter();
     $config = new ProxyConfig(
         scheme: ProxyProtocol::Socks5,
         host: '127.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $adapter->connect($config, 'example.com', 80);
@@ -37,8 +37,8 @@ it('connects through mock SOCKS4 proxy with 0x5A response', function (): void {
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $pid = pcntl_fork();
@@ -60,7 +60,7 @@ it('connects through mock SOCKS4 proxy with 0x5A response', function (): void {
         exit(0);
     }
 
-    $adapter = new Socks4Adapter;
+    $adapter = new Socks4Adapter();
     $stream = $adapter->connect($config, '10.0.0.1', 80);
 
     expect($stream)->not->toBeFalse();
@@ -82,10 +82,10 @@ it('sends correct SOCKS4 handshake bytes for IP target', function (): void {
         port: $port,
         credential: new ProxyCredentialRef(
             username: 'testuser',
-            channel: new StdinChannel,
+            channel: new StdinChannel(),
         ),
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $pid = pcntl_fork();
@@ -109,7 +109,7 @@ it('sends correct SOCKS4 handshake bytes for IP target', function (): void {
         exit(0);
     }
 
-    $adapter = new Socks4Adapter;
+    $adapter = new Socks4Adapter();
     $adapter->connect($config, '93.184.216.34', 8080);
     $adapter->close();
     pcntl_waitpid($pid, $status);
@@ -142,8 +142,8 @@ it('sends SOCKS4a 0.0.0.1 + domain for domain targets', function (): void {
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $pid = pcntl_fork();
@@ -167,7 +167,7 @@ it('sends SOCKS4a 0.0.0.1 + domain for domain targets', function (): void {
         exit(0);
     }
 
-    $adapter = new Socks4Adapter;
+    $adapter = new Socks4Adapter();
     $adapter->connect($config, 'example.com', 443);
     $adapter->close();
     pcntl_waitpid($pid, $status);
@@ -204,8 +204,8 @@ it('throws TransportAuthException on SOCKS4 rejected user ID', function (): void
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $pid = pcntl_fork();
@@ -227,7 +227,7 @@ it('throws TransportAuthException on SOCKS4 rejected user ID', function (): void
         exit(0);
     }
 
-    $adapter = new Socks4Adapter;
+    $adapter = new Socks4Adapter();
     $adapter->connect($config, '10.0.0.1', 80);
 })->throws(TransportAuthException::class, 'SOCKS4 user ID mismatch');
 
@@ -241,8 +241,8 @@ it('throws TransportConnectionException on SOCKS4 general failure', function ():
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $pid = pcntl_fork();
@@ -264,7 +264,7 @@ it('throws TransportConnectionException on SOCKS4 general failure', function ():
         exit(0);
     }
 
-    $adapter = new Socks4Adapter;
+    $adapter = new Socks4Adapter();
     $adapter->connect($config, '10.0.0.1', 80);
 })->throws(TransportConnectionException::class, 'SOCKS4 request rejected or failed');
 
@@ -274,16 +274,16 @@ it('throws TransportConnectionException when proxy is unreachable', function ():
         host: '127.0.0.1',
         port: 19999,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
-    $adapter = new Socks4Adapter;
+    $adapter = new Socks4Adapter();
     $adapter->connect($config, '10.0.0.1', 80);
 })->throws(TransportConnectionException::class, 'Cannot connect to SOCKS4 proxy');
 
 it('close is idempotent', function (): void {
-    $adapter = new Socks4Adapter;
+    $adapter = new Socks4Adapter();
 
     $adapter->close();
     $adapter->close();

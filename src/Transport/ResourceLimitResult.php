@@ -13,5 +13,6 @@ final readonly class ResourceLimitResult
         public readonly string $data,
         public readonly bool $truncated,
         public readonly int $originalSize,
-    ) {}
+    ) {
+    }
 }

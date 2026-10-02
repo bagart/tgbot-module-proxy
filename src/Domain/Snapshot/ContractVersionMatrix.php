@@ -22,7 +22,8 @@ final readonly class ContractVersionMatrix implements JsonSerializable
      */
     public function __construct(
         public readonly array $contracts,
-    ) {}
+    ) {
+    }
 
     /**
      * The plan §11.12 contract table as shipped at Stage 0 (all contracts V1).

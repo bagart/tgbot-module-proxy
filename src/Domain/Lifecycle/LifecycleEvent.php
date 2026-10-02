@@ -29,7 +29,8 @@ final readonly class LifecycleEvent implements JsonSerializable
         public AccessState $to,
         public ?FailureCode $reason,
         public DateTimeImmutable $occurredAt,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

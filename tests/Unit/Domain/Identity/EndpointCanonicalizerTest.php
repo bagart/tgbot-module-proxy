@@ -5,7 +5,7 @@ declare(strict_types=1);
 use BAGArt\ProxyOperations\Domain\Identity\EndpointCanonicalizer;
 use BAGArt\ProxyOperations\Domain\Identity\ProxyProtocol;
 
-beforeEach(fn (): object => $this->canonicalizer = new EndpointCanonicalizer);
+beforeEach(fn (): object => $this->canonicalizer = new EndpointCanonicalizer());
 
 it('canonicalizes unicode IDN hosts to punycode', function (string $input, string $expected): void {
     expect($this->canonicalizer->canonicalize($input, 8080, ProxyProtocol::Http)->host)->toBe($expected);

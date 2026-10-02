@@ -8,7 +8,7 @@ use BAGArt\ProxyOperations\Transport\Adapters\TransportConnectionException;
 use BAGArt\ProxyOperations\Transport\TransportAdapterResolver;
 
 beforeEach(function (): void {
-    $this->resolver = new TransportAdapterResolver;
+    $this->resolver = new TransportAdapterResolver();
 });
 
 it('resolves a registered protocol to the correct adapter', function (): void {

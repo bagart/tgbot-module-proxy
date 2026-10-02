@@ -69,7 +69,7 @@ it('rejects empty event types and tenants during deserialization', function (): 
 })->throws(RuntimeException::class, 'non-empty');
 
 it('enforces strict per-aggregate ordering', function (): void {
-    $policy = new EventOrderingPolicy;
+    $policy = new EventOrderingPolicy();
 
     expect($policy->isNext(null, SequenceNumber::initial()))->toBeTrue()
         ->and($policy->isNext(null, new SequenceNumber(2)))->toBeFalse()
@@ -79,7 +79,7 @@ it('enforces strict per-aggregate ordering', function (): void {
 });
 
 it('tracks aggregates independently of each other', function (): void {
-    $policy = new EventOrderingPolicy;
+    $policy = new EventOrderingPolicy();
     $aggregateOneLastSeen = new SequenceNumber(3);
     $aggregateTwoLastSeen = null;
 

@@ -23,7 +23,8 @@ final readonly class ContractVersionEntry implements JsonSerializable
         public readonly int $currentVersion,
         public readonly ContractCompatibility $compatibility,
         public readonly array $compatibleVersions,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

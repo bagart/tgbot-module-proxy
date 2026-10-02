@@ -11,7 +11,7 @@ use BAGArt\ProxyOperations\Wire\AuditResultV1;
 
 function resultTaxonomy(): FailureTaxonomy
 {
-    return new FailureTaxonomy;
+    return new FailureTaxonomy();
 }
 
 function wireAuditResult(): AuditResultV1
@@ -123,7 +123,7 @@ it('enforces the observation collection type structurally', function (): void {
         taskId: 'task-1',
         attemptId: 'attempt-1',
         status: AuditResultStatus::Failed,
-        observations: [new stdClass],
+        observations: [new stdClass()],
         executionFailures: [],
         timings: [],
         checkerNodeId: 'checker-node-1',

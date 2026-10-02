@@ -14,7 +14,8 @@ final readonly class CommandResult
         public ?string $messageKey = null,
         public ?array $data = null,
         public ?string $errorKey = null,
-    ) {}
+    ) {
+    }
 
     public static function ok(string $messageKey, ?array $data = null): self
     {

@@ -12,14 +12,14 @@ use BAGArt\ProxyOperations\Transport\SocksOptions;
 use BAGArt\ProxyOperations\Transport\TlsOptions;
 
 it('rejects non-Socks5 scheme', function (): void {
-    $adapter = new Socks5UdpAdapter;
+    $adapter = new Socks5UdpAdapter();
     $config = new ProxyConfig(
         scheme: ProxyProtocol::Http,
         host: '127.0.0.1',
         port: 80,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $adapter->associate($config, '10.0.0.1', 53);
@@ -35,7 +35,7 @@ it('performs UDP ASSOCIATE through mock SOCKS5 proxy', function (): void {
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
+        tls: new TlsOptions(),
         transportOptions: new SocksOptions(enableUdpAssociate: true),
     );
 
@@ -62,7 +62,7 @@ it('performs UDP ASSOCIATE through mock SOCKS5 proxy', function (): void {
         exit(0);
     }
 
-    $adapter = new Socks5UdpAdapter;
+    $adapter = new Socks5UdpAdapter();
     $result = $adapter->associate($config, '10.0.0.1', 53);
 
     expect($result)->toBeInstanceOf(UdpAssociateResult::class);
@@ -86,8 +86,8 @@ it('captures correct UDP ASSOCIATE request bytes', function (): void {
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $pid = pcntl_fork();
@@ -115,7 +115,7 @@ it('captures correct UDP ASSOCIATE request bytes', function (): void {
         exit(0);
     }
 
-    $adapter = new Socks5UdpAdapter;
+    $adapter = new Socks5UdpAdapter();
     $adapter->associate($config, '10.0.0.1', 53);
     $adapter->close();
     pcntl_waitpid($pid, $status);
@@ -140,8 +140,8 @@ it('returns supported=false on UDP ASSOCIATE rejection', function (): void {
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $pid = pcntl_fork();
@@ -167,7 +167,7 @@ it('returns supported=false on UDP ASSOCIATE rejection', function (): void {
         exit(0);
     }
 
-    $adapter = new Socks5UdpAdapter;
+    $adapter = new Socks5UdpAdapter();
     $result = $adapter->associate($config, '10.0.0.1', 53);
 
     expect($result->supported)->toBeFalse();
@@ -187,8 +187,8 @@ it('returns supported=false on auth failure', function (): void {
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $pid = pcntl_fork();
@@ -210,7 +210,7 @@ it('returns supported=false on auth failure', function (): void {
         exit(0);
     }
 
-    $adapter = new Socks5UdpAdapter;
+    $adapter = new Socks5UdpAdapter();
     $result = $adapter->associate($config, '10.0.0.1', 53);
 
     expect($result->supported)->toBeFalse();
@@ -226,11 +226,11 @@ it('returns supported=false when proxy is unreachable', function (): void {
         host: '127.0.0.1',
         port: 19999,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
-    $adapter = new Socks5UdpAdapter;
+    $adapter = new Socks5UdpAdapter();
     $result = $adapter->associate($config, '10.0.0.1', 53);
 
     expect($result->supported)->toBeFalse();
@@ -276,7 +276,7 @@ it('serializes UdpDatagramResult to JSON', function (): void {
 });
 
 it('close is idempotent', function (): void {
-    $adapter = new Socks5UdpAdapter;
+    $adapter = new Socks5UdpAdapter();
 
     $adapter->close();
     $adapter->close();
@@ -294,8 +294,8 @@ it('sends domain atyp for SOCKS5h UDP ASSOCIATE', function (): void {
         host: '127.0.0.1',
         port: $port,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $pid = pcntl_fork();
@@ -323,7 +323,7 @@ it('sends domain atyp for SOCKS5h UDP ASSOCIATE', function (): void {
         exit(0);
     }
 
-    $adapter = new Socks5UdpAdapter;
+    $adapter = new Socks5UdpAdapter();
     $adapter->associate($config, 'example.com', 53);
     pcntl_waitpid($pid, $status);
 

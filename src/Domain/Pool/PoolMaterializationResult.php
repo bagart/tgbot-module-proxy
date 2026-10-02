@@ -20,5 +20,6 @@ final readonly class PoolMaterializationResult
         public readonly int $skipped,
         public readonly Carbon $generatedAt,
         public readonly int $policyVersion,
-    ) {}
+    ) {
+    }
 }

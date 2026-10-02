@@ -17,5 +17,6 @@ final readonly class ExportInventoryCommand implements ApplicationCommand
         public ?string $poolId = null,
         public bool $tgReadyOnly = false,
         public ?string $requestedBy = null,
-    ) {}
+    ) {
+    }
 }

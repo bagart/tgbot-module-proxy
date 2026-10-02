@@ -21,5 +21,6 @@ final readonly class FailureDescriptor
         public bool $affectsHealth,
         public bool $affectsCapability,
         public bool $quarantineAfterThreshold,
-    ) {}
+    ) {
+    }
 }

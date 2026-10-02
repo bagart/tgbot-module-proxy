@@ -18,7 +18,8 @@ final class BotCommandController extends Controller
 {
     public function __construct(
         private BotCommandRouter $router,
-    ) {}
+    ) {
+    }
 
     /**
      * POST /proxy-operations/bot/command

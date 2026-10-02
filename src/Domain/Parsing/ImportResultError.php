@@ -21,7 +21,8 @@ final readonly class ImportResultError implements JsonSerializable
         public readonly int $line,
         public readonly string $code,
         public readonly ?string $detail,
-    ) {}
+    ) {
+    }
 
     public static function fromParseError(ParseError $error): self
     {

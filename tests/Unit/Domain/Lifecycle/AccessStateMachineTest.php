@@ -10,7 +10,7 @@ use BAGArt\ProxyOperations\Domain\Lifecycle\HealthSignal;
 use BAGArt\ProxyOperations\Domain\Lifecycle\LifecycleEvent;
 use BAGArt\ProxyOperations\Domain\Lifecycle\TransitionRule;
 
-beforeEach(fn (): object => $this->machine = new AccessStateMachine);
+beforeEach(fn (): object => $this->machine = new AccessStateMachine());
 
 it('defines exactly the plan §11.6 states', function (): void {
     expect(array_map(fn (AccessState $s): string => $s->value, AccessState::cases()))->toBe([

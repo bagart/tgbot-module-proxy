@@ -20,5 +20,6 @@ final readonly class ExportQuery
         public array $accessFilters = [],
         public ?string $poolId = null,
         public bool $tgReadyOnly = false,
-    ) {}
+    ) {
+    }
 }

@@ -27,7 +27,8 @@ final class DbAuditEventRecorder implements AuditEventRecorder
 {
     public function __construct(
         private readonly EventTypeRegistry $registry,
-    ) {}
+    ) {
+    }
 
     public function record(EventEnvelope $envelope): void
     {

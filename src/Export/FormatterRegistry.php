@@ -17,15 +17,15 @@ final class FormatterRegistry
     public function __construct()
     {
         $this->formatters = [
-            'json' => new JsonExportFormatter,
-            'csv' => new CsvExportFormatter,
+            'json' => new JsonExportFormatter(),
+            'csv' => new CsvExportFormatter(),
             'txt' => new TxtExportFormatter('host_port'),
             'txt_scheme' => new TxtExportFormatter('scheme_user_pass'),
             'txt_full' => new TxtExportFormatter('host_port_user_pass'),
-            'tg' => new TelegramProxyUriFormatter,
-            'proxychains' => new ProxychainsFormatter,
-            'curl' => new CurlFormatter,
-            'clash' => new ClashFormatter,
+            'tg' => new TelegramProxyUriFormatter(),
+            'proxychains' => new ProxychainsFormatter(),
+            'curl' => new CurlFormatter(),
+            'clash' => new ClashFormatter(),
         ];
     }
 

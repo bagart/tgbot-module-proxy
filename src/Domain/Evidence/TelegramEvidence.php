@@ -30,7 +30,8 @@ final readonly class TelegramEvidence implements DimensionEvidence
         public ?float $medianRttMs,
         public ?FailureCode $failureCode,
         public DateTimeImmutable $measuredAt,
-    ) {}
+    ) {
+    }
 
     public function type(): EvidenceType
     {

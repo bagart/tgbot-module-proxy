@@ -18,11 +18,12 @@ final readonly class TelegramInitData
         public ?string $lastName,
         public int $authDate,
         public string $hash,
-    ) {}
+    ) {
+    }
 
     public function isExpired(int $maxAgeSeconds = 86400): bool
     {
-        $now = new DateTimeImmutable;
+        $now = new DateTimeImmutable();
 
         return $now->getTimestamp() - $this->authDate > $maxAgeSeconds;
     }
@@ -37,7 +38,8 @@ final class TelegramInitDataVerifier
 {
     public function __construct(
         private string $botToken,
-    ) {}
+    ) {
+    }
 
     /**
      * Parse and validate initData string.

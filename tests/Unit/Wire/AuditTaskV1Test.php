@@ -178,7 +178,7 @@ it('rejects foreign probe entries', function (): void {
         accessRef: taskAccessRef(),
         sealedCredential: taskSealed(),
         credentialReference: null,
-        probes: [new stdClass],
+        probes: [new stdClass()],
         policySnapshotVersion: 4,
         deadline: '2026-08-26T13:00:00+00:00',
         maxAttempts: 3,

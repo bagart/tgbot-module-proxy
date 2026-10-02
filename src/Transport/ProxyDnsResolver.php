@@ -18,7 +18,8 @@ final class ProxyDnsResolver implements DnsResolverContract
     public function __construct(
         private readonly Socks5Adapter $socks5Adapter,
         private readonly ProxyConfig $proxyConfig,
-    ) {}
+    ) {
+    }
 
     public function resolve(string $hostname): array
     {

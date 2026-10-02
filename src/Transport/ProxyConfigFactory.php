@@ -19,7 +19,8 @@ final readonly class ProxyConfigFactory
 {
     public function __construct(
         private readonly ProxyConfigValidator $validator,
-    ) {}
+    ) {
+    }
 
     /**
      * Build ProxyConfig from a wire AuditTaskV1 for a specific probe.
@@ -41,7 +42,7 @@ final readonly class ProxyConfigFactory
             host: $endpoint->host,
             port: $endpoint->port,
             credential: $credential,
-            tls: new TlsOptions,
+            tls: new TlsOptions(),
             transportOptions: $this->defaultTransportOptions($scheme),
         );
 
@@ -61,8 +62,8 @@ final readonly class ProxyConfigFactory
             host: $host,
             port: $port,
             credential: null,
-            tls: new TlsOptions,
-            transportOptions: new HttpConnectOptions,
+            tls: new TlsOptions(),
+            transportOptions: new HttpConnectOptions(),
         );
 
         $this->validator->validate($config);
@@ -78,7 +79,7 @@ final readonly class ProxyConfigFactory
         if ($task->sealedCredential !== null) {
             return new ProxyCredentialRef(
                 username: 'proxy',
-                channel: new StdinChannel,
+                channel: new StdinChannel(),
             );
         }
 
@@ -108,10 +109,10 @@ final readonly class ProxyConfigFactory
     private function defaultTransportOptions(ProxyProtocol $scheme): TransportOptions
     {
         return match ($scheme) {
-            ProxyProtocol::Socks5, ProxyProtocol::Socks5h => new SocksOptions,
+            ProxyProtocol::Socks5, ProxyProtocol::Socks5h => new SocksOptions(),
             ProxyProtocol::Socks4, ProxyProtocol::Socks4a,
-            ProxyProtocol::Http, ProxyProtocol::Https => new HttpConnectOptions,
-            ProxyProtocol::Mtproto => new MtprotoOptions,
+            ProxyProtocol::Http, ProxyProtocol::Https => new HttpConnectOptions(),
+            ProxyProtocol::Mtproto => new MtprotoOptions(),
         };
     }
 }

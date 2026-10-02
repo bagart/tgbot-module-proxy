@@ -16,17 +16,17 @@ final readonly class DnsResolverFactory
         if ($config->transportOptions instanceof SocksOptions) {
             return match ($config->transportOptions->dnsMode) {
                 SocksDnsMode::ProxyDns => new ProxyDnsResolver(
-                    new Socks5Adapter,
+                    new Socks5Adapter(),
                     $config,
                 ),
                 SocksDnsMode::Remote => new RemoteDnsResolver(
-                    new Socks5Adapter,
+                    new Socks5Adapter(),
                     $config,
                 ),
-                SocksDnsMode::Local => new LocalDnsResolver,
+                SocksDnsMode::Local => new LocalDnsResolver(),
             };
         }
 
-        return new LocalDnsResolver;
+        return new LocalDnsResolver();
     }
 }

@@ -47,7 +47,8 @@ final class ImportProxiesService
         private readonly ProxyListParser $parser,
         private readonly CredentialEncryptor $encryptor,
         private readonly TenantContext $tenant,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws TenantNotResolvedException When no tenant is set in this scope.
@@ -109,7 +110,7 @@ final class ImportProxiesService
         $skipped = 0;
         $errors = [];
 
-        $canonicalizer = new EndpointCanonicalizer;
+        $canonicalizer = new EndpointCanonicalizer();
 
         foreach ($parseResult->entries as $entry) {
             $result = $this->processEntry(

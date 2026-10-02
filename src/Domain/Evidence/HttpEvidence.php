@@ -30,7 +30,8 @@ final readonly class HttpEvidence implements DimensionEvidence
         public bool $markerModified,
         public ?FailureCode $failureCode,
         public DateTimeImmutable $measuredAt,
-    ) {}
+    ) {
+    }
 
     public function type(): EvidenceType
     {

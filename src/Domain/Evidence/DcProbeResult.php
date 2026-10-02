@@ -19,7 +19,8 @@ final readonly class DcProbeResult implements JsonSerializable
         public bool $reachable,
         public ?float $rttMs,
         public ?FailureCode $failureCode,
-    ) {}
+    ) {
+    }
 
     public static function reached(int $dcId, float $rttMs): self
     {

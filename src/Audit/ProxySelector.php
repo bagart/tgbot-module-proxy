@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BAGArt\ProxyOperations\Audit;
 
-use BAGArt\ProxyOperations\Audit\AuditRequest;
 use BAGArt\ProxyOperations\Domain\Evidence\EvidenceType;
 use BAGArt\ProxyOperations\Domain\Evidence\VerifiedEligibilityCheck;
 use BAGArt\ProxyOperations\Domain\Evidence\VerifiedEligibilityPolicy;
@@ -12,7 +11,6 @@ use BAGArt\ProxyOperations\Domain\Lease\ProxyLeaseDto;
 use BAGArt\ProxyOperations\Domain\Lease\ScoredCandidate;
 use BAGArt\ProxyOperations\Domain\Lease\SelectionCriteria;
 use BAGArt\ProxyOperations\Domain\Lease\SelectionDecision;
-use BAGArt\ProxyOperations\Domain\Lease\SelectionReasonCode;
 use BAGArt\ProxyOperations\Domain\Lease\SelectionStrategy;
 use BAGArt\ProxyOperations\Domain\Pool\PoolCandidateView;
 use BAGArt\ProxyOperations\Domain\Pool\SelectionReasonCode as PoolReasonCode;
@@ -45,7 +43,8 @@ final class ProxySelector
         private readonly VerifiedEligibilityPolicy $eligibility,
         private readonly JobStarter $jobStarter,
         private readonly string $lazyCheckProbeProfile = 'light',
-    ) {}
+    ) {
+    }
 
     /**
      * @return list<ProxyLeaseDto>

@@ -15,7 +15,7 @@ use BAGArt\ProxyOperations\Transport\SocksOptions;
 use BAGArt\ProxyOperations\Transport\TlsOptions;
 
 beforeEach(function (): void {
-    $this->validator = new ProxyConfigValidator;
+    $this->validator = new ProxyConfigValidator();
 });
 
 it('accepts valid SOCKS5 config with StdinChannel', function (): void {
@@ -23,9 +23,9 @@ it('accepts valid SOCKS5 config with StdinChannel', function (): void {
         scheme: ProxyProtocol::Socks5,
         host: '10.0.0.1',
         port: 1080,
-        credential: new ProxyCredentialRef(username: 'user', channel: new StdinChannel),
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        credential: new ProxyCredentialRef(username: 'user', channel: new StdinChannel()),
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $this->validator->validate($config);
@@ -39,8 +39,8 @@ it('accepts valid HTTP CONNECT config with FileDescriptorChannel', function (): 
         host: 'proxy.example.com',
         port: 8080,
         credential: new ProxyCredentialRef(username: null, channel: new FileDescriptorChannel(fileDescriptor: 3)),
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $this->validator->validate($config);
@@ -54,8 +54,8 @@ it('accepts valid MTProto config without credential', function (): void {
         host: 'mtproto.example.com',
         port: 443,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new MtprotoOptions,
+        tls: new TlsOptions(),
+        transportOptions: new MtprotoOptions(),
     );
 
     $this->validator->validate($config);
@@ -69,7 +69,7 @@ it('rejects ProxyDns on Socks5 (not Socks5h)', function (): void {
         host: '10.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
+        tls: new TlsOptions(),
         transportOptions: new SocksOptions(dnsMode: SocksDnsMode::ProxyDns),
     );
 
@@ -82,7 +82,7 @@ it('accepts ProxyDns on Socks5h', function (): void {
         host: '10.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
+        tls: new TlsOptions(),
         transportOptions: new SocksOptions(dnsMode: SocksDnsMode::ProxyDns),
     );
 
@@ -97,8 +97,8 @@ it('rejects SocksOptions for Http scheme', function (): void {
         host: 'proxy.example.com',
         port: 80,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $this->validator->validate($config);
@@ -110,8 +110,8 @@ it('rejects HttpConnectOptions for Socks5 scheme', function (): void {
         host: '10.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $this->validator->validate($config);
@@ -122,9 +122,9 @@ it('rejects StdinChannel on Http protocol', function (): void {
         scheme: ProxyProtocol::Http,
         host: 'proxy.example.com',
         port: 80,
-        credential: new ProxyCredentialRef(username: 'user', channel: new StdinChannel),
-        tls: new TlsOptions,
-        transportOptions: new HttpConnectOptions,
+        credential: new ProxyCredentialRef(username: 'user', channel: new StdinChannel()),
+        tls: new TlsOptions(),
+        transportOptions: new HttpConnectOptions(),
     );
 
     $this->validator->validate($config);
@@ -136,8 +136,8 @@ it('accepts FileDescriptorChannel on Socks5', function (): void {
         host: '10.0.0.1',
         port: 1080,
         credential: new ProxyCredentialRef(username: null, channel: new FileDescriptorChannel(fileDescriptor: 3)),
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $this->validator->validate($config);
@@ -151,8 +151,8 @@ it('accepts config without credential', function (): void {
         host: '10.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
-        transportOptions: new SocksOptions,
+        tls: new TlsOptions(),
+        transportOptions: new SocksOptions(),
     );
 
     $this->validator->validate($config);
@@ -166,7 +166,7 @@ it('rejects SocksOptions on Socks4 (UDP associate check)', function (): void {
         host: '10.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
+        tls: new TlsOptions(),
         transportOptions: new SocksOptions(enableUdpAssociate: true),
     );
 
@@ -179,7 +179,7 @@ it('rejects SocksOptions on Http (type mismatch)', function (): void {
         host: 'proxy.example.com',
         port: 80,
         credential: null,
-        tls: new TlsOptions,
+        tls: new TlsOptions(),
         transportOptions: new SocksOptions(enableUdpAssociate: true),
     );
 
@@ -192,7 +192,7 @@ it('accepts enableUdpAssociate on Socks5h', function (): void {
         host: '10.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
+        tls: new TlsOptions(),
         transportOptions: new SocksOptions(enableUdpAssociate: true),
     );
 
@@ -206,9 +206,9 @@ it('rejects StdinChannel on Mtproto', function (): void {
         scheme: ProxyProtocol::Mtproto,
         host: 'mtproto.example.com',
         port: 443,
-        credential: new ProxyCredentialRef(username: 'user', channel: new StdinChannel),
-        tls: new TlsOptions,
-        transportOptions: new MtprotoOptions,
+        credential: new ProxyCredentialRef(username: 'user', channel: new StdinChannel()),
+        tls: new TlsOptions(),
+        transportOptions: new MtprotoOptions(),
     );
 
     $this->validator->validate($config);
@@ -220,7 +220,7 @@ it('accepts enableUdpAssociate on Socks5', function (): void {
         host: '10.0.0.1',
         port: 1080,
         credential: null,
-        tls: new TlsOptions,
+        tls: new TlsOptions(),
         transportOptions: new SocksOptions(enableUdpAssociate: true),
     );
 

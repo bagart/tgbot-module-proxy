@@ -19,5 +19,6 @@ final readonly class ProbeSingleResult
         public readonly ProbeType $probeType,
         public readonly ?string $judgeId,
         public readonly ProbeToolResult $toolResult,
-    ) {}
+    ) {
+    }
 }

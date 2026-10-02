@@ -33,7 +33,8 @@ final class RedisStreamsAuditDeliveryQueue implements AuditDeliveryQueue
         private readonly RedisClientContract $redis,
         private readonly string $tasksStream = 'proxy:audit:tasks',
         private readonly string $resultsStream = 'proxy:audit:results',
-    ) {}
+    ) {
+    }
 
     public function enqueue(AuditTaskV1 $task): void
     {

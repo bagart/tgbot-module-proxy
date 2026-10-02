@@ -14,7 +14,8 @@ final readonly class TelegramFreshnessPolicy
     public function __construct(
         public int $freshnessTtlSeconds = 3600,
         public string $evidenceVersion = 'tg-dc:v1',
-    ) {}
+    ) {
+    }
 
     /**
      * Whether the given check timestamp is still within the freshness window.

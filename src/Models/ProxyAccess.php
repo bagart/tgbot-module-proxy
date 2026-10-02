@@ -135,7 +135,7 @@ final class ProxyAccess extends Model
      */
     public function recordTransition(AccessState $to, FailureCode|HealthSignal $cause): LifecycleEvent
     {
-        $event = (new AccessStateMachine)->transition($this->state, $to, $cause);
+        $event = (new AccessStateMachine())->transition($this->state, $to, $cause);
 
         if ($to === AccessState::Working && $this->telegramUsableNow() !== true) {
             throw new InvalidArgumentException('Transition to working requires a fresh Telegram check (plan §11.35 item 10)');

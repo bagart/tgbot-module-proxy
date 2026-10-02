@@ -11,4 +11,6 @@ use RuntimeException;
  * the resolved tenant (INV-006, §11.22 — no tenant leakage). Nothing is
  * persisted when this fires.
  */
-final class ForeignAccessIdException extends RuntimeException {}
+final class ForeignAccessIdException extends RuntimeException
+{
+}

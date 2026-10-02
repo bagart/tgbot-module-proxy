@@ -21,7 +21,8 @@ final readonly class ProxyEndpointConnectPolicy
         public readonly IpDenylist $denylist,
         public readonly bool $allowPrivateEndpoints,
         public readonly bool $resolveThenConnect,
-    ) {}
+    ) {
+    }
 
     /**
      * Default inventory-audit configuration: private proxy hosts are allowed,

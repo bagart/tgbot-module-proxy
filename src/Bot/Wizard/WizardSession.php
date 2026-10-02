@@ -20,7 +20,8 @@ final readonly class WizardSession implements JsonSerializable
         public readonly string $step,
         public readonly array $payload = [],
         public readonly ?string $expiresAt = null,
-    ) {}
+    ) {
+    }
 
     public function withStep(string $step, array $payloadMerge = []): self
     {

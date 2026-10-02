@@ -21,7 +21,8 @@ final readonly class BandwidthEvidence implements DimensionEvidence
         public float $durationMs,
         public ?FailureCode $failureCode,
         public DateTimeImmutable $measuredAt,
-    ) {}
+    ) {
+    }
 
     public function type(): EvidenceType
     {

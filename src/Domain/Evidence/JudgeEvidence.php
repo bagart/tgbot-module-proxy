@@ -22,7 +22,8 @@ final readonly class JudgeEvidence implements DimensionEvidence
         public ?float $responseDurationMs,
         public ?FailureCode $failureCode,
         public DateTimeImmutable $measuredAt,
-    ) {}
+    ) {
+    }
 
     public function type(): EvidenceType
     {

@@ -14,7 +14,8 @@ final readonly class DnsLeakProbe
 {
     public function __construct(
         private readonly DnsResolverContract $resolver,
-    ) {}
+    ) {
+    }
 
     /**
      * Resolve $hostname and check for DNS leaks.

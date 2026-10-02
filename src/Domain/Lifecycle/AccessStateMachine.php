@@ -136,7 +136,7 @@ final class AccessStateMachine
             from: $from,
             to: $to,
             reason: $cause instanceof FailureCode ? $cause : null,
-            occurredAt: new DateTimeImmutable,
+            occurredAt: new DateTimeImmutable(),
         );
     }
 }

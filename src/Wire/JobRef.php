@@ -20,7 +20,8 @@ final readonly class JobRef implements JsonSerializable
         public readonly string $jobId,
         public readonly string $attemptId,
         public readonly string $taskId,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

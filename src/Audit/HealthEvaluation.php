@@ -38,7 +38,8 @@ final readonly class HealthEvaluation
         public readonly array $dimensionSignals = [],
         public readonly ?LifecycleEvent $lifecycleEvent = null,
         public readonly ?FailureCode $failureCode = null,
-    ) {}
+    ) {
+    }
 
     /**
      * Verdict for one dimension under this evaluation.

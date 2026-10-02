@@ -12,7 +12,8 @@ abstract class BaseWizard
 {
     public function __construct(
         protected readonly WizardSessionStore $sessions,
-    ) {}
+    ) {
+    }
 
     /**
      * Start a new wizard session for a user.

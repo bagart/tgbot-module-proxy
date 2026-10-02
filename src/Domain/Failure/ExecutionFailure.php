@@ -18,7 +18,8 @@ final readonly class ExecutionFailure implements Failure
     public function __construct(
         public FailureDescriptor $descriptor,
         public array $context = [],
-    ) {}
+    ) {
+    }
 
     public function descriptor(): FailureDescriptor
     {

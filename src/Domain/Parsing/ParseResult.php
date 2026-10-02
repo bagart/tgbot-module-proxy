@@ -23,7 +23,8 @@ final readonly class ParseResult implements JsonSerializable
         public readonly int $totalLines,
         public readonly int $parsedCount,
         public readonly int $errorCount,
-    ) {}
+    ) {
+    }
 
     public function jsonSerialize(): array
     {

@@ -11,4 +11,6 @@ use RuntimeException;
  * resolved in the current scope (INV-006 — fail closed, never fall back
  * to unscoped access).
  */
-final class TenantNotResolvedException extends RuntimeException {}
+final class TenantNotResolvedException extends RuntimeException
+{
+}

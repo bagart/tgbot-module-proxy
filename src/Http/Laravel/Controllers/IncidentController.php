@@ -20,7 +20,8 @@ class IncidentController extends Controller
     public function __construct(
         private readonly IncidentDetector $detector,
         private readonly IncidentEscalator $escalator,
-    ) {}
+    ) {
+    }
 
     public function index(Request $request): JsonResponse
     {

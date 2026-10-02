@@ -24,5 +24,6 @@ final readonly class AuditRequest
         public readonly string $probeProfile,
         public readonly array $accessIds,
         public readonly ?int $requestedBy,
-    ) {}
+    ) {
+    }
 }

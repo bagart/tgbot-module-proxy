@@ -27,7 +27,8 @@ final readonly class IpDenylist implements JsonSerializable
     public function __construct(
         public readonly array $ipv4Ranges,
         public readonly array $ipv6Ranges,
-    ) {}
+    ) {
+    }
 
     /**
      * Default SSRF denylist covering non-routable and sensitive destinations.

@@ -81,7 +81,8 @@ final class T20FakeJudgeProvider implements JudgeProvider
 
     public function __construct(
         private readonly array $judges = [],
-    ) {}
+    ) {
+    }
 
     public function select(JudgeSetSnapshot $snapshot, ProbeType $probeType, int $count): array
     {
@@ -195,15 +196,15 @@ function t20Executor(
 ): ProbeExecutor {
     return new ProbeExecutor(
         tools: ['socks-checker' => $tool],
-        judgeProvider: $judgeProvider ?? new T20FakeJudgeProvider,
+        judgeProvider: $judgeProvider ?? new T20FakeJudgeProvider(),
         toolRegistry: $registry ?? t20Registry(),
         governor: $governor ?? t20Governor(),
-        timeoutFactory: new ToolTimeoutFactory,
+        timeoutFactory: new ToolTimeoutFactory(),
     );
 }
 
 it('executes two probes into two results on the happy path', function (): void {
-    $tool = new T20FakeProbeTool;
+    $tool = new T20FakeProbeTool();
     $executor = t20Executor($tool);
 
     $outcome = $executor->execute(t20Task([t20Probe(), t20Probe(ProbeType::DnsResolution)]));
@@ -223,7 +224,7 @@ it('executes two probes into two results on the happy path', function (): void {
 it('selects a judge for judge-dependent probes and runs one execution per judge', function (): void {
     $judge = t20Judge();
     $provider = new T20FakeJudgeProvider([$judge]);
-    $tool = new T20FakeProbeTool;
+    $tool = new T20FakeProbeTool();
     $executor = t20Executor($tool, judgeProvider: $provider);
 
     $outcome = $executor->execute(
@@ -241,7 +242,7 @@ it('selects a judge for judge-dependent probes and runs one execution per judge'
 });
 
 it('keeps the spec target and a null judgeId for non-judge probes', function (): void {
-    $tool = new T20FakeProbeTool;
+    $tool = new T20FakeProbeTool();
     $outcome = t20Executor($tool)->execute(t20Task([t20Probe(ProbeType::UdpAssociate)]));
 
     expect($outcome->results[0]->judgeId)->toBeNull()
@@ -252,7 +253,7 @@ it('records a TOOL_UNAVAILABLE execution failure when the governor is at capacit
     $governor = t20Governor(maxConcurrentProbes: 1);
     $governor->connectionOpened(); // simulate a probe already in flight
 
-    $tool = new T20FakeProbeTool;
+    $tool = new T20FakeProbeTool();
     $outcome = t20Executor($tool, governor: $governor)->execute(t20Task([t20Probe()]));
 
     $failure = $outcome->results[0]->toolResult->failure;
@@ -305,7 +306,7 @@ it('records ExecutionFailure(ToolTimeout) when the wall-clock limit is exceeded'
 });
 
 it('counts mixed success, proxy failure and execution failure correctly', function (): void {
-    $okTool = new T20FakeProbeTool; // probe 1: success
+    $okTool = new T20FakeProbeTool(); // probe 1: success
 
     $crashTool = new T20FakeProbeTool(
         behaviour: static fn (): never => throw new LogicException('crash'),
@@ -344,7 +345,7 @@ it('counts mixed success, proxy failure and execution failure correctly', functi
 });
 
 it('returns an empty outcome with zero counts for an empty probe list', function (): void {
-    $outcome = t20Executor(new T20FakeProbeTool)->execute(t20Task([]));
+    $outcome = t20Executor(new T20FakeProbeTool())->execute(t20Task([]));
 
     expect($outcome->results)->toBe([])
         ->and($outcome->timingsMs)->toBe([])
@@ -371,7 +372,7 @@ it('records ExecutionFailure(ToolUnavailable) when no registry tool covers the p
         ),
     ]);
 
-    $tool = new T20FakeProbeTool; // supports everything, but is not bound under 'dns-only' either
+    $tool = new T20FakeProbeTool(); // supports everything, but is not bound under 'dns-only' either
 
     $outcome = t20Executor($tool, registry: $registry)->execute(t20Task([t20Probe(ProbeType::UdpAssociate)]));
 
@@ -385,7 +386,7 @@ it('records ExecutionFailure(ToolUnavailable) when no registry tool covers the p
 });
 
 it('delivers the sealed credential as a channel, never the payload itself', function (): void {
-    $tool = new T20FakeProbeTool;
+    $tool = new T20FakeProbeTool();
     t20Executor($tool)->execute(t20Task([t20Probe()], sealed: true));
 
     $credentials = $tool->receivedContexts[0]->credentials;
@@ -395,7 +396,7 @@ it('delivers the sealed credential as a channel, never the payload itself', func
 });
 
 it('builds the context from the endpoint snapshot with governor limits', function (): void {
-    $tool = new T20FakeProbeTool;
+    $tool = new T20FakeProbeTool();
     t20Executor($tool)->execute(t20Task([t20Probe(timeoutMs: 4321)]));
 
     $context = $tool->receivedContexts[0];
@@ -409,7 +410,7 @@ it('builds the context from the endpoint snapshot with governor limits', functio
 
 it('releases the governor slot after each probe execution', function (): void {
     $governor = t20Governor(maxConcurrentProbes: 1);
-    $tool = new T20FakeProbeTool;
+    $tool = new T20FakeProbeTool();
 
     $outcome = t20Executor($tool, governor: $governor)
         ->execute(t20Task([t20Probe(), t20Probe(ProbeType::DnsResolution)]));

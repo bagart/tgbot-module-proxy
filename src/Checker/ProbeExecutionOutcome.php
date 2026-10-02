@@ -24,5 +24,6 @@ final readonly class ProbeExecutionOutcome
         public readonly int $successCount,
         public readonly int $failureCount,
         public readonly int $executionFailureCount,
-    ) {}
+    ) {
+    }
 }

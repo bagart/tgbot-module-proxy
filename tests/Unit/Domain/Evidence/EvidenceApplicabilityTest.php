@@ -7,7 +7,7 @@ use BAGArt\ProxyOperations\Domain\Evidence\EvidenceApplicability;
 use BAGArt\ProxyOperations\Domain\Evidence\EvidenceType;
 use BAGArt\ProxyOperations\Domain\Identity\ProxyProtocol;
 
-beforeEach(fn (): object => $this->matrix = new EvidenceApplicability);
+beforeEach(fn (): object => $this->matrix = new EvidenceApplicability());
 
 it('covers every evidence type for every protocol (no orphan dimensions)', function (): void {
     foreach (ProxyProtocol::cases() as $protocol) {

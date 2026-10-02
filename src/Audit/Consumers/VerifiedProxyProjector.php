@@ -19,7 +19,8 @@ final class VerifiedProxyProjector
 {
     public function __construct(
         private VerifiedEligibilityPolicy $eligibilityPolicy,
-    ) {}
+    ) {
+    }
 
     public function project(ProxyAccess $access): void
     {
@@ -32,7 +33,7 @@ final class VerifiedProxyProjector
             satisfiedDimensions: $this->extractSatisfiedDimensions($health),
             lastTelegramCheckUsable: $access->telegram_usable ?? false,
             telegramCheckedAt: $access->telegram_checked_at,
-            now: new \DateTimeImmutable,
+            now: new \DateTimeImmutable(),
         );
 
         if ($this->eligibilityPolicy->isEligible($check)) {

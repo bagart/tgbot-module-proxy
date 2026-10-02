@@ -34,7 +34,8 @@ final class PoolMaterializer
         private readonly VerifiedEligibilityPolicy $eligibility,
         private readonly AuditEventRecorder $events,
         private readonly int $maxMembers = 10000,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws InvalidArgumentException On STATIC pools or an invalid predicate.

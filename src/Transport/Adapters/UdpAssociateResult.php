@@ -22,7 +22,8 @@ final readonly class UdpAssociateResult implements JsonSerializable
         public readonly ?int $relayPort,
         public readonly ?string $error,
         public readonly array $timingsMs,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

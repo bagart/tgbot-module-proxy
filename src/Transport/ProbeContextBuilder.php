@@ -43,7 +43,7 @@ final readonly class ProbeContextBuilder
     private function resolveCredentialChannel(AuditTaskV1 $task): StdinChannel|FileDescriptorChannel
     {
         if ($task->sealedCredential !== null) {
-            return new StdinChannel;
+            return new StdinChannel();
         }
 
         return new FileDescriptorChannel(fileDescriptor: 3);

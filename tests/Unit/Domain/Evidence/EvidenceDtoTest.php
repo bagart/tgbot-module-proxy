@@ -38,14 +38,14 @@ it('reports its dimension and measurement time for every evidence type', functio
 })->with(EvidenceType::cases());
 
 it('keeps failure codes nullable for successful measurements', function (): void {
-    $tcp = new TcpEvidence(true, 10, null, new DateTimeImmutable);
+    $tcp = new TcpEvidence(true, 10, null, new DateTimeImmutable());
 
     expect($tcp->failureCode)->toBeNull()
         ->and($tcp->connectSucceeded)->toBeTrue();
 });
 
 it('carries the concrete failure code on failed measurements', function (): void {
-    $tcp = new TcpEvidence(false, null, FailureCode::TcpTimeout, new DateTimeImmutable);
+    $tcp = new TcpEvidence(false, null, FailureCode::TcpTimeout, new DateTimeImmutable());
 
     expect($tcp->connectSucceeded)->toBeFalse()
         ->and($tcp->latencyMs)->toBeNull()

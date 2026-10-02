@@ -17,7 +17,8 @@ final readonly class SocksOptions extends TransportOptions implements JsonSerial
     public function __construct(
         public readonly bool $enableUdpAssociate = false,
         public readonly SocksDnsMode $dnsMode = SocksDnsMode::Local,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

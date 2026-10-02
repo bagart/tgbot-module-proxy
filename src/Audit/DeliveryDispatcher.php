@@ -31,7 +31,8 @@ final class DeliveryDispatcher
         private readonly AuditTaskFactory $tasks,
         private readonly AuditDeliveryQueue $queue,
         private readonly DeliveryRetryPolicy $retryPolicy,
-    ) {}
+    ) {
+    }
 
     /**
      * @param  list<ProxyAccess>  $accesses  The job's target set, resolved by

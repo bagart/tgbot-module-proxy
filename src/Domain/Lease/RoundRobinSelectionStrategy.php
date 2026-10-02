@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Cache;
  */
 final readonly class RoundRobinSelectionStrategy implements SelectionStrategy
 {
-    public function __construct(private string $cursorScope = 'global') {}
+    public function __construct(private string $cursorScope = 'global')
+    {
+    }
 
     /**
      * @param  list<ScoredCandidate>  $candidates

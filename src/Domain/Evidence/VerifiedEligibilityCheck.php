@@ -29,7 +29,8 @@ final readonly class VerifiedEligibilityCheck
         public bool $lastTelegramCheckUsable,
         public ?DateTimeImmutable $telegramCheckedAt,
         public DateTimeImmutable $now,
-    ) {}
+    ) {
+    }
 
     public function satisfies(EvidenceType $type): bool
     {

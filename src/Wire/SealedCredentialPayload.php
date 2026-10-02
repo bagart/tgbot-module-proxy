@@ -23,7 +23,8 @@ final readonly class SealedCredentialPayload implements JsonSerializable
         public readonly string $algId,
         public readonly string $ciphertext,
         public readonly string $nonce,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

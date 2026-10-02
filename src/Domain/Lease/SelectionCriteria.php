@@ -30,7 +30,8 @@ final readonly class SelectionCriteria implements JsonSerializable
         public readonly ?bool $telegramUsableOnly = null,
         public readonly array $excludeAccessIds = [],
         public readonly ?int $maxStalenessSeconds = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

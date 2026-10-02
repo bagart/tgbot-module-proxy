@@ -35,7 +35,8 @@ final readonly class ProbeOutcomeClassifier
 
     public function __construct(
         private readonly FailureTaxonomy $taxonomy,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array{0: ProbeOutcomeClassification, 1: ProxyFailure|null}

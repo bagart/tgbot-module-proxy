@@ -25,7 +25,8 @@ final readonly class EncryptedField implements JsonSerializable
         public readonly string $nonce,
         public readonly string $ciphertext,
         public readonly string $tag,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array{key_version: string, algorithm: string, nonce: string, ciphertext: string, tag: string}

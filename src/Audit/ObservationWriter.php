@@ -7,7 +7,6 @@ namespace BAGArt\ProxyOperations\Audit;
 use BAGArt\ProxyOperations\Domain\Failure\ProxyFailure;
 use BAGArt\ProxyOperations\Domain\Probe\ProbeProfile;
 use BAGArt\ProxyOperations\Domain\Probe\ProbeType;
-use BAGArt\ProxyOperations\Models\ProxyAuditAttempt;
 use BAGArt\ProxyOperations\Models\ProxyAuditJob;
 use BAGArt\ProxyOperations\Models\ProxyObservation;
 use BAGArt\ProxyOperations\Wire\AuditResultV1;

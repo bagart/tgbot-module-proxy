@@ -16,7 +16,8 @@ final class ExportInventoryHandler
     public function __construct(
         private ExportService $exportService,
         private ExportAuditLogger $auditLogger,
-    ) {}
+    ) {
+    }
 
     public function handle(ExportInventoryCommand $command): CommandResult
     {

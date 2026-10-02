@@ -22,7 +22,8 @@ final readonly class EndpointIdentity implements JsonSerializable
         public readonly string $host,
         public readonly int $port,
         public readonly ProxyProtocol $protocol,
-    ) {}
+    ) {
+    }
 
     public function equals(self $other): bool
     {

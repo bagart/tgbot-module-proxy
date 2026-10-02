@@ -24,7 +24,8 @@ final readonly class ProxyCredentialRef implements JsonSerializable
     public function __construct(
         public readonly ?string $username,
         public readonly CredentialChannel $channel,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>
@@ -59,7 +60,7 @@ final readonly class ProxyCredentialRef implements JsonSerializable
         $channelMode = (string) ($data['channel'] ?? '');
 
         $channel = match ($channelMode) {
-            'stdin' => new StdinChannel,
+            'stdin' => new StdinChannel(),
             'file_descriptor' => new FileDescriptorChannel(
                 fileDescriptor: (int) ($data['fileDescriptor'] ?? 3),
             ),

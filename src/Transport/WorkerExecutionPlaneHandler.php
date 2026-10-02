@@ -33,7 +33,8 @@ final class WorkerExecutionPlaneHandler
         private readonly ProbeExecutor $executor,
         private readonly ExecutionResultNormalizer $normalizer,
         private readonly string $checkerNodeId,
-    ) {}
+    ) {
+    }
 
     /**
      * @param  array<string, mixed>  $payload

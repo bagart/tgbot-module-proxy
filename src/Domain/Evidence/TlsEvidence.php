@@ -18,7 +18,8 @@ final readonly class TlsEvidence implements DimensionEvidence
         public ?float $handshakeDurationMs,
         public ?FailureCode $failureCode,
         public DateTimeImmutable $measuredAt,
-    ) {}
+    ) {
+    }
 
     public function type(): EvidenceType
     {

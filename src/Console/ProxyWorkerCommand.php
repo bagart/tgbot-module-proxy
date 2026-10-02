@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BAGArt\ProxyOperations\Console;
 
-use BAGArt\AsyncKernel\ASKClock;
 use BAGArt\AsyncKernel\AsyncKernel;
 use BAGArt\AsyncKernel\Drivers\ASKFiberScheduler;
 use BAGArt\AsyncKernel\Wrappers\ASKLogWrapper;
@@ -78,7 +77,7 @@ class ProxyWorkerCommand extends Command
         /** @var RedisStreamsAuditDeliveryQueue $queue */
         $queue = app(RedisStreamsAuditDeliveryQueue::class);
 
-        $scheduler = new ASKFiberScheduler;
+        $scheduler = new ASKFiberScheduler();
 
         $leaseRenewer = null;
         if (app()->bound(LeaseService::class)) {

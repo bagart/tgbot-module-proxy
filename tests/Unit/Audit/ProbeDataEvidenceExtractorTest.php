@@ -17,7 +17,7 @@ use BAGArt\ProxyOperations\Domain\Identity\ProxyProtocol;
 
 function probeExtractor(): ProbeDataEvidenceExtractor
 {
-    return new ProbeDataEvidenceExtractor;
+    return new ProbeDataEvidenceExtractor();
 }
 
 it('maps latency samples into BandwidthEvidence records', function (): void {
@@ -80,7 +80,7 @@ it('maps udp and dns probe records into their dimension DTOs', function (): void
 });
 
 it('drops HTTP and UDP evidence as not applicable for MTProto accesses', function (): void {
-    $applicability = new EvidenceApplicability;
+    $applicability = new EvidenceApplicability();
 
     expect($applicability->for(ProxyProtocol::Mtproto, EvidenceType::Http))->toBe(\BAGArt\ProxyOperations\Domain\Evidence\Applicability::NotApplicable)
         ->and($applicability->for(ProxyProtocol::Mtproto, EvidenceType::Udp))->toBe(\BAGArt\ProxyOperations\Domain\Evidence\Applicability::NotApplicable)
@@ -129,7 +129,7 @@ it('carries failure codes from probe records into the evidence DTOs', function (
 });
 
 it('synthesizes dimension evidence from proxy failures', function (): void {
-    $taxonomy = new FailureTaxonomy;
+    $taxonomy = new FailureTaxonomy();
 
     $evidence = probeExtractor()->extractFailures([
         new ProxyFailure($taxonomy->descriptor(FailureCode::TcpTimeout), ['latency_ms' => 1500]),

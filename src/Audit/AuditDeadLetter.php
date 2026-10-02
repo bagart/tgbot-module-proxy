@@ -22,7 +22,8 @@ final readonly class AuditDeadLetter implements JsonSerializable
         public readonly int $tenantId,
         public readonly string $reason,
         public readonly string $deadLetteredAt, // ISO 8601 instant.
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

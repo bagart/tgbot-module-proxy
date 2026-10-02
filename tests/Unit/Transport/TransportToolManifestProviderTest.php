@@ -7,14 +7,14 @@ use BAGArt\ProxyOperations\Tool\ToolManifest;
 use BAGArt\ProxyOperations\Transport\TransportToolManifestProvider;
 
 it('returns eight manifests', function (): void {
-    $provider = new TransportToolManifestProvider;
+    $provider = new TransportToolManifestProvider();
     $manifests = $provider->manifests();
 
     expect($manifests)->toHaveCount(8);
 });
 
 it('all manifests have non-empty name, version, and capabilities', function (): void {
-    $manifests = (new TransportToolManifestProvider)->manifests();
+    $manifests = (new TransportToolManifestProvider())->manifests();
 
     foreach ($manifests as $manifest) {
         expect($manifest->name->value)->not->toBeEmpty()
@@ -25,7 +25,7 @@ it('all manifests have non-empty name, version, and capabilities', function (): 
 });
 
 it('HTTP manifest supports HttpLiveness probe type', function (): void {
-    $manifests = (new TransportToolManifestProvider)->manifests();
+    $manifests = (new TransportToolManifestProvider())->manifests();
     $httpManifest = collect($manifests)->first(fn ($m) => $m->name->value === 'http-connect-adapter');
 
     expect($httpManifest)->not->toBeNull()
@@ -33,7 +33,7 @@ it('HTTP manifest supports HttpLiveness probe type', function (): void {
 });
 
 it('SOCKS5 manifest supports UdpAssociate and DnsResolution probe types', function (): void {
-    $manifests = (new TransportToolManifestProvider)->manifests();
+    $manifests = (new TransportToolManifestProvider())->manifests();
     $socks5Manifest = collect($manifests)->first(fn ($m) => $m->name->value === 'socks5-adapter');
 
     expect($socks5Manifest)->not->toBeNull()
@@ -42,7 +42,7 @@ it('SOCKS5 manifest supports UdpAssociate and DnsResolution probe types', functi
 });
 
 it('includes MTProto in transport manifests', function (): void {
-    $manifests = (new TransportToolManifestProvider)->manifests();
+    $manifests = (new TransportToolManifestProvider())->manifests();
     $mtproto = collect($manifests)->first(fn ($m) => str_contains($m->name->value, 'mtproto'));
 
     expect($mtproto)->not->toBeNull()
@@ -50,7 +50,7 @@ it('includes MTProto in transport manifests', function (): void {
 });
 
 it('manifests are JsonSerializable and round-trip through fromJson', function (): void {
-    $manifests = (new TransportToolManifestProvider)->manifests();
+    $manifests = (new TransportToolManifestProvider())->manifests();
 
     foreach ($manifests as $manifest) {
         $json = $manifest->jsonSerialize();

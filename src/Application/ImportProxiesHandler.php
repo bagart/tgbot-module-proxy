@@ -15,7 +15,8 @@ final class ImportProxiesHandler
     public function __construct(
         private ImportProxiesService $importService,
         private QuotaEnforcer $quotaEnforcer,
-    ) {}
+    ) {
+    }
 
     public function handle(ImportProxiesCommand $command): CommandResult
     {

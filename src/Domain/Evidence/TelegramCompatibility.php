@@ -30,7 +30,8 @@ final readonly class TelegramCompatibility implements JsonSerializable
         public int $checkedDcSetVersion,
         public ?string $classificationReason,
         public string $checkedAt,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

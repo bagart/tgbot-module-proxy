@@ -18,7 +18,8 @@ final readonly class TransitionRule
         public AccessState $from,
         public AccessState $to,
         public CauseKind $causeKind,
-    ) {}
+    ) {
+    }
 
     /**
      * Whether the given cause satisfies this rule's polarity.

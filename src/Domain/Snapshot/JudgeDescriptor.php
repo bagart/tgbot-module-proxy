@@ -26,7 +26,8 @@ final readonly class JudgeDescriptor implements JsonSerializable
         public readonly array $capabilities,
         public readonly int $rateLimitPerMinute,
         public readonly JudgeTrustTier $trustTier,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

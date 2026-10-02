@@ -18,7 +18,8 @@ class DecisionController extends Controller
 {
     public function __construct(
         private readonly DecisionLogService $decisionLog,
-    ) {}
+    ) {
+    }
 
     public function index(Request $request): JsonResponse
     {

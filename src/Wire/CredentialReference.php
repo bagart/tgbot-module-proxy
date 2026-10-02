@@ -19,7 +19,8 @@ final readonly class CredentialReference implements JsonSerializable
 
     public function __construct(
         public readonly string $handle,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

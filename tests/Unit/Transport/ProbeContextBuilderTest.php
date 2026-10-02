@@ -65,7 +65,7 @@ function makeProbeSpec(): ProbeExecutionSpecV1
 }
 
 it('builds context from AuditTaskV1 with sealed credential', function (): void {
-    $builder = new ProbeContextBuilder;
+    $builder = new ProbeContextBuilder();
     $context = $builder->fromAuditTask(
         task: makeAuditTaskWithSealedCredential(),
         probe: makeProbeSpec(),
@@ -80,7 +80,7 @@ it('builds context from AuditTaskV1 with sealed credential', function (): void {
 });
 
 it('builds context with StdinChannel for sealed credential', function (): void {
-    $builder = new ProbeContextBuilder;
+    $builder = new ProbeContextBuilder();
     $context = $builder->fromAuditTask(
         task: makeAuditTaskWithSealedCredential(),
         probe: makeProbeSpec(),
@@ -90,7 +90,7 @@ it('builds context with StdinChannel for sealed credential', function (): void {
 });
 
 it('builds context with FileDescriptorChannel for credential reference', function (): void {
-    $builder = new ProbeContextBuilder;
+    $builder = new ProbeContextBuilder();
     $context = $builder->fromAuditTask(
         task: makeAuditTaskWithCredentialReference(),
         probe: makeProbeSpec(),
@@ -100,7 +100,7 @@ it('builds context with FileDescriptorChannel for credential reference', functio
 });
 
 it('does not propagate AccessIdentity to ProbeExecutionContext', function (): void {
-    $builder = new ProbeContextBuilder;
+    $builder = new ProbeContextBuilder();
     $context = $builder->fromAuditTask(
         task: makeAuditTaskWithSealedCredential(),
         probe: makeProbeSpec(),
@@ -119,7 +119,7 @@ it('does not propagate AccessIdentity to ProbeExecutionContext', function (): vo
 });
 
 it('does not propagate TenantId to ProbeExecutionContext', function (): void {
-    $builder = new ProbeContextBuilder;
+    $builder = new ProbeContextBuilder();
     $context = $builder->fromAuditTask(
         task: makeAuditTaskWithSealedCredential(),
         probe: makeProbeSpec(),
@@ -147,7 +147,7 @@ it('passes probe timeout and output limit through', function (): void {
         maxOutputBytes: 131072,
     );
 
-    $builder = new ProbeContextBuilder;
+    $builder = new ProbeContextBuilder();
     $context = $builder->fromAuditTask(
         task: makeAuditTaskWithSealedCredential(),
         probe: $probe,

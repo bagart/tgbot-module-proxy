@@ -177,8 +177,7 @@ function w1bExecutor(ProbeTool $tool, ?ResourceGovernor $governor = null): Probe
 {
     return new ProbeExecutor(
         tools: ['socks-checker' => $tool],
-        judgeProvider: new class implements JudgeProvider
-        {
+        judgeProvider: new class () implements JudgeProvider {
             public function select(JudgeSetSnapshot $snapshot, ProbeType $probeType, int $count): array
             {
                 return [];
@@ -186,15 +185,15 @@ function w1bExecutor(ProbeTool $tool, ?ResourceGovernor $governor = null): Probe
         },
         toolRegistry: w1bRegistry(),
         governor: $governor ?? w1bGovernor(),
-        timeoutFactory: new ToolTimeoutFactory,
+        timeoutFactory: new ToolTimeoutFactory(),
     );
 }
 
 function w1bNormalizer(): ExecutionResultNormalizer
 {
     return new ExecutionResultNormalizer(
-        taxonomy: new FailureTaxonomy,
-        classifier: new ProbeOutcomeClassifier(new FailureTaxonomy),
+        taxonomy: new FailureTaxonomy(),
+        classifier: new ProbeOutcomeClassifier(new FailureTaxonomy()),
     );
 }
 
@@ -202,7 +201,7 @@ function w1bHandler(?ProbeTool $tool = null, ?ResourceGovernor $governor = null)
 {
     return new WorkerExecutionPlaneHandler(
         governor: $governor ?? w1bGovernor(),
-        executor: w1bExecutor($tool ?? new W1bOkTool, $governor),
+        executor: w1bExecutor($tool ?? new W1bOkTool(), $governor),
         normalizer: w1bNormalizer(),
         checkerNodeId: 'test-node',
     );
@@ -218,9 +217,9 @@ function w1bDaemon(
 ): TransportCapabilityDaemon {
     return new TransportCapabilityDaemon(
         handler: w1bHandler($tool, $governor),
-        queue: $queue ?? new InMemoryAuditDeliveryQueue,
+        queue: $queue ?? new InMemoryAuditDeliveryQueue(),
         governor: $governor ?? w1bGovernor(),
-        scheduler: $scheduler ?? new W1bScheduler,
+        scheduler: $scheduler ?? new W1bScheduler(),
         leaseRenewer: $leaseRenewer,
         taskBatchSize: $taskBatchSize,
     );
@@ -309,9 +308,9 @@ it('onError increments error counter', function (): void {
 // --- Tests: tick execution ---
 
 it('tick consumes task from queue and enqueues fiber to scheduler', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(queue: $queue, scheduler: $scheduler);
 
     $daemon->tick(0);
@@ -321,9 +320,9 @@ it('tick consumes task from queue and enqueues fiber to scheduler', function ():
 });
 
 it('tick processes task end-to-end via scheduler', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(queue: $queue, scheduler: $scheduler);
 
     $daemon->tick(0);
@@ -336,11 +335,11 @@ it('tick processes task end-to-end via scheduler', function (): void {
 });
 
 it('tick processes multiple tasks in batch', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
     $queue->enqueue(w1bTask('2'));
     $queue->enqueue(w1bTask('3'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(queue: $queue, scheduler: $scheduler, taskBatchSize: 5);
 
     $daemon->tick(0);
@@ -351,7 +350,7 @@ it('tick processes multiple tasks in batch', function (): void {
 });
 
 it('tick does nothing when queue is empty', function (): void {
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(scheduler: $scheduler);
 
     $daemon->tick(0);
@@ -365,9 +364,9 @@ it('tick does nothing when queue is empty', function (): void {
 it('tick skips when governor at capacity', function (): void {
     $governor = w1bGovernor(maxConcurrentProbes: 1);
     $governor->connectionOpened();
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(governor: $governor, queue: $queue, scheduler: $scheduler);
 
     $daemon->tick(0);
@@ -379,9 +378,9 @@ it('tick skips when governor at capacity', function (): void {
 });
 
 it('tick does nothing when shutting down', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(queue: $queue, scheduler: $scheduler);
 
     $daemon->prepareShutdown();
@@ -413,9 +412,9 @@ it('shutdown returns true when no in-flight tasks', function (): void {
 });
 
 it('shutdown returns false when tasks are in-flight', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(queue: $queue, scheduler: $scheduler);
 
     $daemon->tick(0);
@@ -453,10 +452,10 @@ it('pressure returns 0 when no in-flight', function (): void {
 });
 
 it('pressure scales with inflight count', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
     $queue->enqueue(w1bTask('2'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(queue: $queue, scheduler: $scheduler, taskBatchSize: 5);
 
     $daemon->tick(0);
@@ -477,9 +476,9 @@ it('isIdle returns true when no work', function (): void {
 });
 
 it('isIdle returns false when tasks in-flight', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(queue: $queue, scheduler: $scheduler);
 
     $daemon->tick(0);
@@ -488,10 +487,10 @@ it('isIdle returns false when tasks in-flight', function (): void {
 });
 
 it('queueSize tracks inflight + pending count', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
     $queue->enqueue(w1bTask('2'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(queue: $queue, scheduler: $scheduler, taskBatchSize: 5);
 
     expect($daemon->queueSize())->toBe(2);
@@ -504,10 +503,10 @@ it('queueSize tracks inflight + pending count', function (): void {
 // --- Tests: error handling ---
 
 it('tick processes failed probe as result (no error)', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
-    $scheduler = new W1bScheduler;
-    $daemon = w1bDaemon(tool: new W1bFailingTool, queue: $queue, scheduler: $scheduler);
+    $scheduler = new W1bScheduler();
+    $daemon = w1bDaemon(tool: new W1bFailingTool(), queue: $queue, scheduler: $scheduler);
 
     $daemon->tick(0);
     $scheduler->tick(0);
@@ -522,14 +521,14 @@ it('tick processes failed probe as result (no error)', function (): void {
 // --- Tests: metadata ---
 
 it('tickable returns scheduler as companion', function (): void {
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(scheduler: $scheduler);
 
     expect($daemon->tickable())->toBe([$scheduler]);
 });
 
 it('tickable includes lease renewer when provided', function (): void {
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $renewer = new ProbeLeaseRenewer(
         leases: Mockery::mock(LeaseRenewerContract::class),
     );
@@ -549,9 +548,9 @@ it('shutdown timeout is 60 seconds', function (): void {
 // --- Tests: lease renewal ---
 
 it('tick tracks access IDs in lease renewer', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $renewer = new ProbeLeaseRenewer(
         leases: Mockery::mock(LeaseRenewerContract::class),
     );
@@ -563,9 +562,9 @@ it('tick tracks access IDs in lease renewer', function (): void {
 });
 
 it('tick untracks access IDs after fiber completes', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $renewer = new ProbeLeaseRenewer(
         leases: Mockery::mock(LeaseRenewerContract::class),
     );
@@ -579,9 +578,9 @@ it('tick untracks access IDs after fiber completes', function (): void {
 });
 
 it('tick works without lease renewer', function (): void {
-    $queue = new InMemoryAuditDeliveryQueue;
+    $queue = new InMemoryAuditDeliveryQueue();
     $queue->enqueue(w1bTask('1'));
-    $scheduler = new W1bScheduler;
+    $scheduler = new W1bScheduler();
     $daemon = w1bDaemon(queue: $queue, scheduler: $scheduler);
 
     $daemon->tick(0);

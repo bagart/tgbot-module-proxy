@@ -9,7 +9,7 @@ use BAGArt\ProxyOperations\Tool\StdinChannel;
 
 it('offers stdin and file descriptor delivery modes per plan §11.39 п.7', function (): void {
     expect(CredentialDeliveryMode::cases())->toHaveCount(2);
-    expect((new StdinChannel)->mode())->toBe(CredentialDeliveryMode::Stdin);
+    expect((new StdinChannel())->mode())->toBe(CredentialDeliveryMode::Stdin);
     expect((new FileDescriptorChannel(3))->mode())->toBe(CredentialDeliveryMode::FileDescriptor);
 });
 
@@ -38,7 +38,7 @@ it('exposes no string-typed secret accessor anywhere in the channel hierarchy', 
 });
 
 it('carries only delivery metadata, never credential material', function (): void {
-    $stdin = new StdinChannel;
+    $stdin = new StdinChannel();
     $fd = new FileDescriptorChannel(4);
 
     expect($stdin)->toBeInstanceOf(CredentialChannel::class)

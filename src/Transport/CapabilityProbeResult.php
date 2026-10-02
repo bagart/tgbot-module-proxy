@@ -25,7 +25,8 @@ final readonly class CapabilityProbeResult implements JsonSerializable
         public readonly ?DnsLeakResult $dnsLeak,
         public readonly array $capabilities,
         public readonly array $timingsMs,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

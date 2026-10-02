@@ -24,7 +24,8 @@ final readonly class SloReport implements JsonSerializable
         public readonly array $errorBreakdown,
         public readonly array $formatBreakdown,
         public readonly int $durationMs,
-    ) {}
+    ) {
+    }
 
     /**
      * @param  list<int>  $latencies

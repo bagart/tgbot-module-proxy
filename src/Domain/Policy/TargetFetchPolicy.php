@@ -25,7 +25,8 @@ final readonly class TargetFetchPolicy
         public readonly string $markerHeaderName = 'x-po-marker',
         public readonly string $markerSecret = '',
         public readonly bool $followRedirects = false,
-    ) {}
+    ) {
+    }
 
     /**
      * Default hardened configuration: standard SSRF denylist, fresh random

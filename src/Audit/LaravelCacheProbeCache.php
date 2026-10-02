@@ -26,7 +26,8 @@ final class LaravelCacheProbeCache implements ProbeCache
 {
     public function __construct(
         private readonly CachePolicy $policy,
-    ) {}
+    ) {
+    }
 
     public function get(ProbeCacheKeyV3 $key, SharedCacheValueKind $kind): ?ProbeCacheEntry
     {

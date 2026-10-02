@@ -27,7 +27,8 @@ final readonly class ProbeCacheEntry implements JsonSerializable
         public readonly SharedCacheValue $value,
         public readonly int $cachedAtMs,
         public readonly int $ageSeconds,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string,mixed>

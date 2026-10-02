@@ -26,7 +26,8 @@ final readonly class EventTypeRegistry
      */
     public function __construct(
         private array $definitions = [],
-    ) {}
+    ) {
+    }
 
     /**
      * Builds the registry from the `audit.events` config block.

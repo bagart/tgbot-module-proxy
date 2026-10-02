@@ -8,7 +8,6 @@ use BAGArt\ProxyOperations\Domain\Failure\ExecutionFailure;
 use BAGArt\ProxyOperations\Domain\Failure\FailureCode;
 use BAGArt\ProxyOperations\Domain\Failure\FailureTaxonomy;
 use BAGArt\ProxyOperations\Domain\Probe\ProbeType;
-use BAGArt\ProxyOperations\Domain\Snapshot\TelegramDc;
 use BAGArt\ProxyOperations\Domain\Snapshot\TelegramDcSet;
 use Throwable;
 
@@ -25,7 +24,7 @@ final class TelegramDcProbeTool implements ProbeTool
 
     public function __construct()
     {
-        $this->taxonomy = new FailureTaxonomy;
+        $this->taxonomy = new FailureTaxonomy();
     }
 
     public function capabilities(): ToolCapabilities

@@ -62,8 +62,8 @@ final class ProbeExecutor
         private readonly ResourceGovernor $governor,
         private readonly ToolTimeoutFactory $timeoutFactory,
     ) {
-        $this->contextBuilder = new ProbeContextBuilder;
-        $this->taxonomy = new FailureTaxonomy;
+        $this->contextBuilder = new ProbeContextBuilder();
+        $this->taxonomy = new FailureTaxonomy();
     }
 
     /**

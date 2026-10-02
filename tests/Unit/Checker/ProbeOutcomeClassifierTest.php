@@ -11,7 +11,7 @@ use BAGArt\ProxyOperations\Domain\Failure\ProxyFailure;
 use BAGArt\ProxyOperations\Tool\ProbeToolResult;
 
 beforeEach(function (): void {
-    $this->taxonomy = new FailureTaxonomy;
+    $this->taxonomy = new FailureTaxonomy();
     $this->classifier = new ProbeOutcomeClassifier($this->taxonomy);
 });
 
