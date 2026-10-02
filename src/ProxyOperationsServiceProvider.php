@@ -237,6 +237,12 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
         $this->app->singleton(AuditEventRecorder::class, DbAuditEventRecorder::class);
 
         // Consumers register by tagging. Add new consumers here as they land.
+        $this->app->singleton(AuditCompletedProjectionConsumer::class, static function ($app) {
+            return new AuditCompletedProjectionConsumer(
+                projector: $app->make(VerifiedProxyProjector::class),
+            );
+        });
+
         $this->app->tag([
             AuditCompletedProjectionConsumer::class,
         ], 'proxy-operations.audit-event-consumers');
@@ -286,7 +292,7 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
             $streams = (array) config('proxy-operations.audit.delivery.streams', []);
 
             return new RedisStreamsAuditDeliveryQueue(
-                redis: (new ASKRedisClientFactory)->create(
+                redis: (new ASKRedisClientFactory())->create(
                     RedisDsn::parse((string) ($streams['dsn'] ?? 'tcp://127.0.0.1:6379')),
                 ),
                 tasksStream: (string) ($streams['tasks'] ?? 'proxy:audit:tasks'),
@@ -303,11 +309,11 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
     private function registerTransport(): void
     {
         $this->app->singleton(TransportAdapterResolver::class, static function () {
-            $resolver = new TransportAdapterResolver;
-            $httpAdapter = new HttpConnectAdapter;
-            $socks4Adapter = new Socks4Adapter;
-            $socks5Adapter = new Socks5Adapter;
-            $directAdapter = new DirectAdapter;
+            $resolver = new TransportAdapterResolver();
+            $httpAdapter = new HttpConnectAdapter();
+            $socks4Adapter = new Socks4Adapter();
+            $socks5Adapter = new Socks5Adapter();
+            $directAdapter = new DirectAdapter();
 
             $resolver->register(ProxyProtocol::Http, $httpAdapter);
             $resolver->register(ProxyProtocol::Https, $httpAdapter);
@@ -322,7 +328,7 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
         $this->app->singleton(DnsResolverFactory::class);
 
         $this->app->singleton(UdpAssociateProbeContract::class, static function () {
-            return new Socks5UdpAdapter;
+            return new Socks5UdpAdapter();
         });
 
         $this->app->singleton(ResourceGovernorSpec::class, static function () {
@@ -560,7 +566,7 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(ApplicationServiceBus::class, static function ($app) {
-            $bus = new ApplicationServiceBus;
+            $bus = new ApplicationServiceBus();
 
             $bus->register(ImportProxiesCommand::class, $app->make(ImportProxiesHandler::class));
             $bus->register(ExportInventoryCommand::class, $app->make(ExportInventoryHandler::class));
@@ -578,9 +584,9 @@ final class ProxyOperationsServiceProvider extends ServiceProvider
                 $app->make(StartCommandHandler::class),
                 $app->make(HelpCommandHandler::class),
                 new ImportCommandHandler($app->make(ImportProxiesHandler::class)),
-                new ListCommandHandler,
+                new ListCommandHandler(),
                 new CheckCommandHandler($app->make(StartAuditHandler::class)),
-                new StatsCommandHandler,
+                new StatsCommandHandler(),
                 new GetCommandHandler($app->make(TenantContext::class)),
                 new ExportCommandHandler($app->make(ExportInventoryHandler::class)),
                 new SettingsCommandHandler($app->make(WorkspaceSettingsHandler::class)),

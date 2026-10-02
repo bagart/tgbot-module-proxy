@@ -6,16 +6,14 @@ namespace BAGArt\ProxyOperations\Audit\Consumers;
 
 use BAGArt\ProxyOperations\Audit\AuditEventConsumer;
 use BAGArt\ProxyOperations\Domain\Cache\EventEnvelope;
+use BAGArt\ProxyOperations\Models\ProxyAccess;
 use Illuminate\Support\Facades\Log;
 
 /**
  * Projects audit.completed events for observability and downstream consumers.
  *
- * This is the first concrete AuditEventConsumer — it handles audit.completed
- * events and logs state transitions. Designed to be extended later for:
- * - verified_proxies projection (plan §11.15 п.1)
- * - notification dispatch on state changes
- * - external read model updates
+ * Handles audit.completed events, logs state transitions, and invokes the
+ * VerifiedProxyProjector to update the verified_proxies projection.
  *
  * Delivery semantics: at-least-once (dedup by eventId).
  * Tenant-scoped: the envelope's tenantId determines workspace context.
@@ -23,6 +21,11 @@ use Illuminate\Support\Facades\Log;
 final class AuditCompletedProjectionConsumer implements AuditEventConsumer
 {
     private const string EVENT_TYPE = 'audit.completed';
+
+    public function __construct(
+        private readonly VerifiedProxyProjector $projector,
+    ) {
+    }
 
     public function handle(EventEnvelope $envelope): void
     {
@@ -51,6 +54,17 @@ final class AuditCompletedProjectionConsumer implements AuditEventConsumer
                 'access_id' => $accessId,
                 'new_state' => $stateTransition,
             ]);
+        }
+
+        if ($accessId !== null) {
+            $access = ProxyAccess::query()
+                ->where('tenant_id', $envelope->tenantId)
+                ->whereKey($accessId)
+                ->first();
+
+            if ($access !== null) {
+                $this->projector->project($access);
+            }
         }
     }
 }
