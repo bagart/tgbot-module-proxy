@@ -32,7 +32,8 @@ final readonly class ProxyCommand implements TgModuleProcessorContract
     public function __construct(
         private readonly TgSenderContract $sender,
         private readonly TenantContext $tenantContext,
-    ) {}
+    ) {
+    }
 
     public static function moduleId(): string
     {
@@ -75,6 +76,7 @@ final readonly class ProxyCommand implements TgModuleProcessorContract
             return;
         }
 
+        // D7: canonical owner id = platform user id = proxy tenant (plan §11.21).
         $tenantId = TgBotOwner::query()->where('bot_id', $botConfig->botId)->value('user_id');
 
         if (! is_int($tenantId)) {

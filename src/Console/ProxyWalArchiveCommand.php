@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace BAGArt\ProxyOperations\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 /**
@@ -60,9 +59,11 @@ class ProxyWalArchiveCommand extends Command
 
     private function buildPostgresConfig(string $archivePath): string
     {
+        $now = date('Y-m-d H:i:s');
+
         return <<<SQL
 -- Proxy module PITR configuration
--- Generated: {date('Y-m-d H:i:s')}
+-- Generated: {$now}
 
 -- WAL archiving
 archive_mode = on

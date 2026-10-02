@@ -15,6 +15,11 @@ return [
         // Key Encryption Key material (plan §10.12 п.13); wraps per-workspace
         // DEKs only — field values are never touched with the KEK directly.
         'kek' => env('PROXY_ENC_KEY'),
+        // SECURITY WARNING: fallback_to_app_key uses Laravel's APP_KEY as
+        // encryption key when PROXY_ENC_KEY is not set. This is ONLY safe
+        // in local/testing environments. In production, set PROXY_ENC_KEY
+        // explicitly — the app key is shared across the entire application
+        // and using it for proxy encryption reduces isolation guarantees.
         'fallback_to_app_key' => true,
         'algorithm' => 'aes-256-gcm',
         // Monotonic KEK version stamped into new envelopes (plan §11.23);
@@ -26,6 +31,7 @@ return [
         // HMAC key for CredentialFingerprint (plan §11.37 R6.2): derived to a
         // fixed-length binary key by the model; falls back to the app key in
         // dev/test when fallback_to_app_key is enabled.
+        // SECURITY: Same warning as above — set PROXY_FINGERPRINT_KEY in production.
         'fingerprint_key' => env('PROXY_FINGERPRINT_KEY'),
     ],
 
@@ -215,6 +221,8 @@ return [
             // worker never receives KEK/DEK material (INV-004). Env is for
             // secrets only.
             'seal_key' => env('PROXY_AUDIT_SEAL_KEY'),
+            // SECURITY WARNING: Same as encryption.fallback_to_app_key —
+            // only safe in local/testing. Set PROXY_AUDIT_SEAL_KEY in production.
             'fallback_to_app_key' => true,
             // Sealed payload TTL = job TTL (plan §11.35 п.5).
             'sealed_ttl_seconds' => 3600,
@@ -236,6 +244,13 @@ return [
             'tg_dc_set_version' => 1,
             // Redis Streams endpoints. The client is injected from host wiring
             // (INV-009: no Redis client types are constructed in src).
+            //
+            // IMPORTANT: This is an intentional isolation — the proxy module uses
+            // its own Redis connection for performance and operational separation.
+            // It does NOT go through Laravel's Redis abstraction (config/database.php)
+            // because: (1) Redis Streams require a dedicated connection for latency,
+            // (2) the checker worker runs in a separate container and needs direct
+            // DSN access, (3) proxy traffic must not compete with app Redis traffic.
             'streams' => [
                 'tasks' => 'proxy:audit:tasks',
                 'results' => 'proxy:audit:results',
