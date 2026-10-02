@@ -8,35 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
- * Workspace resolver — user_id → workspace_id (1:1, lazy-create).
- */
-final class WorkspaceResolver
-{
-    public function resolve(int $telegramUserId): string
-    {
-        $user = DB::table('users')
-            ->where('telegram_id', $telegramUserId)
-            ->first();
-
-        if ($user !== null) {
-            return (string) $user->id;
-        }
-
-        $id = (string) Str::uuid();
-
-        DB::table('users')->insert([
-            'id' => $id,
-            'telegram_id' => $telegramUserId,
-            'name' => 'tg_'.$telegramUserId,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        return $id;
-    }
-}
-
-/**
  * Application session DTO (plan §11.29).
  */
 final readonly class ApplicationSession
@@ -48,7 +19,8 @@ final readonly class ApplicationSession
         public string $csrfToken,
         public string $createdAt,
         public string $expiresAt,
-    ) {}
+    ) {
+    }
 }
 
 /**
@@ -63,11 +35,12 @@ final readonly class MagicLinkToken
         public string $createdAt,
         public string $expiresAt,
         public ?string $consumedAt = null,
-    ) {}
+    ) {
+    }
 
     public function isExpired(): bool
     {
-        return new \DateTimeImmutable > new \DateTimeImmutable($this->expiresAt);
+        return new \DateTimeImmutable() > new \DateTimeImmutable($this->expiresAt);
     }
 
     public function isConsumed(): bool
@@ -84,7 +57,7 @@ final class MagicLinkService
     public function generate(string $userId, string $workspaceId): MagicLinkToken
     {
         $token = bin2hex(random_bytes(32));
-        $now = new \DateTimeImmutable;
+        $now = new \DateTimeImmutable();
 
         DB::table('magic_link_tokens')->insert([
             'id' => (string) Str::uuid(),

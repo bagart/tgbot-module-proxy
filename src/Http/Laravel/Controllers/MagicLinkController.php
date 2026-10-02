@@ -18,7 +18,8 @@ final class MagicLinkController extends Controller
     public function __construct(
         private MagicLinkService $magicLinkService,
         private WorkspaceResolver $workspaceResolver,
-    ) {}
+    ) {
+    }
 
     /**
      * POST /proxy-operations/auth/magic-link/request

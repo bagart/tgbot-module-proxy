@@ -31,6 +31,7 @@ final class ProxyOperationsModule implements TgModuleContract
             id: self::ID,
             name: 'Proxy Operations',
             version: self::VERSION,
+            requiresModules: ['menu' => '*'],
             capabilities: [
                 TgModuleCapability::Command,
                 TgModuleCapability::Ui,
@@ -48,5 +49,6 @@ final class ProxyOperationsModule implements TgModuleContract
         // chats only, tenant = bot owner) and the hub inventory read.
         $registrar->registerAttributed(self::class);
         $registrar->webApi(ProxyInventoryHandler::class);
+        $registrar->webPermissions(ProxyPermissionResolver::class);
     }
 }

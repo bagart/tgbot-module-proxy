@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BAGArt\ProxyOperations\Web;
 
+use BAGArt\ProxyOperations\ProxyPermissionResolver;
 use BAGArt\TelegramBotMenu\Contracts\TgWebUiContract;
 use BAGArt\TelegramBotMenu\Manifest\TgWebUiManifest;
 use BAGArt\TelegramBotMenu\Manifest\UiAudience;
@@ -25,6 +26,7 @@ final readonly class ProxyUi implements TgWebUiContract
             kind: UiKind::Tool,
             minAudience: UiAudience::Admin,
             entry: UiEntry::chunk(ChunkAsset::url()),
+            permission: ProxyPermissionResolver::MANAGE,
             sortKey: 'proxy',
             description: 't:description',
         );

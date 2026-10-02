@@ -17,7 +17,8 @@ final class ValidateTelegramInitData
 {
     public function __construct(
         private TelegramInitDataVerifier $verifier,
-    ) {}
+    ) {
+    }
 
     public function handle(Request $request, Closure $next): Response
     {
